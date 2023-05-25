@@ -32,7 +32,7 @@ export default function AppHeader() {
                 <div className=" relative">
                   <div>
                     <a
-                      href="/intro"
+                      href="/swap"
                       className="text-current no-underline cursor-default"
                     >
                       <div className="cursor-pointer">
@@ -43,21 +43,82 @@ export default function AppHeader() {
                 </div>
               </div>
               <div className="flex items-center space-x-4 md:space-x-6 mb-[2px]">
+                {/* Swap */}
                 <div className="relative">
                   <div>
                     <a
-                      href="intro"
+                      href="swap"
                       className="no-underline text-current cursor-default"
                     >
                       <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
                         <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Intro
+                          Swap
                         </p>
                       </div>
                     </a>
                   </div>
                 </div>
                 {/* Pool */}
+                <div className="relative">
+                  <div>
+                    <a
+                      href="pool"
+                      className="no-underline text-current cursor-default"
+                    >
+                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          Pool
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                {/* Farm */}
+                <div className="relative">
+                  <div>
+                    <a
+                      href="farm"
+                      className="no-underline text-current cursor-default"
+                    >
+                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          Farm
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                {/* DAO */}
+                <div className="relative">
+                  <div>
+                    <a
+                      href="dao"
+                      className="no-underline text-current cursor-default"
+                    >
+                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          Dao
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                {/* Launchpad */}
+                <div className="relative">
+                  <div>
+                    <a
+                      href="launchpad"
+                      className="no-underline text-current cursor-default"
+                    >
+                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          Launchpad
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                {/* More */}
                 <div className="relative">
                   <div>
                     <a
@@ -74,7 +135,7 @@ export default function AppHeader() {
                           className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
                         >
                           <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                            Exchange
+                            More
                           </div>
                           <div className="mt-1">
                             <svg
@@ -108,9 +169,9 @@ export default function AppHeader() {
                                   />
                                 </div>
                                 <div className="flex flex-col ml-3">
-                                  <p>Swap</p>
+                                  <p>Bridge</p>
                                   <p className=" text-xs">
-                                    Exchange token for another token
+                                    Bridge token for zkSync Era
                                   </p>
                                 </div>
                               </div>
@@ -126,9 +187,9 @@ export default function AppHeader() {
                                   />
                                 </div>
                                 <div className="flex flex-col ml-3">
-                                  <p>Pool</p>
+                                  <p>Docs</p>
                                   <p className=" text-xs">
-                                    Explore all pools on paperswap
+                                    Read the documentation to learn
                                   </p>
                                 </div>
                               </div>
