@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import TokenListModal from "./TokenlistModal";
 
 export default function SwapCard_Content() {
   const [inputValue, setInputValue] = useState(1781.84);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
   return (
     <div className="flex-col mt-8">
       {/* inputcoin */}
@@ -16,7 +26,10 @@ export default function SwapCard_Content() {
               />
             </div>
             {/* coinlist */}
-            <div className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0">
+            <div
+              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+              onClick={openModal}
+            >
               <div className="w-[24px] h-[24px]">
                 <img
                   alt=""
@@ -70,8 +83,8 @@ export default function SwapCard_Content() {
           </div>
         </div>
       </div>
-      {/* 小箭头 */}
-      <div className="absolute inset-x-0 mx-auto top-1/2 -mt-1 w-8 h-8 bg-white flex justify-center items-center rounded-full">
+      {/* icon */}
+      <div className="absolute inset-x-0 mx-auto top-1/2 -mt-7 w-8 h-8 bg-white flex justify-center items-center rounded-full">
         <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
           <svg
             className="swap_icon"
@@ -170,6 +183,8 @@ export default function SwapCard_Content() {
       <button className=" text-center w-full mt-5 bg-[#FEF08A] py-2 rounded-xl ripple-btn">
         Swap
       </button>
+      {/* 代币列表modal */}
+      <TokenListModal isOpen={isOpen} closeModal={closeModal} />
     </div>
   );
 }
