@@ -3,15 +3,23 @@ import { Web3Button } from "@web3modal/react";
 import React from "react";
 import logo from "../assets/images/paper.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AppHeader() {
   const [isPoolHovered, setIsPoolHovered] = useState(false);
+  const navigate = useNavigate();
   const handleMouseEnter = () => {
     setIsPoolHovered(true);
   };
 
   const handleMouseLeave = () => {
     setIsPoolHovered(false);
+  };
+  const handleSwapClick = () => {
+    navigate("/swap");
+  };
+  const handlePoolClick = () => {
+    navigate("/pool");
   };
 
   return (
@@ -32,7 +40,7 @@ export default function AppHeader() {
                 <div className=" relative">
                   <div>
                     <a
-                      href="/swap"
+                      href="#"
                       className="text-current no-underline cursor-default"
                     >
                       <div className="cursor-pointer">
@@ -45,32 +53,22 @@ export default function AppHeader() {
               <div className="flex items-center space-x-4 md:space-x-6 mb-[2px]">
                 {/* Swap */}
                 <div className="relative">
-                  <div>
-                    <a
-                      href="swap"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Swap
-                        </p>
-                      </div>
-                    </a>
+                  <div onClick={handleSwapClick}>
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        Swap
+                      </p>
+                    </div>
                   </div>
                 </div>
                 {/* Pool */}
                 <div className="relative">
-                  <div>
-                    <a
-                      href="pool"
-                      className="no-underline text-current cursor-default"
-                    >
-                      <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
-                          Pool
-                        </p>
-                      </div>
-                    </a>
+                  <div onClick={handlePoolClick}>
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        Pool
+                      </p>
+                    </div>
                   </div>
                 </div>
                 {/* Farm */}

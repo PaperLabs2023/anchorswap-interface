@@ -6,6 +6,7 @@ import Pool from "../pages/Pool";
 import Farm from "../pages/Farm";
 import Dao from "../pages/Dao";
 import Launchpad from "../pages/Launchpad";
+import PoolDetails from "../pages/PoolDetails";
 
 export function BaseRoutes() {
   return (
@@ -14,6 +15,7 @@ export function BaseRoutes() {
         <Route path="/" element={<App />}>
           <Route path="/swap" element={<Swap />} />
           <Route path="/pool" element={<Pool />} />
+          <Route path="/pool/:poolId" element={<PoolDetails />} />
           <Route path="/farm" element={<Farm />} />
           <Route path="/dao" element={<Dao />} />
           <Route path="/launchpad" element={<Launchpad />} />
