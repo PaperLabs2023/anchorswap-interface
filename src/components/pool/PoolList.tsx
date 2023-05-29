@@ -1,10 +1,18 @@
 import React from "react";
 import ethicon from "../../assets/images/pools/eth.png";
 import scrollIcon from "../../assets/images/scroll.png";
+import { useNavigate } from "react-router-dom";
 
 const PoolList = (props: any) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/pool/1");
+  };
   return (
-    <div className="w-auto h-auto flex justify-center items-center bg-white rounded-lg m-2">
+    <div
+      className="w-auto h-auto flex justify-center items-center bg-white rounded-lg m-2"
+      onClick={handleClick}
+    >
       <button className="grid grid-cols-4 gap-6">
         <div className="flex flex-row flex-wrap pl-5 m-1">
           <div className="flex flex-row flex-wrap gap-1">
