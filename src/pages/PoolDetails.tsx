@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DepositCard from "../components/pool/poolCard/DepositCard";
+import WithdrawCard from "../components/pool/poolCard/WithdrawCard";
 
 export default function PoolDetails() {
   const [selectedCard, setSelectedCard] = useState("deposit");
@@ -45,8 +46,8 @@ export default function PoolDetails() {
               <div>
                 Withdraw to receive pool tokens and earned trading fees.
               </div>
-              <div className="mt-8">
-                <DepositCard />
+              <div className="mt-8 mb-8">
+                <WithdrawCard />
               </div>
             </div>
           )}
