@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TokenListModal from "./TokenlistModal";
 import {
   useAccount,
+  useBalance,
   useContractRead,
+  useContractReads,
   useContractWrite,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 import {
   tPaper_address,
   oPaper_address,
   amm_address,
+  router_address,
 } from "../../../contracts/addresses";
-import { amm_abi, tPaper_abi } from "../../../contracts/abis";
+import { amm_abi, tPaper_abi, router_abi } from "../../../contracts/abis";
 import { ethers } from "ethers";
 
 export default function SwapCard_Content() {
@@ -22,8 +26,48 @@ export default function SwapCard_Content() {
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
   const [selectedCoin_input, setSelectedCoin_input] = useState("ETH");
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDC");
+  const inputAmountRef = useRef<HTMLInputElement>(null);
+  const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
+  const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
+    useState("0.0");
 
-  const tokenList = [{ tokenName: "ETH", contract: "0x", iconUrl: "" }];
+  const [currentInputTokenContract, setCurrentInputTokenContract] = useState<
+    "0x" | undefined
+  >("0x");
+  const [currentOutTokenContract, setCurrentOutTokenContract] = useState<
+    "0x" | undefined
+  >("0x");
+
+  const [isOpen_Alert, setIsOpen_Alert] = useState(false);
+  const [isLoading_Btn, setIsLoading_Btn] = useState(false);
+
+  const confirmation = useWaitForTransaction({
+    hash: hash,
+    onSuccess(data: any) {
+      setIsLoading_Btn(false);
+      setIsOpen_Alert(true);
+      setTimeout(() => {
+        setIsOpen_Alert(false);
+      }, 5000);
+    },
+  });
+
+  const routerContract = {
+    address: router_address,
+    abi: router_abi,
+  } as const;
+
+  //获取inputToken余额
+  const { data: inputTokenBalance } = useBalance({
+    address: address,
+    token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+  });
+
+  //获取outToken余额
+  const { data: outTokenBalance } = useBalance({
+    address: address,
+    token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+  });
 
   // 获取已授权的tPaper数量
   const getTokenApproved = useContractRead({
@@ -37,15 +81,78 @@ export default function SwapCard_Content() {
       console.log(amount);
     },
   });
+  // 获取路由信息，包括可接受的代币和代币价格
+  const getRouterInfo = useContractReads({
+    contracts: [
+      {
+        ...routerContract,
+        functionName: "cacalTokenOutAmount",
+        args: [
+          currentInputTokenContract,
+          currentOutTokenContract,
+          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+        ],
+      },
+      {
+        ...routerContract,
+        functionName: "getTokenPrice",
+        args: [currentInputTokenContract, currentOutTokenContract],
+      },
+    ],
+    watch: true,
+    enabled: Number(inputAmountRef.current?.value) != 0,
+    onSuccess(data: any) {
+      const amount = String(
+        Number(ethers.utils.formatUnits(data[0], "ether")).toFixed(6)
+      );
+      const tokenPirce = String(
+        Number(
+          ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
+        ).toFixed(6)
+      );
+      console.log(tokenPirce);
+      if (Number(amount) != 0) {
+        setReceiveTokenAmount(amount);
+        setInputTokenPriceForOutToken(tokenPirce);
+      }
+    },
+  });
 
-  // pool swap config
+  //   // 获取可收到的tPaper数量
+  //   const getReceiveTokenAmount = useContractRead({
+  //     address: router_address,
+  //     abi: router_abi,
+  //     functionName: "cacalTokenOutAmount",
+  //     args: [
+  //       tPaper_address,
+  //       oPaper_address,
+  //       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+  //     ],
+  //     watch: true,
+  //     enabled: Number(inputAmountRef.current?.value) != 0,
+  //     onSuccess(data: any) {
+  //       const amount = String(
+  //         Number(ethers.utils.formatUnits(data, "ether")).toFixed(6)
+  //       );
+  //       console.log(amount);
+  //       if (Number(amount) != 0) {
+  //         setReceiveTokenAmount(amount);
+  //       }
+  //     },
+  //   });
+
+  // swap config
   const { config: poolSwapConfig } = usePrepareContractWrite({
     address: amm_address,
     abi: amm_abi,
     functionName: "swap",
-    args: [tPaper_address, oPaper_address, ethers.utils.parseEther("1")],
+    args: [
+      currentInputTokenContract,
+      currentOutTokenContract,
+      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+    ],
   });
-  // pool swap
+  // swap action
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     ...poolSwapConfig,
     onError(error: any) {
@@ -72,25 +179,101 @@ export default function SwapCard_Content() {
   };
 
   const swapClick = () => {
-    swapWrite?.()
-      .then((res) => {
-        setHash(res.hash);
-      })
-      .catch((err) => {
-        // setIsLoading(false);
-      });
+    if (Number(receiveTokenAmount) > 0) {
+      setIsLoading_Btn(true);
+      swapWrite?.()
+        .then((res) => {
+          setHash(res.hash);
+        })
+        .catch((err) => {
+          setIsLoading_Btn(false);
+        });
+    }
   };
+
+  useEffect(() => {
+    if (Number(inputAmountRef.current?.value) == 0) {
+      setReceiveTokenAmount("0.0");
+    }
+  }, [inputAmountRef.current?.value]);
+
+  useEffect(() => {
+    if (selectedCoin_input == "tPaper") {
+      setCurrentInputTokenContract(tPaper_address);
+    }
+    if (selectedCoin_input == "oPaper") {
+      setCurrentInputTokenContract(oPaper_address);
+    }
+    if (selectedCoin_input == "USDC") {
+      setCurrentInputTokenContract("0x");
+    }
+    if (selectedCoin_input == "WETH") {
+      setCurrentInputTokenContract("0x");
+    }
+  }, [selectedCoin_input]);
+  useEffect(() => {
+    if (selectedCoin_out == "tPaper") {
+      setCurrentOutTokenContract(tPaper_address);
+    }
+    if (selectedCoin_out == "oPaper") {
+      setCurrentOutTokenContract(oPaper_address);
+    }
+    if (selectedCoin_out == "USDC") {
+      setCurrentOutTokenContract("0x");
+    }
+    if (selectedCoin_out == "WETH") {
+      setCurrentOutTokenContract("0x");
+    }
+  }, [selectedCoin_out]);
   return (
     <div className="flex-col mt-8">
+      {/* 提示框 */}
+      <div
+        className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
+          isOpen_Alert
+            ? "-translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0"
+        }`}
+      >
+        <div className="alert alert-success  shadow-lg w-full">
+          <div>
+            {/* 加载指示器 */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div>
+              <h3 className="font-bold">New Transaction!</h3>
+              <div className="text-xs">You have 1 confirmed transaction</div>
+            </div>
+          </div>
+          <div className="flex-none">
+            <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
+              <button className="btn btn-sm">See</button>
+            </a>
+          </div>
+        </div>
+      </div>
       {/* inputcoin */}
       <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl">
               <input
-                type="text"
+                type="number"
+                step="0.0000001"
                 placeholder="0.0"
                 className="bg-transparent border-none text-3xl outline-none "
+                ref={inputAmountRef}
               />
             </div>
             {/* coinlist */}
@@ -132,7 +315,11 @@ export default function SwapCard_Content() {
                   useGrouping: true,
                 })}
             </div>
-            <div className="">Balance: 0.0</div>
+            <div className="">{`Balance: ${
+              inputTokenBalance
+                ? Number(inputTokenBalance?.formatted).toFixed(6)
+                : "0.0"
+            } `}</div>
           </div>
           {/* 百分比选择 */}
           <div className="flex justify-start gap-7 mt-2 text-sm">
@@ -171,15 +358,16 @@ export default function SwapCard_Content() {
           </svg>
         </div>
       </div>
-      {/* inputcoin */}
+      {/* outcoin */}
       <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-4">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl">
               <input
                 type="text"
-                placeholder="0.0"
-                className="bg-transparent border-none text-3xl outline-none "
+                placeholder={receiveTokenAmount}
+                className="bg-transparent border-none text-3xl outline-none animate-pulse"
+                disabled
               />
             </div>
             {/* coinlist */}
@@ -221,7 +409,11 @@ export default function SwapCard_Content() {
                   useGrouping: true,
                 })}
             </div>
-            <div className="">Balance: 0.0</div>
+            <div className="">{`Balance: ${
+              outTokenBalance
+                ? Number(outTokenBalance?.formatted).toFixed(6)
+                : "0.0"
+            } `}</div>
           </div>
         </div>
       </div>
@@ -243,20 +435,46 @@ export default function SwapCard_Content() {
           />
         </div>
         <div className="ml-1">
-          {inputValue.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+          {Number(inputTokenPriceForOutToken).toLocaleString("en-US", {
+            minimumFractionDigits: 6,
+            maximumFractionDigits: 6,
             useGrouping: true,
           }) + " USDC"}{" "}
         </div>
       </div>
       {/* button */}
-      <button
-        className=" text-center w-full mt-5 bg-[#FEF08A] py-2 rounded-xl ripple-btn"
+      <div
+        className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
+          Number(receiveTokenAmount) > 0
+            ? "bg-[#FEF08A]  hover:cursor-pointer"
+            : "bg-white text-gray-500 hover:cursor-default"
+        } py-2 rounded-xl ripple-btn`}
         onClick={swapClick}
       >
-        Swap
-      </button>
+        {isLoading_Btn && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="animate-spin h-5 w-5 mr-3 text-gray-700"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        )}
+        {Number(receiveTokenAmount) != 0 ? "Swap" : "Insufficient Liquidity"}
+      </div>
       {/* 代币列表modal */}
       <TokenListModal
         isOpen={isOpen}

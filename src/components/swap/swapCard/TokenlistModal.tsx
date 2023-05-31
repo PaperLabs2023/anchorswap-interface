@@ -26,12 +26,26 @@ export default function TokenListModal(props: any) {
   };
 
   const changeSelectedCoin_input = (coinname: string) => {
-    props.setSelectedCoin_input(coinname);
+    if (coinname == props.selectedCoin_out) {
+      let t = props.selectedCoin_input;
+      console.log(t);
+      props.setSelectedCoin_input(props.selectedCoin_out);
+      props.setSelectedCoin_out(t);
+    } else {
+      props.setSelectedCoin_input(coinname);
+    }
+
     closeModal();
   };
 
   const changeSelectedCoin_out = (coinname: string) => {
-    props.setSelectedCoin_out(coinname);
+    if (coinname == props.selectedCoin_intput) {
+      let t = props.selectedCoin_out;
+      props.setSelectedCoin_out(props.selectedCoin_input);
+      props.setSelectedCoin_input(t);
+    } else {
+      props.setSelectedCoin_out(coinname);
+    }
     closeModal();
   };
 
@@ -117,16 +131,20 @@ export default function TokenListModal(props: any) {
                     className={`flex items-center bg-white ${
                       props.selectedTokenlist == 0
                         ? props.selectedCoin_input == "ETH"
-                          ? "bg-slate-100 text-gray-500"
-                          : ""
+                          ? "bg-slate-100  text-gray-500 opacity-50 hover:cursor-default"
+                          : " hover:cursor-pointer"
                         : props.selectedCoin_out == "ETH"
-                        ? "bg-slate-100 text-gray-500"
-                        : ""
-                    }  rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        ? "bg-slate-100 text-gray-500 opacity-50 "
+                        : " hover:cursor-pointer"
+                    }  rounded-lg px-2 py-1 `}
                     onClick={() => {
                       props.selectedTokenlist == 0
-                        ? changeSelectedCoin_input("ETH")
-                        : changeSelectedCoin_out("ETH");
+                        ? props.selectedCoin_input != "ETH"
+                          ? changeSelectedCoin_input("ETH")
+                          : ""
+                        : props.selectedCoin_out != "ETH"
+                        ? changeSelectedCoin_out("ETH")
+                        : "";
                     }}
                   >
                     <div className="w-[20px] h-[20px]">
@@ -141,16 +159,20 @@ export default function TokenListModal(props: any) {
                     className={`flex items-center bg-white ${
                       props.selectedTokenlist == 0
                         ? props.selectedCoin_input == "WETH"
-                          ? "bg-slate-100 text-gray-500"
-                          : ""
+                          ? "bg-slate-100  text-gray-500 opacity-50 hover:cursor-default"
+                          : " hover:cursor-pointer"
                         : props.selectedCoin_out == "WETH"
-                        ? "bg-slate-100 text-gray-500"
-                        : ""
-                    }  rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        ? "bg-slate-100 text-gray-500 opacity-50 "
+                        : " hover:cursor-pointer"
+                    }  rounded-lg px-2 py-1 `}
                     onClick={() => {
                       props.selectedTokenlist == 0
-                        ? changeSelectedCoin_input("WETH")
-                        : changeSelectedCoin_out("WETH");
+                        ? props.selectedCoin_input != "WETH"
+                          ? changeSelectedCoin_input("WETH")
+                          : ""
+                        : props.selectedCoin_out != "WETH"
+                        ? changeSelectedCoin_out("WETH")
+                        : "";
                     }}
                   >
                     <div className="w-[20px] h-[20px]">
@@ -162,16 +184,20 @@ export default function TokenListModal(props: any) {
                     className={`flex items-center bg-white ${
                       props.selectedTokenlist == 0
                         ? props.selectedCoin_input == "USDC"
-                          ? "bg-slate-100 text-gray-500"
-                          : ""
+                          ? "bg-slate-100  text-gray-500 opacity-50 hover:cursor-default"
+                          : " hover:cursor-pointer"
                         : props.selectedCoin_out == "USDC"
-                        ? "bg-slate-100 text-gray-500"
-                        : ""
-                    }  rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        ? "bg-slate-100 text-gray-500 opacity-50 "
+                        : " hover:cursor-pointer"
+                    }  rounded-lg px-2 py-1 `}
                     onClick={() => {
                       props.selectedTokenlist == 0
-                        ? changeSelectedCoin_input("USDC")
-                        : changeSelectedCoin_out("USDC");
+                        ? props.selectedCoin_input != "USDC"
+                          ? changeSelectedCoin_input("USDC")
+                          : ""
+                        : props.selectedCoin_out != "USDC"
+                        ? changeSelectedCoin_out("USDC")
+                        : "";
                     }}
                   >
                     <div className="w-[20px] h-[20px]">
@@ -183,16 +209,20 @@ export default function TokenListModal(props: any) {
                     className={`flex items-center bg-white ${
                       props.selectedTokenlist == 0
                         ? props.selectedCoin_input == "tPaper"
-                          ? "bg-slate-100 text-gray-500"
-                          : ""
+                          ? "bg-slate-100  text-gray-500 opacity-50 hover:cursor-default"
+                          : " hover:cursor-pointer"
                         : props.selectedCoin_out == "tPaper"
-                        ? "bg-slate-100 text-gray-500"
-                        : ""
-                    }  rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        ? "bg-slate-100 text-gray-500 opacity-50 "
+                        : " hover:cursor-pointer"
+                    }  rounded-lg px-2 py-1 `}
                     onClick={() => {
                       props.selectedTokenlist == 0
-                        ? changeSelectedCoin_input("tPaper")
-                        : changeSelectedCoin_out("tPaper");
+                        ? props.selectedCoin_input != "tPaper"
+                          ? changeSelectedCoin_input("tPaper")
+                          : ""
+                        : props.selectedCoin_out != "tPaper"
+                        ? changeSelectedCoin_out("tPaper")
+                        : "";
                     }}
                   >
                     <div className="w-[20px] h-[20px]">
@@ -207,16 +237,20 @@ export default function TokenListModal(props: any) {
                     className={`flex items-center bg-white ${
                       props.selectedTokenlist == 0
                         ? props.selectedCoin_input == "oPaper"
-                          ? "bg-slate-100 text-gray-500"
-                          : ""
+                          ? "bg-slate-100  text-gray-500 opacity-50 hover:cursor-default"
+                          : " hover:cursor-pointer"
                         : props.selectedCoin_out == "oPaper"
-                        ? "bg-slate-100 text-gray-500"
-                        : ""
-                    }  rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        ? "bg-slate-100 text-gray-500 opacity-50 "
+                        : " hover:cursor-pointer"
+                    }  rounded-lg px-2 py-1 `}
                     onClick={() => {
                       props.selectedTokenlist == 0
-                        ? changeSelectedCoin_input("oPaper")
-                        : changeSelectedCoin_out("oPaper");
+                        ? props.selectedCoin_input != "oPaper"
+                          ? changeSelectedCoin_input("oPaper")
+                          : ""
+                        : props.selectedCoin_out != "oPaper"
+                        ? changeSelectedCoin_out("oPaper")
+                        : "";
                     }}
                   >
                     <div className="w-[20px] h-[20px]">

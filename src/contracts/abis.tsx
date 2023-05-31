@@ -480,3 +480,49 @@ export const amm_abi = [
   },
   { type: "receive" },
 ];
+
+export const router_abi = [
+  {
+    type: "constructor",
+    inputs: [{ type: "address", name: "_amm", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "_amountB", internalType: "uint256" }],
+    name: "cacalLpTokenAddAmount",
+    inputs: [
+      { type: "address", name: "_tokenA", internalType: "address" },
+      { type: "address", name: "_tokenB", internalType: "address" },
+      { type: "uint256", name: "_amountA", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [
+      { type: "uint256", name: "tokenOutAmount", internalType: "uint256" },
+    ],
+    name: "cacalTokenOutAmount",
+    inputs: [
+      { type: "address", name: "_tokenIn", internalType: "address" },
+      { type: "address", name: "_tokenOut", internalType: "address" },
+      { type: "uint256", name: "_tokenInAmount", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [
+      { type: "uint256", name: "reserveA", internalType: "uint256" },
+      { type: "uint256", name: "reserveB", internalType: "uint256" },
+      { type: "uint256", name: "one_tokenA_price", internalType: "uint256" },
+      { type: "uint256", name: "one_tokenB_price", internalType: "uint256" },
+    ],
+    name: "getTokenPrice",
+    inputs: [
+      { type: "address", name: "_tokenA", internalType: "address" },
+      { type: "address", name: "_tokenB", internalType: "address" },
+    ],
+  },
+];
