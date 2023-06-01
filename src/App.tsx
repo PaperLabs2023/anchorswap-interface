@@ -25,7 +25,7 @@ export function App() {
       console.log(location.pathname);
       navigate("/pool");
     }
-  }, []);
+  }, [location.pathname]);
 
   return (
     <>
