@@ -19,7 +19,7 @@ import { amm_abi, tPaper_abi, router_abi } from "../../../contracts/abis";
 import { ethers } from "ethers";
 
 export default function SwapCard_Content() {
-  const [hash, setHash] = useState("");
+  const [hash, setHash] = useState<`0x${string}`>("0x");
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
@@ -32,10 +32,10 @@ export default function SwapCard_Content() {
     useState("0.0");
 
   const [currentInputTokenContract, setCurrentInputTokenContract] = useState<
-    "0x" | undefined
+    `0x${string}` | undefined
   >("0x");
   const [currentOutTokenContract, setCurrentOutTokenContract] = useState<
-    "0x" | undefined
+    `0x${string}` | undefined
   >("0x");
 
   const [isOpen_Alert, setIsOpen_Alert] = useState(false);
