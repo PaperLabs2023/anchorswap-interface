@@ -17,15 +17,7 @@ export function App() {
       console.log(location.pathname);
       navigate("/swap");
     }
-    if (location.pathname === "/swap") {
-      console.log(location.pathname);
-      navigate("/swap");
-    }
-    if (location.pathname === "/pool") {
-      console.log(location.pathname);
-      navigate("/pool");
-    }
-  }, [location.pathname]);
+  }, []);
 
   return (
     <>
