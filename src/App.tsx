@@ -14,7 +14,16 @@ export function App() {
 
   useEffect(() => {
     if (location.pathname === "/") {
+      console.log(location.pathname);
       navigate("/swap");
+    }
+    if (location.pathname === "/swap") {
+      console.log(location.pathname);
+      navigate("/swap");
+    }
+    if (location.pathname === "/pool") {
+      console.log(location.pathname);
+      navigate("/pool");
     }
   }, []);
 
