@@ -21,6 +21,9 @@ export default function AppHeader() {
   const handlePoolClick = () => {
     navigate("/pool");
   };
+  const handleDocsClick = () => {
+    navigate("https://paperswap.gitbook.io/paperswap/");
+  };
 
   return (
     <header className="box-border fixed flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
@@ -176,7 +179,10 @@ export default function AppHeader() {
                             </a>
                           </li>
                           <li>
-                            <a>
+                            <a
+                              href="https://paperswap.gitbook.io/paperswap/"
+                              target="_blank"
+                            >
                               <div className="flex">
                                 <div className="flex items-center">
                                   <img
