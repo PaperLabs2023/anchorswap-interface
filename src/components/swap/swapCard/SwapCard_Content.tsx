@@ -495,8 +495,9 @@ export default function SwapCard_Content() {
         className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
           Number(receiveTokenAmount) > 0
             ? inputTokenBalance &&
-              inputTokenBalance?.formatted >=
-                (inputAmountRef.current ? inputAmountRef.current?.value : 0)
+              inputAmountRef.current &&
+              Number(inputTokenBalance.formatted) >=
+                Number(inputAmountRef.current.value)
               ? "bg-[#FEF08A]  hover:cursor-pointer"
               : "bg-white text-gray-500 hover:cursor-default"
             : "bg-white text-gray-500 hover:cursor-default"
@@ -525,12 +526,12 @@ export default function SwapCard_Content() {
             ></path>
           </svg>
         )}
-        {Number(receiveTokenAmount) != 0
-          ? inputTokenBalance &&
-            inputTokenBalance?.formatted >=
-              (inputAmountRef.current ? inputAmountRef.current?.value : 0)
-            ? currentInputTokenAllowance >=
-              Number(inputAmountRef.current?.value)
+        {Number(receiveTokenAmount) !== 0
+          ? inputTokenBalance?.formatted &&
+            inputAmountRef.current?.value &&
+            Number(inputTokenBalance.formatted) >=
+              Number(inputAmountRef.current.value)
+            ? currentInputTokenAllowance >= Number(inputAmountRef.current.value)
               ? "Swap"
               : "Approve"
             : "Insufficient Balance"
