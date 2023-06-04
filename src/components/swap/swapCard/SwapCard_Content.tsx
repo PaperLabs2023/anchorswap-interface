@@ -339,7 +339,7 @@ export default function SwapCard_Content() {
         </div>
       </div>
       {/* icon */}
-      <div className="absolute inset-x-0 mx-auto top-1/2 -mt-5 w-8 h-8 bg-white flex justify-center items-center rounded-full">
+      <div className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-white flex justify-center items-center rounded-full">
         <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
           <svg
             className="swap_icon"
@@ -359,7 +359,7 @@ export default function SwapCard_Content() {
         </div>
       </div>
       {/* outcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-4">
+      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-0">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl">
