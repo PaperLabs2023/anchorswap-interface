@@ -4,6 +4,7 @@ import React from "react";
 import logo from "../assets/images/paper.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Faucet from "./Faucet";
 
 export default function AppHeader() {
   const [isPoolHovered, setIsPoolHovered] = useState(false);
