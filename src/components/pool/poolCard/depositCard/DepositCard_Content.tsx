@@ -27,6 +27,7 @@ export default function DepositCard_Content() {
   const [selectedCoin_input, setSelectedCoin_input] = useState("ETH");
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDC");
   const inputAmountRef = useRef<HTMLInputElement>(null);
+  const outAmountRef = useRef<HTMLInputElement>(null);
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
   const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
     useState("0.0");
@@ -41,6 +42,7 @@ export default function DepositCard_Content() {
 
   const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
     useState(0.0);
+  const [currentOutTokenAllowance, setCurrentOutTokenAllowance] = useState(0.0);
 
   const confirmation = useWaitForTransaction({
     hash: hash,
@@ -60,6 +62,11 @@ export default function DepositCard_Content() {
 
   const currentInputTokenContractConfig = {
     address: currentInputTokenContract,
+    abi: tPaper_abi,
+  } as const;
+
+  const currentOutTokenContractConfig = {
+    address: currentOutTokenContract,
     abi: tPaper_abi,
   } as const;
 
@@ -109,6 +116,11 @@ export default function DepositCard_Content() {
         functionName: "allowance",
         args: [address, amm_address],
       },
+      {
+        ...currentOutTokenContractConfig,
+        functionName: "allowance",
+        args: [address, amm_address],
+      },
     ],
     watch: true,
     enabled: Number(inputAmountRef.current?.value) != 0,
@@ -121,12 +133,16 @@ export default function DepositCard_Content() {
           ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
         ).toFixed(6)
       );
-      const allowance = Number(ethers.utils.formatUnits(data[2], "ether"));
-      console.log(tokenPirce);
+      const allowance_input = Number(
+        ethers.utils.formatUnits(data[2], "ether")
+      );
+      const allowance_out = Number(ethers.utils.formatUnits(data[3], "ether"));
+
       if (Number(amount) != 0) {
         setReceiveTokenAmount(amount);
         setInputTokenPriceForOutToken(tokenPirce);
-        setCurrentInputTokenAllowance(allowance);
+        setCurrentInputTokenAllowance(allowance_input);
+        setCurrentOutTokenAllowance(allowance_out);
       }
     },
   });
@@ -175,11 +191,12 @@ export default function DepositCard_Content() {
   const { config: poolSwapConfig } = usePrepareContractWrite({
     address: amm_address,
     abi: amm_abi,
-    functionName: "swap",
+    functionName: "addLiquidity",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+      ethers.utils.parseEther(outAmountRef.current?.value || "0"),
     ],
   });
   // swap action
@@ -442,7 +459,7 @@ export default function DepositCard_Content() {
                 type="text"
                 placeholder={receiveTokenAmount}
                 className="bg-transparent border-none text-3xl outline-none animate-pulse w-full"
-                disabled
+                ref={outAmountRef}
               />
             </div>
             {/* coinlist */}
@@ -525,7 +542,10 @@ export default function DepositCard_Content() {
               inputAmountRef.current &&
               Number(inputTokenBalance.formatted) >=
                 Number(inputAmountRef.current.value)
-              ? "bg-[#FEF08A]  hover:cursor-pointer"
+              ? Number(outTokenBalance?.formatted) >=
+                Number(outAmountRef.current?.value)
+                ? "bg-[#FEF08A]  hover:cursor-pointer"
+                : "bg-white text-gray-500 hover:cursor-default"
               : "bg-white text-gray-500 hover:cursor-default"
             : "bg-white text-gray-500 hover:cursor-default"
         } py-2 rounded-xl ripple-btn`}
@@ -558,10 +578,17 @@ export default function DepositCard_Content() {
             inputAmountRef.current?.value &&
             Number(inputTokenBalance.formatted) >=
               Number(inputAmountRef.current.value)
-            ? currentInputTokenAllowance >= Number(inputAmountRef.current.value)
-              ? "Swap"
-              : "Approve"
-            : "Insufficient Balance"
+            ? Number(outTokenBalance?.formatted) >=
+              Number(outAmountRef.current?.value)
+              ? currentInputTokenAllowance >=
+                Number(inputAmountRef.current.value)
+                ? currentOutTokenAllowance >=
+                  Number(outAmountRef.current?.value)
+                  ? "Swap"
+                  : `Approve ${selectedCoin_out}`
+                : `Approve ${selectedCoin_input}`
+              : `Insufficient ${selectedCoin_out} Balance`
+            : `Insufficient ${selectedCoin_input} Balance`
           : "Insufficient Liquidity"}
       </div>
       {/* 代币列表modal */}
