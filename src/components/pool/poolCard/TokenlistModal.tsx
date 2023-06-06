@@ -39,7 +39,7 @@ export default function TokenListModal(props: any) {
   };
 
   const changeSelectedCoin_out = (coinname: string) => {
-    if (coinname == props.selectedCoin_intput) {
+    if (coinname == props.selectedCoin_input) {
       let t = props.selectedCoin_out;
       props.setSelectedCoin_out(props.selectedCoin_input);
       props.setSelectedCoin_input(t);

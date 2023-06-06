@@ -171,8 +171,28 @@ export default function SwapCard_Content() {
       console.log("Error", error);
     },
   });
-  // swap config
-  const { config: poolSwapConfig } = usePrepareContractWrite({
+  // // swap config
+  // const { config: poolSwapConfig } = usePrepareContractWrite({
+  //   address: amm_address,
+  //   abi: amm_abi,
+  //   functionName: "swap",
+  //   args: [
+  //     currentInputTokenContract,
+  //     currentOutTokenContract,
+  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+  //   ],
+  // });
+  // // swap action
+  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+  //   ...poolSwapConfig,
+  //   onError(error: any) {
+  //     console.log("Error", error);
+  //   },
+  // });
+
+  // 强制调用swap action
+  // // swap action
+  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
     functionName: "swap",
@@ -181,10 +201,7 @@ export default function SwapCard_Content() {
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
     ],
-  });
-  // swap action
-  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-    ...poolSwapConfig,
+    mode: "recklesslyUnprepared",
     onError(error: any) {
       console.log("Error", error);
     },

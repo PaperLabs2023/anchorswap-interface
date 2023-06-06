@@ -229,8 +229,29 @@ export default function DepositCard_Content() {
     },
   });
 
-  // swap config
-  const { config: poolSwapConfig } = usePrepareContractWrite({
+  // // swap config
+  // const { config: poolSwapConfig } = usePrepareContractWrite({
+  //   address: amm_address,
+  //   abi: amm_abi,
+  //   functionName: "addLiquidity",
+  //   args: [
+  //     currentInputTokenContract,
+  //     currentOutTokenContract,
+  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+  //     ethers.utils.parseEther(outAmountRef.current?.value || "0"),
+  //   ],
+  // });
+  // // swap action
+  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+  //   ...poolSwapConfig,
+  //   onError(error: any) {
+  //     console.log("Error", error);
+  //   },
+  // });
+
+  // 强制调用swap action
+  // // swap action
+  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
     functionName: "addLiquidity",
@@ -240,10 +261,7 @@ export default function DepositCard_Content() {
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
       ethers.utils.parseEther(outAmountRef.current?.value || "0"),
     ],
-  });
-  // swap action
-  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-    ...poolSwapConfig,
+    mode: "recklesslyUnprepared",
     onError(error: any) {
       console.log("Error", error);
     },
@@ -277,7 +295,10 @@ export default function DepositCard_Content() {
   const swapClick = () => {
     // if (Number(receiveTokenAmount) >= 0) {
     if (inputTokenBalance && inputAmountRef.current) {
-      if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
+      if (
+        Number(inputTokenBalance?.formatted) >=
+        Number(inputAmountRef.current?.value)
+      ) {
         setIsLoading_Btn(true);
         if (
           currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
