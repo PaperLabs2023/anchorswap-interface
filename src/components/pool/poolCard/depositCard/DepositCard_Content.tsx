@@ -44,6 +44,11 @@ export default function DepositCard_Content() {
     useState(0.0);
   const [currentOutTokenAllowance, setCurrentOutTokenAllowance] = useState(0.0);
 
+  const [findLpTokenAddress, setFindLpTokenAddress] =
+    useState<`0x${string}`>("0x"); // 0x0000000000000000000000000000000000000000为空
+
+  const [findLpExist, setFindLpExist] = useState(false);
+
   const confirmation = useWaitForTransaction({
     hash: hash,
     onSuccess(data: any) {
@@ -58,6 +63,11 @@ export default function DepositCard_Content() {
   const routerContract = {
     address: router_address,
     abi: router_abi,
+  } as const;
+
+  const ammContract = {
+    address: amm_address,
+    abi: amm_abi,
   } as const;
 
   const currentInputTokenContractConfig = {
@@ -98,20 +108,6 @@ export default function DepositCard_Content() {
   const getRouterInfo = useContractReads({
     contracts: [
       {
-        ...routerContract,
-        functionName: "cacalTokenOutAmount",
-        args: [
-          currentInputTokenContract,
-          currentOutTokenContract,
-          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-        ],
-      },
-      {
-        ...routerContract,
-        functionName: "getTokenPrice",
-        args: [currentInputTokenContract, currentOutTokenContract],
-      },
-      {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
         args: [address, amm_address],
@@ -121,29 +117,56 @@ export default function DepositCard_Content() {
         functionName: "allowance",
         args: [address, amm_address],
       },
+      {
+        ...ammContract,
+        functionName: "getLptoken",
+        args: [currentInputTokenContract, currentOutTokenContract],
+      },
     ],
     watch: true,
     enabled: Number(inputAmountRef.current?.value) != 0,
     onSuccess(data: any) {
-      const amount = String(
-        Number(ethers.utils.formatUnits(data[0], "ether")).toFixed(6)
-      );
-      const tokenPirce = String(
-        Number(
-          ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
-        ).toFixed(6)
-      );
       const allowance_input = Number(
-        ethers.utils.formatUnits(data[2], "ether")
+        ethers.utils.formatUnits(data[0], "ether")
       );
-      const allowance_out = Number(ethers.utils.formatUnits(data[3], "ether"));
+      const allowance_out = Number(ethers.utils.formatUnits(data[1], "ether"));
 
-      if (Number(amount) != 0) {
-        setReceiveTokenAmount(amount);
-        setInputTokenPriceForOutToken(tokenPirce);
-        setCurrentInputTokenAllowance(allowance_input);
-        setCurrentOutTokenAllowance(allowance_out);
+      const lpTokenAddress = data[2];
+      if (lpTokenAddress != "0x0000000000000000000000000000000000000000") {
+        setFindLpExist(true);
+      } else {
+        setFindLpExist(false);
       }
+      console.log(`lpToken${lpTokenAddress}`);
+
+      setFindLpTokenAddress(lpTokenAddress);
+
+      setCurrentInputTokenAllowance(allowance_input);
+      setCurrentOutTokenAllowance(allowance_out);
+    },
+  });
+
+  // 如果存在流动性则计算outTokenAmount
+  const getAontherAmoutForLp = useContractReads({
+    contracts: [
+      {
+        ...routerContract,
+        functionName: "cacalLpTokenAddAmount",
+        args: [
+          currentInputTokenContract,
+          currentOutTokenContract,
+          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+        ],
+      },
+    ],
+    watch: true,
+    enabled: findLpExist,
+    onSuccess(data: any) {
+      const aontherAmountForLp = Number(
+        ethers.utils.formatUnits(data[0], "ether")
+      );
+
+      console.log(`aontherAmountForLp${aontherAmountForLp}`);
     },
   });
 
@@ -170,7 +193,7 @@ export default function DepositCard_Content() {
   //     },
   //   });
 
-  // approve token config
+  // approve inputtoken config
   const { config: approveInputTokenConfig } = usePrepareContractWrite({
     address: currentInputTokenContract,
     abi: tPaper_abi,
@@ -180,13 +203,32 @@ export default function DepositCard_Content() {
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
     ],
   });
-  // approve token action
+  // approve inputtoken action
   const { writeAsync: approveInputTokenWrite } = useContractWrite({
     ...approveInputTokenConfig,
     onError(error) {
       console.log("Error", error);
     },
   });
+
+  // approve outtoken config
+  const { config: approveOutTokenConfig } = usePrepareContractWrite({
+    address: currentOutTokenContract,
+    abi: tPaper_abi,
+    functionName: "approve",
+    args: [
+      amm_address,
+      ethers.utils.parseEther(outAmountRef.current?.value || "0"),
+    ],
+  });
+  // approve outtoken action
+  const { writeAsync: approveOutTokenWrite } = useContractWrite({
+    ...approveOutTokenConfig,
+    onError(error) {
+      console.log("Error", error);
+    },
+  });
+
   // swap config
   const { config: poolSwapConfig } = usePrepareContractWrite({
     address: amm_address,
@@ -233,14 +275,15 @@ export default function DepositCard_Content() {
   };
 
   const swapClick = () => {
-    if (Number(receiveTokenAmount) >= 0) {
-      if (inputTokenBalance && inputAmountRef.current) {
-        if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
-          setIsLoading_Btn(true);
-          if (
-            currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
-          ) {
-            // swap
+    // if (Number(receiveTokenAmount) >= 0) {
+    if (inputTokenBalance && inputAmountRef.current) {
+      if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
+        setIsLoading_Btn(true);
+        if (
+          currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
+        ) {
+          // swap
+          if (currentOutTokenAllowance >= Number(outAmountRef.current?.value)) {
             swapWrite?.()
               .then((res) => {
                 setHash(res.hash);
@@ -249,8 +292,7 @@ export default function DepositCard_Content() {
                 setIsLoading_Btn(false);
               });
           } else {
-            // approve
-            approveInputTokenWrite?.()
+            approveOutTokenWrite?.()
               .then((res) => {
                 setHash(res.hash);
               })
@@ -258,9 +300,19 @@ export default function DepositCard_Content() {
                 setIsLoading_Btn(false);
               });
           }
+        } else {
+          // approve
+          approveInputTokenWrite?.()
+            .then((res) => {
+              setHash(res.hash);
+            })
+            .catch((err) => {
+              setIsLoading_Btn(false);
+            });
         }
       }
     }
+    // }
   };
 
   useEffect(() => {
@@ -300,6 +352,7 @@ export default function DepositCard_Content() {
   return (
     <div className="flex-col mt-8">
       {/* 提示框 */}
+
       <div
         className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
           isOpen_Alert
@@ -537,7 +590,7 @@ export default function DepositCard_Content() {
       {/* button */}
       <div
         className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
-          Number(receiveTokenAmount) > 0
+          Number(inputAmountRef.current?.value) !== 0
             ? inputTokenBalance &&
               inputAmountRef.current &&
               Number(inputTokenBalance.formatted) >=
@@ -573,7 +626,7 @@ export default function DepositCard_Content() {
             ></path>
           </svg>
         )}
-        {Number(receiveTokenAmount) !== 0
+        {Number(inputAmountRef.current?.value) !== 0
           ? inputTokenBalance?.formatted &&
             inputAmountRef.current?.value &&
             Number(inputTokenBalance.formatted) >=
@@ -584,12 +637,14 @@ export default function DepositCard_Content() {
                 Number(inputAmountRef.current.value)
                 ? currentOutTokenAllowance >=
                   Number(outAmountRef.current?.value)
-                  ? "Swap"
+                  ? findLpExist
+                    ? "Add Liquidity"
+                    : "Initl Liquidity"
                   : `Approve ${selectedCoin_out}`
                 : `Approve ${selectedCoin_input}`
               : `Insufficient ${selectedCoin_out} Balance`
             : `Insufficient ${selectedCoin_input} Balance`
-          : "Insufficient Liquidity"}
+          : "Add Liquidity"}
       </div>
       {/* 代币列表modal */}
       <TokenListModal
