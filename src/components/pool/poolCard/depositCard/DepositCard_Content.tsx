@@ -164,9 +164,12 @@ export default function DepositCard_Content() {
     onSuccess(data: any) {
       const aontherAmountForLp = Number(
         ethers.utils.formatUnits(data[0], "ether")
-      );
-
+      )
+        .toFixed(6)
+        .replace(/\.?0+$/, "");
       console.log(`aontherAmountForLp${aontherAmountForLp}`);
+      setReceiveTokenAmount(aontherAmountForLp);
+      if (outAmountRef.current) outAmountRef.current.value = aontherAmountForLp;
     },
   });
 
@@ -531,9 +534,10 @@ export default function DepositCard_Content() {
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
                 type="text"
-                placeholder={receiveTokenAmount}
+                placeholder={String(receiveTokenAmount)}
                 className="bg-transparent border-none text-3xl outline-none animate-pulse w-full"
                 ref={outAmountRef}
+                disabled={findLpExist}
               />
             </div>
             {/* coinlist */}

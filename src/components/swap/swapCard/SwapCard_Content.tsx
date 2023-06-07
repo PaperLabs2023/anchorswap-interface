@@ -113,9 +113,9 @@ export default function SwapCard_Content() {
     watch: true,
     enabled: Number(inputAmountRef.current?.value) != 0,
     onSuccess(data: any) {
-      const amount = String(
-        Number(ethers.utils.formatUnits(data[0], "ether")).toFixed(6)
-      );
+      const receiveAmount = Number(ethers.utils.formatUnits(data[1], "ether"))
+        .toFixed(6)
+        .replace(/\.?0+$/, "");
       const tokenPirce = String(
         Number(
           ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
@@ -123,8 +123,8 @@ export default function SwapCard_Content() {
       );
       const allowance = Number(ethers.utils.formatUnits(data[2], "ether"));
       console.log(tokenPirce);
-      if (Number(amount) != 0) {
-        setReceiveTokenAmount(amount);
+      if (Number(receiveAmount) != 0) {
+        setReceiveTokenAmount(receiveAmount);
         setInputTokenPriceForOutToken(tokenPirce);
         setCurrentInputTokenAllowance(allowance);
       }
