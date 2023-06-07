@@ -3,9 +3,7 @@ import React from "react";
 const WithdrawCard_Header = () => {
   return (
     <div className="flex justify-between">
-      <div className="p-1 hover:cursor-pointer rounded-xl">
-        <p>Amount to withdraw</p>
-      </div>
+      <div className="p-1 hover:cursor-pointer rounded-xl"></div>
       <div>
         {/* 下拉设置滑点卡片 */}
         <div className="dropdown dropdown-bottom dropdown-end">
