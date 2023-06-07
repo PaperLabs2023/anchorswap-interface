@@ -9,49 +9,49 @@ const mockData = [
     tokenAIcon: ethicon,
     tokenBIcon: ethicon,
     statusIcon: scrollIcon,
-    tokenAName: "ETH",
-    tokenBName: "USDT",
+    tokenAName: "tPaper",
+    tokenBName: "oPaper",
     status: "Status",
     liquidity: "123,123,123",
     apr: "22.9%",
   },
-  {
-    tokenAIcon: ethicon,
-    tokenBIcon: ethicon,
-    statusIcon: scrollIcon,
-    tokenAName: "BTC",
-    tokenBName: "USDT",
-    status: "Status",
-    liquidity: "234,234,234",
-    apr: "33.3%",
-  },
-  {
-    tokenAIcon: ethicon,
-    tokenBIcon: ethicon,
-    statusIcon: scrollIcon,
-    tokenAName: "BTC",
-    tokenBName: "USDT",
-    status: "Status",
-    liquidity: "234,234,234",
-    apr: "33.3%",
-  },
-  {
-    tokenAIcon: ethicon,
-    tokenBIcon: ethicon,
-    statusIcon: scrollIcon,
-    tokenAName: "BTC",
-    tokenBName: "USDT",
-    status: "Status",
-    liquidity: "234,234,234",
-    apr: "33.3%",
-  },
+  // {
+  //   tokenAIcon: ethicon,
+  //   tokenBIcon: ethicon,
+  //   statusIcon: scrollIcon,
+  //   tokenAName: "BTC",
+  //   tokenBName: "USDT",
+  //   status: "Status",
+  //   liquidity: "234,234,234",
+  //   apr: "33.3%",
+  // },
+  // {
+  //   tokenAIcon: ethicon,
+  //   tokenBIcon: ethicon,
+  //   statusIcon: scrollIcon,
+  //   tokenAName: "BTC",
+  //   tokenBName: "USDT",
+  //   status: "Status",
+  //   liquidity: "234,234,234",
+  //   apr: "33.3%",
+  // },
+  // {
+  //   tokenAIcon: ethicon,
+  //   tokenBIcon: ethicon,
+  //   statusIcon: scrollIcon,
+  //   tokenAName: "BTC",
+  //   tokenBName: "USDT",
+  //   status: "Status",
+  //   liquidity: "234,234,234",
+  //   apr: "33.3%",
+  // },
 ];
 
 const PoolLists = () => {
   return (
     <div id="Switch-body" className="h-full justify-center items-center flex">
       <div className="flex flex-col">
-        <div className=" text-3xl">All Pools</div>
+        <div className=" text-3xl px-4">All Pools</div>
         <PoolList_Header />
         {mockData.map((data, index) => (
           <PoolList
