@@ -19,7 +19,7 @@ import { amm_abi, tPaper_abi, router_abi } from "../../../../contracts/abis";
 import { ethers } from "ethers";
 
 export default function WithdrawCard_Content() {
-  const [hash, setHash] = useState<`0x${string}`>("0x");
+  const [hash, setHash] = useState<`0x${string}`>();
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
@@ -48,6 +48,7 @@ export default function WithdrawCard_Content() {
     useState<`0x${string}`>("0x"); // 0x0000000000000000000000000000000000000000为空
 
   const [lpTokenAmount, setLpTokenAmount] = useState("0.0");
+  const [removeLpTokenAmount, setRemoveLpTokenAmount] = useState("0.0");
 
   const [findLpExist, setFindLpExist] = useState(false);
 
@@ -118,10 +119,19 @@ export default function WithdrawCard_Content() {
     watch: true,
     enabled: true,
     onSuccess(data: any) {
+      let remove_lp_amount = 0;
       const lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
+      if (Number(ethers.utils.formatUnits(data[0], "ether")) > 0.000000000001) {
+        remove_lp_amount =
+          Number(ethers.utils.formatUnits(data[0], "ether")) - 0.000000000001;
+      } else {
+        remove_lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
+      }
 
       console.log(`lp_amount${lp_amount}`);
-      setLpTokenAmount(lp_amount.toFixed(6).replace(/\.?0+$/, ""));
+      console.log(`remove_lp_amount${remove_lp_amount}`);
+      setLpTokenAmount(String(lp_amount));
+      setRemoveLpTokenAmount(String(remove_lp_amount));
     },
   });
 
@@ -173,23 +183,24 @@ export default function WithdrawCard_Content() {
   // });
 
   // 强制调用swap action
-  // // swap action
-  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-  //   address: amm_address,
-  //   abi: amm_abi,
-  //   functionName: "addLiquidity",
-  //   args: [
-  //     currentInputTokenContract,
-  //     currentOutTokenContract,
-  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //     ethers.utils.parseEther(outAmountRef.current?.value || "0"),
-  //   ],
-  //   mode: "recklesslyUnprepared",
+  // swap action
+  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+    address: amm_address,
+    abi: amm_abi,
+    functionName: "removeLiquidity",
+    args: [
+      currentInputTokenContract,
+      currentOutTokenContract,
+      Number(removeLpTokenAmount) > 0.000000000001
+        ? ethers.utils.parseEther(removeLpTokenAmount || "0")
+        : ethers.utils.parseEther("0"),
+    ],
+    mode: "recklesslyUnprepared",
 
-  //   onError(error: any) {
-  //     console.log("Error", error);
-  //   },
-  // });
+    onError(error: any) {
+      console.log("Error", error);
+    },
+  });
 
   function openModal_input() {
     setSelectedTokenlist(0);
@@ -223,30 +234,19 @@ export default function WithdrawCard_Content() {
 
   const swapClick = () => {
     // if (Number(receiveTokenAmount) >= 0) {
-    if (inputTokenBalance && inputAmountRef.current) {
-      if (
-        Number(inputTokenBalance?.formatted) >=
-        Number(inputAmountRef.current?.value)
-      ) {
-        setIsLoading_Btn(true);
-        if (
-          currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
-        ) {
-          // swap
-          if (currentOutTokenAllowance >= Number(outAmountRef.current?.value)) {
-            swapWrite?.()
-              .then((res) => {
-                setHash(res.hash);
-              })
-              .catch((err) => {
-                setIsLoading_Btn(false);
-              });
-          } else {
-          }
-        } else {
-        }
-      }
+
+    if (Number(removeLpTokenAmount) > 0.000000000001) {
+      setIsLoading_Btn(true);
+      swapWrite?.()
+        .then((res) => {
+          setHash(res.hash);
+        })
+        .catch((err) => {
+          setIsLoading_Btn(false);
+        });
+    } else {
     }
+
     // }
   };
 
@@ -541,16 +541,8 @@ export default function WithdrawCard_Content() {
       {/* button */}
       <div
         className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
-          Number(inputAmountRef.current?.value) !== 0
-            ? inputTokenBalance &&
-              inputAmountRef.current &&
-              Number(inputTokenBalance.formatted) >=
-                Number(inputAmountRef.current.value)
-              ? Number(outTokenBalance?.formatted) >=
-                Number(outAmountRef.current?.value)
-                ? "bg-[#FEF08A]  hover:cursor-pointer"
-                : "bg-white text-gray-500 hover:cursor-default"
-              : "bg-white text-gray-500 hover:cursor-default"
+          Number(removeLpTokenAmount) > 0.000000000001
+            ? "bg-[#FEF08A]  hover:cursor-pointer"
             : "bg-white text-gray-500 hover:cursor-default"
         } py-2 rounded-xl ripple-btn`}
         onClick={swapClick}
@@ -577,25 +569,9 @@ export default function WithdrawCard_Content() {
             ></path>
           </svg>
         )}
-        {Number(inputAmountRef.current?.value) !== 0
-          ? inputTokenBalance?.formatted &&
-            inputAmountRef.current?.value &&
-            Number(inputTokenBalance.formatted) >=
-              Number(inputAmountRef.current.value)
-            ? Number(outTokenBalance?.formatted) >=
-              Number(outAmountRef.current?.value)
-              ? currentInputTokenAllowance >=
-                Number(inputAmountRef.current.value)
-                ? currentOutTokenAllowance >=
-                  Number(outAmountRef.current?.value)
-                  ? findLpExist
-                    ? "Add Liquidity"
-                    : "Initl Liquidity"
-                  : `Approve ${selectedCoin_out}`
-                : `Approve ${selectedCoin_input}`
-              : `Insufficient ${selectedCoin_out} Balance`
-            : `Insufficient ${selectedCoin_input} Balance`
-          : "Add Liquidity"}
+        {Number(removeLpTokenAmount) > 0.000000000001
+          ? "Remove Liquidity"
+          : "Insufficient Liquidity"}
       </div>
       {/* 代币列表modal */}
       <TokenListModal
