@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import DepositCard from "../components/pool/poolCard/DepositCard";
 import WithdrawCard from "../components/pool/poolCard/WithdrawCard";
+import { useNavigate } from "react-router-dom";
 
 export default function PoolDetails() {
   const [selectedCard, setSelectedCard] = useState("deposit");
+  const navigate = useNavigate();
   const changeSelectedCard = (card: string) => {
     setSelectedCard(card);
   };
+  const handleBackClick = () => {
+    navigate("/pool");
+  };
   return (
     <div className="mt-24 px-4">
-      <div>{`< Pools`}</div>
+      <div
+        className=" hover:cursor-pointer"
+        onClick={handleBackClick}
+      >{`< Pools`}</div>
       <div className="flex mt-6">
         <div className="flex-col w-1/6 h-full">
           <div
