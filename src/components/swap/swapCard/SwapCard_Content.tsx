@@ -291,6 +291,9 @@ export default function SwapCard_Content() {
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
     }
+    if (selectedCoin_input == "ETH") {
+      setCurrentInputTokenContract("0x");
+    }
     // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
     if (inputAmountRef.current)
       inputAmountRef.current.addEventListener(
@@ -312,6 +315,9 @@ export default function SwapCard_Content() {
       setCurrentOutTokenContract("0x");
     }
     if (selectedCoin_out == "WETH") {
+      setCurrentOutTokenContract("0x");
+    }
+    if (selectedCoin_out == "ETH") {
       setCurrentOutTokenContract("0x");
     }
   }, [selectedCoin_out]);
