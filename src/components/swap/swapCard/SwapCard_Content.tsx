@@ -281,18 +281,23 @@ export default function SwapCard_Content() {
   useEffect(() => {
     if (selectedCoin_input == "tPaper") {
       setCurrentInputTokenContract(tPaper_address);
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "oPaper") {
       setCurrentInputTokenContract(oPaper_address);
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "USDC") {
       setCurrentInputTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "ETH") {
       setCurrentInputTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
     // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
     if (inputAmountRef.current)
@@ -307,18 +312,23 @@ export default function SwapCard_Content() {
   useEffect(() => {
     if (selectedCoin_out == "tPaper") {
       setCurrentOutTokenContract(tPaper_address);
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "oPaper") {
       setCurrentOutTokenContract(oPaper_address);
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "USDC") {
       setCurrentOutTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "ETH") {
       setCurrentOutTokenContract("0x");
+      setReceiveTokenAmount("0.0");
     }
   }, [selectedCoin_out]);
   return (
