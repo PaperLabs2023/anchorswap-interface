@@ -4,7 +4,7 @@ export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
       <div className="p-1 hover:cursor-pointer rounded-xl">
-        <svg
+        {/* <svg
           className="candleline_icon"
           viewBox="0 0 1026 1024"
           version="1.1"
@@ -21,7 +21,7 @@ export default function SwapCard_Header() {
             d="M258.844444 620.088889h56.888889v-85.333333h56.888889v-227.555556h-56.888889v-56.888889h-56.888889v56.888889h-56.888888v227.555556h56.888888zM514.844444 790.755556h56.888889v-256h56.888889v-341.333334h-56.888889v-113.777778h-56.888889v113.777778h-56.888888v341.333334h56.888888zM770.844444 705.422222h56.888889v-142.222222h56.888889v-199.111111h-56.888889v-142.222222h-56.888889v142.222222h-56.888888v199.111111h56.888888z"
             p-id="4110"
           ></path>
-        </svg>
+        </svg> */}
       </div>
       <div>
         {/* 下拉设置滑点卡片 */}

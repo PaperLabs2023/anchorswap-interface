@@ -170,7 +170,7 @@ export default function AppHeader() {
                                 <div className="flex flex-col ml-3">
                                   <p>Bridge</p>
                                   <p className=" text-xs">
-                                    Bridge token for zkSync Era
+                                    Bridge token for Scorll TestNetwork
                                   </p>
                                 </div>
                               </div>
@@ -276,9 +276,9 @@ export default function AppHeader() {
               </div>
             </div>
             <div className="flex flex-row items-center gap-3">
-              {/* <Faucet /> */}
+              <Faucet />
               <div className=" relative">
-                <div className="fade-in">
+                <div className="fade-in flex items-center">
                   <Web3Button />
                 </div>
               </div>

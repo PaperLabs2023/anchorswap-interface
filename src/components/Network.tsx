@@ -12,7 +12,7 @@ export default function Network() {
   }, [data]);
   return (
     <div className=" fixed flex justify-between w-full bg-none bottom-0 z-10 px-5 pb-5">
-      <span></span>
+      <div></div>
       <div className={"flex items-center "}>
         <div></div>
         <a

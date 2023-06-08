@@ -168,14 +168,14 @@ export default function Faucet() {
   });
 
   return (
-    <div>
+    <div className="tooltip tooltip-open tooltip-left fade-in" data-tip="click">
       <button
-        className={`btn btn-outline btn-ghost btn-sm fade-in ${
+        className={`btn btn-outline btn-ghost btn-sm ${
           address ? "" : "hidden"
         } ${isLoading_A ? " loading" : ""} `}
         onClick={faucetClick_A}
       >
-        {"Faucet" + " : " + tokenA_balance + " " + "$A"}
+        {"Faucet"}
       </button>
       {/* <button
         className={`btn btn-outline ml-2 btn-ghost btn-sm fade-in ${

@@ -67,12 +67,14 @@ export default function SwapCard_Content() {
   const { data: inputTokenBalance } = useBalance({
     address: address,
     token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+    watch: true,
   });
 
   //获取outToken余额
   const { data: outTokenBalance } = useBalance({
     address: address,
     token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+    watch: true,
   });
 
   //   // 获取已授权的tPaper数量
@@ -314,7 +316,7 @@ export default function SwapCard_Content() {
     }
   }, [selectedCoin_out]);
   return (
-    <div className="flex-col mt-8">
+    <div className="flex-col mt-4">
       {/* 提示框 */}
       <div
         className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
