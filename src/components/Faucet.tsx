@@ -168,7 +168,7 @@ export default function Faucet() {
   });
 
   return (
-    <div className="tooltip tooltip-open tooltip-left fade-in">
+    <div className="fade-in">
       <button
         className={`btn btn-outline btn-ghost btn-sm ${
           address ? "" : "hidden"
