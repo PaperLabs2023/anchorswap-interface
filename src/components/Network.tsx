@@ -41,7 +41,7 @@ export default function Network() {
         </div>
       </div>
       <div className=" fixed  flex md:hidden justify-between w-full bg-none bottom-0 z-10 border-t-1 h-14">
-        <div className="hover:bg-yellow-200 h-full text-center w-full rounded-lg dropdown dropdown-top flex justify-center items-center">
+        <div className="hover:bg-yellow-200 h-full text-center w-full rounded-lg py-4 dropdown dropdown-top">
           <div tabIndex={0}>Swap</div>
           <ul
             tabIndex={0}
@@ -56,18 +56,18 @@ export default function Network() {
           </ul>
         </div>
         <div
-          className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg flex justify-center items-center"
+          className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg py-4"
           onClick={handlePoolClick}
         >
-          <div>Pool</div>
+          Pool
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  flex justify-center items-center ">
-          <div>Farm</div>
+        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  py-4 ">
+          Farm
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  flex justify-center items-center ">
-          <div>Dao</div>
+        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  py-4 ">
+          Dao
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-1/2 rounded-lg  flex justify-center items-center dropdown dropdown-top dropdown-end">
+        <div className=" hover:bg-yellow-200 h-full text-center w-1/2 rounded-lg  py-4 dropdown dropdown-top dropdown-end">
           <div tabIndex={0}>···</div>
           <ul
             tabIndex={0}
