@@ -19,9 +19,13 @@ export default function AppHeader() {
   const handleSwapClick = () => {
     navigate("/swap");
   };
+  const handleStableSwapClick = () => {
+    navigate("/stableswap");
+  };
   const handlePoolClick = () => {
     navigate("/pool");
   };
+
   const handleDocsClick = () => {
     navigate("https://paperswap.gitbook.io/paperswap/");
   };
@@ -38,7 +42,7 @@ export default function AppHeader() {
 
       <div className="relative">
         <div className="box-border px-3 py-2 pl- absolute w-full backdrop-blur-md ">
-          <div className="row2 flex flex-row justify-between items-center flex-wrap gap-y-10 max-w-full">
+          <div className="row2 flex flex-row h-min-[40px] justify-between items-center flex-wrap gap-y-10 max-w-full">
             <div className="flex flex-row items-center gap-6">
               <div className="mb-[2px]">
                 <div className=" relative">
@@ -54,9 +58,9 @@ export default function AppHeader() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 md:space-x-6 mb-[2px]">
+              <div className=" items-center space-x-4  mb-[2px] hidden md:flex">
                 {/* Swap */}
-                <div className="relative">
+                {/* <div className="relative">
                   <div onClick={handleSwapClick}>
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
                       <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
@@ -64,7 +68,91 @@ export default function AppHeader() {
                       </p>
                     </div>
                   </div>
+                </div> */}
+                {/* Exchage */}
+                <div className="relative">
+                  <div>
+                    <div className="no-underline text-current cursor-default">
+                      <div
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        className="dropdown dropdown-hover"
+                      >
+                        <div
+                          tabIndex={0}
+                          className="flex items-center gap-1  py-2 cursor-pointer flex-row"
+                        >
+                          <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                            Exchage
+                          </div>
+                          <div className="mt-1">
+                            <svg
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={
+                                isPoolHovered ? "rotate-180" : "rotate-0"
+                              }
+                            >
+                              <path
+                                fill="#5155a6"
+                                fillRule="nonzero"
+                                d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                              ></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                        >
+                          <li>
+                            <div className="flex" onClick={handleSwapClick}>
+                              <div className="flex items-center">
+                                <img
+                                  src={logo}
+                                  className="h-[24px] w-[24px] z-1"
+                                />
+                              </div>
+                              <div className="flex flex-col ml-3">
+                                <p>Swap</p>
+                                <p className=" text-xs">token swap</p>
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              className="flex"
+                              onClick={handleStableSwapClick}
+                            >
+                              <div className="flex items-center">
+                                <img
+                                  src={logo}
+                                  className="h-[24px] w-[24px] z-1"
+                                />
+                              </div>
+                              <div className="flex flex-col ml-3">
+                                <p>StableSwap</p>
+                                <p className=" text-xs">stable token swap</p>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                {/* StableSwap */}
+                {/* <div className="relative">
+                  <div onClick={handleStableSwapClick}>
+                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
+                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        StableSwap
+                      </p>
+                    </div>
+                  </div>
+                </div> */}
                 {/* Pool */}
                 <div className="relative">
                   <div onClick={handlePoolClick}>
@@ -275,8 +363,10 @@ export default function AppHeader() {
                 </div> */}
               </div>
             </div>
-            <div className="flex flex-row items-center gap-3">
-              <Faucet />
+            <div className="  items-center gap-3 flex">
+              <div className="hidden md:flex">
+                <Faucet />
+              </div>
               <div className=" relative">
                 <div className="fade-in flex items-center">
                   <Web3Button />

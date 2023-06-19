@@ -1,13 +1,9 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
-export default function DepositCard_Header() {
-  const location = useLocation();
-  const status = location.state?.status;
+export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
       <div className="p-1 hover:cursor-pointer rounded-xl">
-        {status}
         {/* <svg
           className="candleline_icon"
           viewBox="0 0 1026 1024"

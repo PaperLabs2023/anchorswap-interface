@@ -9,7 +9,7 @@ export default function PoolList_Header() {
             <div className="ml-8">Pools</div>
           </div>
           <div className="flex flex-row flex-wrap  m-1 justify-center">
-            <div className="">Network</div>
+            <div className="">Type</div>
           </div>
           <div className="flex flex-row flex-wrap  m-1">
             <div className="ml-4">Liquidity</div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PoolList from "./PoolList";
 import ethicon from "../../assets/images/pools/eth.png";
+import usdcicon from "../../assets/images/pools/usdc.png";
 import scrollIcon from "../../assets/images/scroll.png";
 import PoolList_Header from "./PoolList_Header";
 import { amm_address } from "../../contracts/addresses";
@@ -15,7 +16,18 @@ const mockData = [
     statusIcon: scrollIcon,
     tokenAName: "tPaper",
     tokenBName: "oPaper",
-    status: "Status",
+    status: "Classic",
+    liquidity: "100,000",
+    apr: "22.9%",
+    lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
+  },
+  {
+    tokenAIcon: usdcicon,
+    tokenBIcon: usdcicon,
+    statusIcon: scrollIcon,
+    tokenAName: "tPaper",
+    tokenBName: "oPaper",
+    status: "Stable",
     liquidity: "100,000",
     apr: "22.9%",
     lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
