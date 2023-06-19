@@ -12,6 +12,8 @@ import {
 import {
   tPaper_address,
   oPaper_address,
+  tUsdt_address,
+  tUsdc_address,
   amm_address,
   router_address,
 } from "../../../contracts/addresses";
@@ -20,13 +22,13 @@ import { ethers } from "ethers";
 
 export default function SwapCard_Content() {
   const [hash, setHash] = useState<`0x${string}`>();
-  const [slippage, setSlippage] = useState(3000); // n/100000
+  const [slippage, setSlippage] = useState(1000); // n/100000
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
-  const [selectedCoin_input, setSelectedCoin_input] = useState("tPaper");
-  const [selectedCoin_out, setSelectedCoin_out] = useState("oPaper");
+  const [selectedCoin_input, setSelectedCoin_input] = useState("USDC");
+  const [selectedCoin_out, setSelectedCoin_out] = useState("USDT");
   const inputAmountRef = useRef<HTMLInputElement>(null);
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
   const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
@@ -102,11 +104,11 @@ export default function SwapCard_Content() {
           ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
         ],
       },
-      {
-        ...routerContract,
-        functionName: "getTokenPrice",
-        args: [currentInputTokenContract, currentOutTokenContract],
-      },
+      // {
+      //   ...routerContract,
+      //   functionName: "getTokenPriceStableCoin",
+      //   args: [currentInputTokenContract, currentOutTokenContract],
+      // },
       {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
@@ -121,16 +123,16 @@ export default function SwapCard_Content() {
       const receiveAmount = Number(ethers.utils.formatUnits(data[0], "ether"))
         .toFixed(6)
         .replace(/\.?0+$/, "");
-      const tokenPirce = String(
-        Number(
-          ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
-        ).toFixed(6)
-      );
-      const allowance = Number(ethers.utils.formatUnits(data[2], "ether"));
-      console.log(tokenPirce);
+      // const tokenPirce = String(
+      //   Number(
+      //     ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
+      //   ).toFixed(6)
+      // );
+      const allowance = Number(ethers.utils.formatUnits(data[1], "ether"));
+      // console.log(tokenPirce);
       if (Number(receiveAmount) != 0) {
         setReceiveTokenAmount(receiveAmount);
-        setInputTokenPriceForOutToken(tokenPirce);
+        // setInputTokenPriceForOutToken(tokenPirce);
         setCurrentInputTokenAllowance(allowance);
       }
     },
@@ -200,12 +202,12 @@ export default function SwapCard_Content() {
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
-    functionName: "swapByLimitSli",
+    functionName: "swapWithStableCoin",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-      slippage,
+      // slippage,
     ],
     mode: "recklesslyUnprepared",
     onError(error: any) {
@@ -290,8 +292,10 @@ export default function SwapCard_Content() {
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "USDC") {
-      setCurrentInputTokenContract("0x");
-      setReceiveTokenAmount("0.0");
+      setCurrentInputTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_input == "USDT") {
+      setCurrentInputTokenContract(tUsdt_address);
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
@@ -321,8 +325,10 @@ export default function SwapCard_Content() {
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "USDC") {
-      setCurrentOutTokenContract("0x");
-      setReceiveTokenAmount("0.0");
+      setCurrentOutTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_out == "USDT") {
+      setCurrentOutTokenContract(tUsdt_address);
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");
@@ -336,14 +342,15 @@ export default function SwapCard_Content() {
   return (
     <div className="flex-col mt-4">
       {/* 提示框 */}
+
       <div
-        className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
+        className={`absolute md:w-[450px] max-md:right-2 top-20 md:top-24 md:pr-8 transform transition duration-500 ease-in-out ${
           isOpen_Alert
             ? "-translate-y-0 opacity-100"
             : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="alert alert-success  shadow-lg w-full">
+        <div className=" alert alert-success  shadow-lg w-full  max-md:p-2">
           <div>
             {/* 加载指示器 */}
             <svg
@@ -353,18 +360,28 @@ export default function SwapCard_Content() {
               viewBox="0 0 24 24"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
             <div>
               <h3 className="font-bold">New Transaction!</h3>
-              <div className="text-xs">You have 1 confirmed transaction</div>
+              <div className=" max-md:hidden text-xs">
+                You have 1 confirmed transaction
+              </div>
+            </div>
+            <div className="flex-none md:hidden ">
+              <a
+                href={`https://blockscout.scroll.io/tx/${hash}`}
+                target="_blank"
+              >
+                <button className="btn btn-sm">See</button>
+              </a>
             </div>
           </div>
-          <div className="flex-none">
+          <div className="flex-none max-md:hidden">
             <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
               <button className="btn btn-sm">See</button>
             </a>

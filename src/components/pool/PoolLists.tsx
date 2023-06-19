@@ -11,6 +11,7 @@ import { scrollTestnet } from "wagmi/chains";
 
 const mockData = [
   {
+    id: 1,
     tokenAIcon: ethicon,
     tokenBIcon: ethicon,
     statusIcon: scrollIcon,
@@ -22,11 +23,12 @@ const mockData = [
     lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
   },
   {
+    id: 2,
     tokenAIcon: usdcicon,
     tokenBIcon: usdcicon,
     statusIcon: scrollIcon,
-    tokenAName: "tPaper",
-    tokenBName: "oPaper",
+    tokenAName: "USDC",
+    tokenBName: "USDT",
     status: "Stable",
     liquidity: "100,000",
     apr: "22.9%",
@@ -113,6 +115,7 @@ const PoolLists = () => {
         {mockData.map((data, index) => (
           <PoolList
             key={index}
+            id={data.id}
             tokenAIcon={data.tokenAIcon}
             tokenBIcon={data.tokenBIcon}
             statusIcon={data.statusIcon}

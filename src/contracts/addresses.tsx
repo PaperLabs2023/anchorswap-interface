@@ -3,6 +3,11 @@ export const tPaper_address: `0x${string}` =
 export const oPaper_address: `0x${string}` =
   "0x1dF2E989DA3094E782B365C13Bf45CF2ceE13293";
 export const amm_address: `0x${string}` =
-  "0xD723aE082f3602D7ffb7b6Eb6538b928d17404A9";
+  "0xEA5DAD0e4f08C7b0328cFBbF1ee14c8A92b70061";
 export const router_address: `0x${string}` =
-  "0xD96d3141170781eD16379D5EaDa5E452901B7323";
+  "0xE13464B9cd38E91B4ba2A8eea2472bC825a293C3";
+
+export const tUsdt_address: `0x${string}` =
+  "0x6f4F0F5d22D6f3d026C41Ca7Fb4Df5200823Bb0f";
+export const tUsdc_address: `0x${string}` =
+  "0xB4FA0490b364102562ab756F242A699EC67045EF";

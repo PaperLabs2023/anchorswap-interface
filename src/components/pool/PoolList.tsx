@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const PoolList = (props: any) => {
   const navigate = useNavigate();
   const handleClick = (lpTokenAddress: string, status: string) => {
-    navigate("/pool/" + lpTokenAddress, { state: { status: status } });
+    // navigate("/pool/" + lpTokenAddress, { state: { status: status } });
+    navigate("/pool/" + props.id);
   };
   return (
     <div

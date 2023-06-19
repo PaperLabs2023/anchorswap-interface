@@ -20,6 +20,7 @@ import { ethers } from "ethers";
 
 export default function SwapCard_Content() {
   const [hash, setHash] = useState<`0x${string}`>();
+  const [slippage, setSlippage] = useState(1000); // n/100000
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
@@ -199,11 +200,12 @@ export default function SwapCard_Content() {
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
-    functionName: "swap",
+    functionName: "swapByLimitSli",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+      slippage,
     ],
     mode: "recklesslyUnprepared",
     onError(error: any) {
@@ -334,14 +336,15 @@ export default function SwapCard_Content() {
   return (
     <div className="flex-col mt-4">
       {/* 提示框 */}
+
       <div
-        className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
+        className={`absolute md:w-[450px] max-md:right-2 top-20 md:top-24 md:pr-8 transform transition duration-500 ease-in-out ${
           isOpen_Alert
             ? "-translate-y-0 opacity-100"
             : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="alert alert-success  shadow-lg w-full">
+        <div className=" alert alert-success  shadow-lg w-full  max-md:p-2">
           <div>
             {/* 加载指示器 */}
             <svg
@@ -351,18 +354,28 @@ export default function SwapCard_Content() {
               viewBox="0 0 24 24"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
             <div>
               <h3 className="font-bold">New Transaction!</h3>
-              <div className="text-xs">You have 1 confirmed transaction</div>
+              <div className=" max-md:hidden text-xs">
+                You have 1 confirmed transaction
+              </div>
+            </div>
+            <div className="flex-none md:hidden ">
+              <a
+                href={`https://blockscout.scroll.io/tx/${hash}`}
+                target="_blank"
+              >
+                <button className="btn btn-sm">See</button>
+              </a>
             </div>
           </div>
-          <div className="flex-none">
+          <div className="flex-none max-md:hidden">
             <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
               <button className="btn btn-sm">See</button>
             </a>

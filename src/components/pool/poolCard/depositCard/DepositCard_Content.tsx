@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import TokenListModal from "../TokenlistModal";
 import {
   useAccount,
@@ -13,6 +13,8 @@ import {
 import {
   tPaper_address,
   oPaper_address,
+  tUsdc_address,
+  tUsdt_address,
   amm_address,
   router_address,
 } from "../../../../contracts/addresses";
@@ -20,8 +22,7 @@ import { amm_abi, tPaper_abi, router_abi } from "../../../../contracts/abis";
 import { ethers } from "ethers";
 
 export default function DepositCard_Content() {
-  const location = useLocation();
-  const status = location.state?.status;
+  const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>("0x");
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
@@ -262,12 +263,14 @@ export default function DepositCard_Content() {
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
-    functionName: "addLiquidity",
+    functionName:
+      poolId == "1" ? "addLiquidity" : "addLiquidityWithStablePairByUser",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
       ethers.utils.parseEther(outAmountRef.current?.value || "0"),
+      // 1000,
     ],
     mode: "recklesslyUnprepared",
     onError(error: any) {
@@ -276,13 +279,17 @@ export default function DepositCard_Content() {
   });
 
   function openModal_input() {
-    setSelectedTokenlist(0);
-    setIsOpen(true);
+    if (poolId == "1") {
+      setSelectedTokenlist(0);
+      setIsOpen(true);
+    }
   }
 
   function openModal_out() {
-    setSelectedTokenlist(1);
-    setIsOpen(true);
+    if (poolId == "1") {
+      setSelectedTokenlist(1);
+      setIsOpen(true);
+    }
   }
 
   function closeModal() {
@@ -363,7 +370,10 @@ export default function DepositCard_Content() {
       setCurrentInputTokenContract(oPaper_address);
     }
     if (selectedCoin_input == "USDC") {
-      setCurrentInputTokenContract("0x");
+      setCurrentInputTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_input == "USDT") {
+      setCurrentInputTokenContract(tUsdt_address);
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
@@ -394,24 +404,33 @@ export default function DepositCard_Content() {
       setCurrentOutTokenContract(oPaper_address);
     }
     if (selectedCoin_out == "USDC") {
-      setCurrentOutTokenContract("0x");
+      setCurrentOutTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_out == "USDT") {
+      setCurrentOutTokenContract(tUsdt_address);
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");
     }
   }, [selectedCoin_out]);
+  useEffect(() => {
+    if (poolId == "2") {
+      setSelectedCoin_input("USDC");
+      setSelectedCoin_out("USDT");
+    }
+  }, [poolId]);
   return (
     <div className="flex-col mt-1 md:mt-8">
       {/* 提示框 */}
 
       <div
-        className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
+        className={`absolute md:w-[450px] max-md:right-2 top-20 md:top-24 md:pr-8 transform transition duration-500 ease-in-out ${
           isOpen_Alert
             ? "-translate-y-0 opacity-100"
             : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="alert alert-success  shadow-lg w-full">
+        <div className=" alert alert-success  shadow-lg w-full  max-md:p-2">
           <div>
             {/* 加载指示器 */}
             <svg
@@ -429,10 +448,20 @@ export default function DepositCard_Content() {
             </svg>
             <div>
               <h3 className="font-bold">New Transaction!</h3>
-              <div className="text-xs">You have 1 confirmed transaction</div>
+              <div className=" max-md:hidden text-xs">
+                You have 1 confirmed transaction
+              </div>
+            </div>
+            <div className="flex-none md:hidden ">
+              <a
+                href={`https://blockscout.scroll.io/tx/${hash}`}
+                target="_blank"
+              >
+                <button className="btn btn-sm">See</button>
+              </a>
             </div>
           </div>
-          <div className="flex-none">
+          <div className="flex-none max-md:hidden">
             <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
               <button className="btn btn-sm">See</button>
             </a>

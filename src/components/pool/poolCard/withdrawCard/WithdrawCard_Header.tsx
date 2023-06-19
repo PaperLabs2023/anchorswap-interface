@@ -1,12 +1,13 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const WithdrawCard_Header = () => {
+  const { poolId } = useParams();
   const location = useLocation();
   const status = location.state?.status;
   return (
     <div className="flex justify-between">
-      {status}
+      {poolId == "1" ? "Classics Pool" : "Stable Pool"}
       <div>
         {/* 下拉设置滑点卡片 */}
         <div className="dropdown dropdown-bottom dropdown-end">

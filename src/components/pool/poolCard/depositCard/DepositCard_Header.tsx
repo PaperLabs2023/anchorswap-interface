@@ -1,13 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function DepositCard_Header() {
+  const { poolId } = useParams();
   const location = useLocation();
   const status = location.state?.status;
   return (
     <div className="flex justify-between">
       <div className="p-1 hover:cursor-pointer rounded-xl">
-        {status}
+        {poolId == "1" ? "Classics Pool" : "Stable Pool"}
         {/* <svg
           className="candleline_icon"
           viewBox="0 0 1026 1024"

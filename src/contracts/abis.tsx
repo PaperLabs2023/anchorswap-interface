@@ -235,179 +235,757 @@ export const tPaper_abi = [
 
 export const amm_abi = [
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wethAddr",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "constructor",
-    inputs: [{ type: "address", name: "_wethAddr", internalType: "address" }],
   },
   {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [{ type: "uint256", name: "shares", internalType: "uint256" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount1",
+        type: "uint256",
+      },
+    ],
     name: "addLiquidity",
-    inputs: [
-      { type: "address", name: "_token0", internalType: "address" },
-      { type: "address", name: "_token1", internalType: "address" },
-      { type: "uint256", name: "_amount0", internalType: "uint256" },
-      { type: "uint256", name: "_amount1", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "payable",
-    outputs: [],
-    name: "addLiquidityWithETH",
-    inputs: [
-      { type: "address", name: "_token", internalType: "address" },
-      { type: "uint256", name: "_tokenAmount", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "address", name: "", internalType: "address" }],
-    name: "getLptoken",
-    inputs: [
-      { type: "address", name: "_tokenA", internalType: "address" },
-      { type: "address", name: "_tokenB", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "getLptokenLength",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "getReserve",
-    inputs: [
-      { type: "address", name: "_lpTokenAddr", internalType: "address" },
-      { type: "address", name: "_tokenAddr", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "address", name: "", internalType: "address" }],
-    name: "lpTokenAddressList",
-    inputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "lptokenTotalSupply",
-    inputs: [
-      { type: "address", name: "_token0", internalType: "address" },
-      { type: "address", name: "_token1", internalType: "address" },
-      { type: "address", name: "user", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
     outputs: [
-      { type: "uint256", name: "amount0", internalType: "uint256" },
-      { type: "uint256", name: "amount1", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "shares",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenAmount",
+        type: "uint256",
+      },
+    ],
+    name: "addLiquidityWithETH",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_A",
+        type: "uint256",
+      },
+    ],
+    name: "addLiquidityWithStablePairByOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount1",
+        type: "uint256",
+      },
+    ],
+    name: "addLiquidityWithStablePairByUser",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "shares",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenInAmount",
+        type: "uint256",
+      },
+    ],
+    name: "cacalTokenOutAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "tokenOutAmount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "findLpToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_lpAddr",
+        type: "address",
+      },
+    ],
+    name: "getA",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenB",
+        type: "address",
+      },
+    ],
+    name: "getLptoken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getLptokenLength",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_lpTokenAddr",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenAddr",
+        type: "address",
+      },
+    ],
+    name: "getReserve",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "isStablePair",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "lpTokenAddressList",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "lptokenTotalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_shares",
+        type: "uint256",
+      },
     ],
     name: "removeLiquidity",
-    inputs: [
-      { type: "address", name: "_token0", internalType: "address" },
-      { type: "address", name: "_token1", internalType: "address" },
-      { type: "uint256", name: "_shares", internalType: "uint256" },
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
     ],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [{ type: "uint256", name: "amountOut", internalType: "uint256" }],
-    name: "swap",
     inputs: [
-      { type: "address", name: "_tokenIn", internalType: "address" },
-      { type: "address", name: "_tokenOut", internalType: "address" },
-      { type: "uint256", name: "_amountIn", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
     ],
+    name: "setFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amountOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "dx",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "x",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "y",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_disirSli",
+        type: "uint256",
+      },
+    ],
+    name: "setSliBystable",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_lpPair",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_A",
+        type: "uint256",
+      },
+    ],
+    name: "setlpA",
+    outputs: [],
     stateMutability: "nonpayable",
-    outputs: [{ type: "uint256", name: "amountOut", internalType: "uint256" }],
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_disirSli",
+        type: "uint256",
+      },
+    ],
     name: "swapByLimitSli",
-    inputs: [
-      { type: "address", name: "_tokenIn", internalType: "address" },
-      { type: "address", name: "_tokenOut", internalType: "address" },
-      { type: "uint256", name: "_amountIn", internalType: "uint256" },
-      { type: "uint256", name: "_disirSli", internalType: "uint256" },
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
     ],
-  },
-  {
-    type: "function",
     stateMutability: "nonpayable",
-    outputs: [],
-    name: "swapToETH",
-    inputs: [
-      { type: "address", name: "_tokenIn", internalType: "address" },
-      { type: "uint256", name: "_amountIn", internalType: "uint256" },
-      { type: "uint256", name: "_disirSli", internalType: "uint256" },
-    ],
+    type: "function",
   },
   {
-    type: "function",
-    stateMutability: "payable",
-    outputs: [],
-    name: "swapWithETH",
     inputs: [
-      { type: "address", name: "_tokenOut", internalType: "address" },
-      { type: "uint256", name: "_disirSli", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_disirSli",
+        type: "uint256",
+      },
+      {
+        internalType: "address[]",
+        name: "_path",
+        type: "address[]",
+      },
     ],
+    name: "swapByPath",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
-  { type: "receive" },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_disirSli",
+        type: "uint256",
+      },
+    ],
+    name: "swapToETH",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_disirSli",
+        type: "uint256",
+      },
+    ],
+    name: "swapWithETH",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+    ],
+    name: "swapWithStableCoin",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
+  },
 ];
 
 export const router_abi = [
   {
-    type: "constructor",
-    inputs: [{ type: "address", name: "_amm", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "_amountB", internalType: "uint256" }],
-    name: "cacalLpTokenAddAmount",
     inputs: [
-      { type: "address", name: "_tokenA", internalType: "address" },
-      { type: "address", name: "_tokenB", internalType: "address" },
-      { type: "uint256", name: "_amountA", internalType: "uint256" },
+      {
+        internalType: "address",
+        name: "_amm",
+        type: "address",
+      },
     ],
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
-    type: "function",
-    stateMutability: "view",
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenB",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountA",
+        type: "uint256",
+      },
+    ],
+    name: "cacalLpTokenAddAmount",
     outputs: [
-      { type: "uint256", name: "tokenOutAmount", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amountB",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenInAmount",
+        type: "uint256",
+      },
     ],
     name: "cacalTokenOutAmount",
-    inputs: [
-      { type: "address", name: "_tokenIn", internalType: "address" },
-      { type: "address", name: "_tokenOut", internalType: "address" },
-      { type: "uint256", name: "_tokenInAmount", internalType: "uint256" },
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "tokenOutAmount",
+        type: "uint256",
+      },
     ],
+    stateMutability: "view",
+    type: "function",
   },
   {
-    type: "function",
-    stateMutability: "view",
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_shares",
+        type: "uint256",
+      },
+    ],
+    name: "getRemoveLiquidityAmount",
     outputs: [
-      { type: "uint256", name: "reserveA", internalType: "uint256" },
-      { type: "uint256", name: "reserveB", internalType: "uint256" },
-      { type: "uint256", name: "one_tokenA_price", internalType: "uint256" },
-      { type: "uint256", name: "one_tokenB_price", internalType: "uint256" },
+      {
+        internalType: "uint256",
+        name: "amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenB",
+        type: "address",
+      },
     ],
     name: "getTokenPrice",
-    inputs: [
-      { type: "address", name: "_tokenA", internalType: "address" },
-      { type: "address", name: "_tokenB", internalType: "address" },
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "reserveA",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveB",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "one_tokenA_price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "one_tokenB_price",
+        type: "uint256",
+      },
     ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenB",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amountIn",
+        type: "uint256",
+      },
+    ],
+    name: "getTokenPriceStableCoin",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "reserveA",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveB",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenA_price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenB_price",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
 ];

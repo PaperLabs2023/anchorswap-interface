@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import TokenListModal from "../TokenlistModal";
 import {
   useAccount,
@@ -12,6 +13,8 @@ import {
 import {
   tPaper_address,
   oPaper_address,
+  tUsdc_address,
+  tUsdt_address,
   amm_address,
   router_address,
 } from "../../../../contracts/addresses";
@@ -19,6 +22,7 @@ import { amm_abi, tPaper_abi, router_abi } from "../../../../contracts/abis";
 import { ethers } from "ethers";
 
 export default function WithdrawCard_Content() {
+  const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>();
   const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +34,8 @@ export default function WithdrawCard_Content() {
   const outAmountRef = useRef<HTMLInputElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
+  const [receive0Amount, setReceive0Amount] = useState("0.0");
+  const [receive1Amount, setReceive1Amount] = useState("0.0");
   const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
     useState("0.0");
 
@@ -118,15 +124,41 @@ export default function WithdrawCard_Content() {
         functionName: "lptokenTotalSupply",
         args: [currentInputTokenContract, currentOutTokenContract, address],
       },
+
+      {
+        ...routerContract,
+        functionName: "getRemoveLiquidityAmount",
+        args: [
+          currentInputTokenContract,
+          currentOutTokenContract,
+          Number(removeLpTokenAmount) > 0.000000000001
+            ? ethers.utils.parseEther(
+                String((Number(removeLpTokenAmount) / 100) * rangeValue) || "0"
+              )
+            : ethers.utils.parseEther("0"),
+        ],
+      },
     ],
     watch: true,
     enabled: true,
     onSuccess(data: any) {
       let remove_lp_amount = 0;
       const lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
+      const token0_amount = Number(
+        ethers.utils.formatUnits(data[1][0], "ether")
+      )
+        .toFixed(6)
+        .replace(/\.?0+$/, "");
+      const token1_amount = Number(
+        ethers.utils.formatUnits(data[1][1], "ether")
+      )
+        .toFixed(6)
+        .replace(/\.?0+$/, "");
+      console.log(`token0_amount${token0_amount}`);
+      console.log(`token1_amount${token1_amount}`);
       if (Number(ethers.utils.formatUnits(data[0], "ether")) > 0.000000000001) {
         remove_lp_amount =
-          Number(ethers.utils.formatUnits(data[0], "ether")) - 0.000000000001;
+          Number(ethers.utils.formatUnits(data[0], "ether")) - 0.0000000001;
       } else {
         remove_lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
       }
@@ -135,6 +167,8 @@ export default function WithdrawCard_Content() {
       console.log(`remove_lp_amount${remove_lp_amount}`);
       setLpTokenAmount(String(lp_amount));
       setRemoveLpTokenAmount(String(remove_lp_amount));
+      setReceive0Amount(token0_amount);
+      setReceive1Amount(token1_amount);
     },
   });
 
@@ -208,8 +242,10 @@ export default function WithdrawCard_Content() {
   });
 
   function openModal_input() {
-    setSelectedTokenlist(0);
-    setIsOpen(true);
+    if (poolId == "1") {
+      setSelectedTokenlist(0);
+      setIsOpen(true);
+    }
   }
 
   function openModal_out() {
@@ -273,7 +309,10 @@ export default function WithdrawCard_Content() {
       setCurrentInputTokenContract(oPaper_address);
     }
     if (selectedCoin_input == "USDC") {
-      setCurrentInputTokenContract("0x");
+      setCurrentInputTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_input == "USDT") {
+      setCurrentInputTokenContract(tUsdt_address);
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
@@ -304,24 +343,33 @@ export default function WithdrawCard_Content() {
       setCurrentOutTokenContract(oPaper_address);
     }
     if (selectedCoin_out == "USDC") {
-      setCurrentOutTokenContract("0x");
+      setCurrentOutTokenContract(tUsdc_address);
+    }
+    if (selectedCoin_out == "USDT") {
+      setCurrentOutTokenContract(tUsdt_address);
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");
     }
   }, [selectedCoin_out]);
+  useEffect(() => {
+    if (poolId == "2") {
+      setSelectedCoin_input("USDC");
+      setSelectedCoin_out("USDT");
+    }
+  }, [poolId]);
   return (
     <div className="flex-col  mt-1 md:mt-8">
       {/* 提示框 */}
 
       <div
-        className={`absolute w-1/2 top-24 pr-8 transform transition duration-500 ease-in-out ${
+        className={`absolute md:w-[450px] max-md:right-2 top-20 md:top-24 md:pr-8 transform transition duration-500 ease-in-out ${
           isOpen_Alert
             ? "-translate-y-0 opacity-100"
             : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="alert alert-success  shadow-lg w-full">
+        <div className=" alert alert-success  shadow-lg w-full  max-md:p-2">
           <div>
             {/* 加载指示器 */}
             <svg
@@ -339,10 +387,20 @@ export default function WithdrawCard_Content() {
             </svg>
             <div>
               <h3 className="font-bold">New Transaction!</h3>
-              <div className="text-xs">You have 1 confirmed transaction</div>
+              <div className=" max-md:hidden text-xs">
+                You have 1 confirmed transaction
+              </div>
+            </div>
+            <div className="flex-none md:hidden ">
+              <a
+                href={`https://blockscout.scroll.io/tx/${hash}`}
+                target="_blank"
+              >
+                <button className="btn btn-sm">See</button>
+              </a>
             </div>
           </div>
-          <div className="flex-none">
+          <div className="flex-none max-md:hidden">
             <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
               <button className="btn btn-sm">See</button>
             </a>
@@ -357,7 +415,7 @@ export default function WithdrawCard_Content() {
               <input
                 type="number"
                 step="0.0000001"
-                placeholder="0.0"
+                placeholder={receive0Amount}
                 className="bg-transparent border-none text-3xl outline-none w-full animate-pulse"
                 ref={inputAmountRef}
                 disabled={true}
@@ -435,7 +493,7 @@ export default function WithdrawCard_Content() {
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
                 type="text"
-                placeholder={String(receiveTokenAmount)}
+                placeholder={String(receive1Amount)}
                 className="bg-transparent border-none text-3xl outline-none animate-pulse w-full"
                 ref={outAmountRef}
                 disabled={true}
