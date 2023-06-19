@@ -45,7 +45,7 @@ export default function Network() {
           <div tabIndex={0}>Swap</div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-full mb-1"
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36 mb-1"
           >
             <li>
               <div onClick={handleSwapClick}>Swap </div>

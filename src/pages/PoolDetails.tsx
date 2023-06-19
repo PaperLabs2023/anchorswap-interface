@@ -13,7 +13,7 @@ export default function PoolDetails() {
     navigate("/pool");
   };
   return (
-    <div className="mt-24 px-4 flex md:block">
+    <div className="mt-24 px-4 flex-col md:block">
       <div
         className=" hover:cursor-pointer "
         onClick={handleBackClick}
@@ -41,21 +41,21 @@ export default function PoolDetails() {
           <div className="flex-col ">
             {selectedCard == "deposit" ? (
               <div>
-                <div className="text-3xl">Deposit</div>
-                <div>
+                <div className="text-3xl max-md:hidden">Deposit</div>
+                <div className="max-md:hidden">
                   Deposit tokens to the pool to start earning trading fees.
                 </div>
-                <div className="mt-2 md:mt-8">
+                <div className=" md:mt-8">
                   <DepositCard />
                 </div>
               </div>
             ) : (
               <div>
-                <div className="text-3xl">Withdraw</div>
-                <div>
+                <div className="text-3xl max-md:hidden">Withdraw</div>
+                <div className="max-md:hidden">
                   Withdraw to receive pool tokens and earned trading fees.
                 </div>
-                <div className="mt-2 md:mt-8">
+                <div className=" md:mt-8">
                   <WithdrawCard />
                 </div>
               </div>
