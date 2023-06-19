@@ -401,7 +401,7 @@ export default function DepositCard_Content() {
     }
   }, [selectedCoin_out]);
   return (
-    <div className="flex-col mt-8">
+    <div className="flex-col mt-1 md:mt-8">
       {/* 提示框 */}
 
       <div

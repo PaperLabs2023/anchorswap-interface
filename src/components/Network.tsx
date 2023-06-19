@@ -40,7 +40,7 @@ export default function Network() {
           </a>
         </div>
       </div>
-      <div className=" fixed  flex md:hidden justify-between w-full bg-none bottom-0 z-10 border-t-2 h-14">
+      <div className=" fixed  flex md:hidden justify-between w-full bg-none bottom-0 z-10 border-t-1 h-14">
         <div className="hover:bg-yellow-200 h-full text-center w-full rounded-lg py-3 dropdown dropdown-top">
           <div tabIndex={0}>Swap</div>
           <ul

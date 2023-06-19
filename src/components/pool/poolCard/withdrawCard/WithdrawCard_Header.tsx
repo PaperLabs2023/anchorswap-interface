@@ -1,9 +1,12 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const WithdrawCard_Header = () => {
+  const location = useLocation();
+  const status = location.state?.status;
   return (
     <div className="flex justify-between">
-      <div className="p-1 hover:cursor-pointer rounded-xl"></div>
+      {status}
       <div>
         {/* 下拉设置滑点卡片 */}
         <div className="dropdown dropdown-bottom dropdown-end">
