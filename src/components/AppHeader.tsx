@@ -32,15 +32,15 @@ export default function AppHeader() {
 
   return (
     <header className="box-border fixed flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
-      <div className="flex fade-in bg-yellow-200 backdrop-blur-md items-center">
+      <div className="flex fade-in bg-indigo-900 backdrop-blur-md items-center">
         <div className="mx-auto py-[2px] ">
-          <p className="m-0 font-inter font-normal leading-5 text-xs text-gray-500">
-            We live in Scroll's Alpha Testnet.
+          <p className="m-0 font-inter font-normal leading-5 text-xs text-gray-100">
+            We live in zkSync Era Testnet Network.
           </p>
         </div>
       </div>
 
-      <div className="relative">
+      <div className="relative text-gray-300">
         <div className="box-border px-3 py-2 pl- absolute w-full backdrop-blur-md ">
           <div className="row2 flex flex-row h-min-[40px] justify-between items-center flex-wrap gap-y-10 max-w-full">
             <div className="flex flex-row items-center gap-6">
@@ -70,7 +70,7 @@ export default function AppHeader() {
                   </div>
                 </div> */}
                 {/* Exchage */}
-                <div className="relative">
+                {/* <div className="relative">
                   <div>
                     <div className="no-underline text-current cursor-default">
                       <div
@@ -82,30 +82,32 @@ export default function AppHeader() {
                           tabIndex={0}
                           className="flex items-center gap-1  py-2 cursor-pointer flex-row"
                         >
-                          <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          <div className="m-0 font-inter leading-6 text-base font-medium opacity-90">
                             Exchage
                           </div>
                           <div className="mt-1">
                             <svg
+                              viewBox="0 0 1024 1024"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              p-id="7121"
                               width="8"
                               height="8"
-                              viewBox="0 0 8 8"
-                              xmlns="http://www.w3.org/2000/svg"
                               className={
                                 isPoolHovered ? "rotate-180" : "rotate-0"
                               }
                             >
                               <path
-                                fill="#5155a6"
-                                fillRule="nonzero"
-                                d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                                d="M52.335 261.072c-31.269 30.397-31.269 79.722 0 110.194l403.212 391.718c31.325 30.382 82.114 30.382 113.377 0l403.197-391.718c31.325-30.466 31.325-79.793 0-110.194-31.28-30.449-82.058-30.449-113.39 0l-346.497 336.64-346.457-336.64c-31.325-30.448-82.105-30.448-113.446 0l0 0z"
+                                fill="#e6e6e6"
+                                p-id="7122"
                               ></path>
                             </svg>
                           </div>
                         </div>
                         <ul
                           tabIndex={0}
-                          className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                          className="menu dropdown-content p-2 shadow bg-indigo-600 rounded-box w-80 mt-0"
                         >
                           <li>
                             <div className="flex" onClick={handleSwapClick}>
@@ -142,22 +144,22 @@ export default function AppHeader() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* StableSwap */}
-                {/* <div className="relative">
+                <div className="relative">
                   <div onClick={handleStableSwapClick}>
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                      <p className="m-0 font-inter leading-6 text-base font-medium opacity-90">
                         StableSwap
                       </p>
                     </div>
                   </div>
-                </div> */}
+                </div>
                 {/* Pool */}
                 <div className="relative">
                   <div onClick={handlePoolClick}>
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                      <p className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
                         Pool
                       </p>
                     </div>
@@ -171,7 +173,7 @@ export default function AppHeader() {
                       className="no-underline text-current cursor-default"
                     >
                       <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        <p className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
                           Farm
                         </p>
                       </div>
@@ -186,7 +188,7 @@ export default function AppHeader() {
                       className="no-underline text-current cursor-default"
                     >
                       <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        <p className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
                           Dao
                         </p>
                       </div>
@@ -201,7 +203,7 @@ export default function AppHeader() {
                       className="no-underline text-current cursor-default"
                     >
                       <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                        <p className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                        <p className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
                           Launchpad
                         </p>
                       </div>
@@ -221,30 +223,32 @@ export default function AppHeader() {
                           tabIndex={0}
                           className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
                         >
-                          <div className="m-0 font-inter leading-6 text-base font-medium text-gray-500 opacity-90">
+                          <div className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
                             More
                           </div>
                           <div className="mt-1">
                             <svg
+                              viewBox="0 0 1024 1024"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              p-id="7121"
                               width="8"
                               height="8"
-                              viewBox="0 0 8 8"
-                              xmlns="http://www.w3.org/2000/svg"
                               className={
                                 isPoolHovered ? "rotate-180" : "rotate-0"
                               }
                             >
                               <path
-                                fill="#5155a6"
-                                fillRule="nonzero"
-                                d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+                                d="M52.335 261.072c-31.269 30.397-31.269 79.722 0 110.194l403.212 391.718c31.325 30.382 82.114 30.382 113.377 0l403.197-391.718c31.325-30.466 31.325-79.793 0-110.194-31.28-30.449-82.058-30.449-113.39 0l-346.497 336.64-346.457-336.64c-31.325-30.448-82.105-30.448-113.446 0l0 0z"
+                                fill="#e6e6e6"
+                                p-id="7122"
                               ></path>
                             </svg>
                           </div>
                         </div>
                         <ul
                           tabIndex={0}
-                          className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-80 mt-0"
+                          className="menu dropdown-content p-2 shadow bg-indigo-600 rounded-box w-80 mt-0"
                         >
                           <li>
                             <a>
@@ -258,7 +262,7 @@ export default function AppHeader() {
                                 <div className="flex flex-col ml-3">
                                   <p>Bridge</p>
                                   <p className=" text-xs">
-                                    Bridge token for Scorll TestNetwork
+                                    Bridge token for zkSync Era Testnet Network
                                   </p>
                                 </div>
                               </div>

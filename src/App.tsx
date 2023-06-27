@@ -15,14 +15,14 @@ export function App() {
   useEffect(() => {
     if (location.pathname === "/") {
       console.log(location.pathname);
-      navigate("/swap");
+      navigate("/stableswap");
     }
   }, []);
 
   return (
     <>
       <div className="h-screen">
-        <div className="fixed top-0 left-0 w-full h-full z-0 bg-gradient-to-r from-gray-100 to-yellow-100 overflow-y-auto overflow-x-hidden">
+        <div className="fixed top-0 left-0 w-full h-full z-0 bg-gradient-to-r from-indigo-950 to-indigo-950 overflow-y-auto overflow-x-hidden">
           <AppHeader />
           <Network />
           <Outlet />

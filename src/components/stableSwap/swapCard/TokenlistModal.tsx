@@ -68,10 +68,10 @@ export default function TokenListModal(props: any) {
               className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
               onClick={closeModal}
             ></div>
-            <div className="bg-white rounded-2xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-3/5">
+            <div className="bg-indigo-900 bg-opacity-90 rounded-2xl overflow-hidden shadow-xl transform transition-all sm:max-w-md sm:w-3/5">
               {/* modal header */}
               <div className=" px-4 py-3 flex justify-between">
-                <h3 className="text-base font-medium text-gray-500">
+                <h3 className="text-base font-medium text-gray-100">
                   Select a token to sell
                 </h3>
                 {/* close icon */}
@@ -96,17 +96,17 @@ export default function TokenListModal(props: any) {
                 </div>
               </div>
 
-              <div className="bg-white px-4 pb-3">
+              <div className="bg-indigo-900 bg-opacity-90 px-4 pb-3">
                 {/* 搜索栏 */}
                 <div
-                  className={`flex mb-1 px-3 py-2 border-gray-300 focus:ring-slate-500 focus:border-slate-500 ${
-                    isSearchHovered ? "border-slate-500" : ""
+                  className={`flex mb-1 px-3 py-2  focus:ring-slate-500 focus:border-slate-500 ${
+                    isSearchHovered ? "border-gray-300" : "border-slate-500"
                   } border  w-full rounded-2xl sm:text-sm items-center`}
                   onClick={handleMouseEnter}
                   onBlur={handleMouseLeave}
                 >
                   <svg
-                    className="w-6 h-6 text-slate-500"
+                    className="w-6 h-6 text-slate-100"
                     focusable="false"
                     aria-hidden="true"
                     viewBox="0 0 24 24"
@@ -119,7 +119,7 @@ export default function TokenListModal(props: any) {
                     type="text"
                     name="searchText"
                     id="searchText"
-                    className="w-full outline-none ml-1"
+                    className="w-full outline-none ml-1 bg-indigo-900 bg-opacity-90"
                     placeholder="Search name or paste address"
                     value={searchText}
                     onChange={handleSearchTextChange}

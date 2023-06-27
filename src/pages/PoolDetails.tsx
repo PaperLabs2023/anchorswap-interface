@@ -13,15 +13,15 @@ export default function PoolDetails() {
     navigate("/pool");
   };
   return (
-    <div className="mt-24 px-4 flex-col md:block">
+    <div className="mt-24 px-4 flex-col md:block text-gray-100">
       <div
-        className=" hover:cursor-pointer "
+        className=" hover:cursor-pointer text-gray-100 "
         onClick={handleBackClick}
       >{`< Pools`}</div>
       <div className="md:flex mt-1 md:mt-6">
         <div className="flex md:flex-col w-1/6 md:h-full max-md:ml-4">
           <div
-            className="bg-white rounded-lg flex h-8 justify-start items-center md:w-4/5 mb-3 hover:cursor-pointer"
+            className="bg-indigo-900 rounded-lg flex h-8 justify-start items-center md:w-4/5 mb-3 hover:cursor-pointer"
             onClick={() => {
               changeSelectedCard("deposit");
             }}
@@ -29,7 +29,7 @@ export default function PoolDetails() {
             <div className="p-4 text-sm">Deposit</div>
           </div>
           <div
-            className="bg-white rounded-lg flex h-8 justify-start max-md:ml-4 items-center md:w-4/5 mb-3 hover:cursor-pointer"
+            className="bg-indigo-900 rounded-lg flex h-8 justify-start max-md:ml-4 items-center md:w-4/5 mb-3 hover:cursor-pointer"
             onClick={() => {
               changeSelectedCard("withdraw");
             }}

@@ -110,7 +110,7 @@ const PoolLists = () => {
   return (
     <div id="Switch-body" className="h-full justify-center items-center flex">
       <div className="flex flex-col">
-        <div className=" text-3xl px-4">All Pools</div>
+        <div className=" text-3xl px-4 text-gray-100">All Pools</div>
         <PoolList_Header />
         {mockData.map((data, index) => (
           <PoolList

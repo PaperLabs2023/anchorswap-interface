@@ -11,7 +11,7 @@ const PoolList = (props: any) => {
   };
   return (
     <div
-      className="w-auto h-auto flex justify-center items-center bg-white rounded-lg m-2"
+      className="w-auto h-auto flex justify-center items-center bg-indigo-900 text-gray-100 rounded-lg m-2"
       onClick={() => {
         handleClick(props.lpToken, props.status);
       }}

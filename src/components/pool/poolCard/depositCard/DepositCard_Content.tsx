@@ -313,27 +313,39 @@ export default function DepositCard_Content() {
   };
 
   const swapClick = () => {
-    // if (Number(receiveTokenAmount) >= 0) {
-    if (inputTokenBalance && inputAmountRef.current) {
-      if (
-        Number(inputTokenBalance?.formatted) >=
-        Number(inputAmountRef.current?.value)
-      ) {
-        setIsLoading_Btn(true);
+    if (Number(outAmountRef.current?.value) > 0) {
+      if (inputTokenBalance && inputAmountRef.current) {
         if (
-          currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
+          Number(inputTokenBalance?.formatted) >=
+          Number(inputAmountRef.current?.value)
         ) {
-          // swap
-          if (currentOutTokenAllowance >= Number(outAmountRef.current?.value)) {
-            swapWrite?.()
-              .then((res) => {
-                setHash(res.hash);
-              })
-              .catch((err) => {
-                setIsLoading_Btn(false);
-              });
+          setIsLoading_Btn(true);
+          if (
+            currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
+          ) {
+            // swap
+            if (
+              currentOutTokenAllowance >= Number(outAmountRef.current?.value)
+            ) {
+              swapWrite?.()
+                .then((res) => {
+                  setHash(res.hash);
+                })
+                .catch((err) => {
+                  setIsLoading_Btn(false);
+                });
+            } else {
+              approveOutTokenWrite?.()
+                .then((res) => {
+                  setHash(res.hash);
+                })
+                .catch((err) => {
+                  setIsLoading_Btn(false);
+                });
+            }
           } else {
-            approveOutTokenWrite?.()
+            // approve
+            approveInputTokenWrite?.()
               .then((res) => {
                 setHash(res.hash);
               })
@@ -341,19 +353,9 @@ export default function DepositCard_Content() {
                 setIsLoading_Btn(false);
               });
           }
-        } else {
-          // approve
-          approveInputTokenWrite?.()
-            .then((res) => {
-              setHash(res.hash);
-            })
-            .catch((err) => {
-              setIsLoading_Btn(false);
-            });
         }
       }
     }
-    // }
   };
 
   useEffect(() => {
@@ -469,7 +471,7 @@ export default function DepositCard_Content() {
         </div>
       </div>
       {/* inputcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative">
+      <div className=" bg-indigo-950  bg-opacity-90 rounded-xl p-4 relative">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
@@ -477,13 +479,13 @@ export default function DepositCard_Content() {
                 type="number"
                 step="0.0000001"
                 placeholder="0.0"
-                className="bg-transparent border-none text-3xl outline-none w-full"
+                className="bg-transparent border-none text-3xl outline-none w-full text-gray-100"
                 ref={inputAmountRef}
               />
             </div>
             {/* coinlist */}
             <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+              className="flex bg-white bg-opacity-0 rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-20"
               onClick={openModal_input}
             >
               <div className="w-[24px] h-[24px]">
@@ -564,7 +566,7 @@ export default function DepositCard_Content() {
         </div>
       </div>
       {/* icon */}
-      <div className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-white flex justify-center items-center rounded-full">
+      <div className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-indigo-950  bg-opacity-90 flex justify-center items-center rounded-full">
         <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
           <svg
             className="swap_icon"
@@ -584,21 +586,21 @@ export default function DepositCard_Content() {
         </div>
       </div>
       {/* outcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-0">
+      <div className=" bg-indigo-950  bg-opacity-90 rounded-xl p-4 relative mt-0">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
                 type="text"
                 placeholder={String(receiveTokenAmount)}
-                className="bg-transparent border-none text-3xl outline-none animate-pulse w-full"
+                className="bg-transparent border-none text-3xl outline-none animate-pulse w-full text-gray-100"
                 ref={outAmountRef}
                 disabled={findLpExist}
               />
             </div>
             {/* coinlist */}
             <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+              className="flex bg-white bg-opacity-0 rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-20"
               onClick={openModal_out}
             >
               <div className="w-[24px] h-[24px]">
@@ -670,7 +672,7 @@ export default function DepositCard_Content() {
       {/* </div> */}
       {/* button */}
       <div
-        className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
+        className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 text-gray-100 ${
           Number(inputAmountRef.current?.value) !== 0
             ? inputTokenBalance &&
               inputAmountRef.current &&
@@ -678,10 +680,10 @@ export default function DepositCard_Content() {
                 Number(inputAmountRef.current.value)
               ? Number(outTokenBalance?.formatted) >=
                 Number(outAmountRef.current?.value)
-                ? "bg-[#FEF08A]  hover:cursor-pointer"
-                : "bg-white text-gray-500 hover:cursor-default"
-              : "bg-white text-gray-500 hover:cursor-default"
-            : "bg-white text-gray-500 hover:cursor-default"
+                ? "bg-indigo-600  hover:cursor-pointer"
+                : "bg-indigo-300 text-gray-500 hover:cursor-default"
+              : "bg-indigo-300 text-gray-500 hover:cursor-default"
+            : "bg-indigo-300 text-gray-500 hover:cursor-default"
         } py-2 rounded-xl ripple-btn`}
         onClick={swapClick}
       >

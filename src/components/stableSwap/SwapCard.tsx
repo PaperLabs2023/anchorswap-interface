@@ -8,7 +8,7 @@ export default function SwapCard() {
     <div className="h-full">
       {/* 写一个swap卡片样式,上下左右都居中 */}
       <div className="flex justify-center items-center">
-        <div className="mt-2 md:mt-10  w-5/6 md:w-4/6 lg:w-3/6 xl:w-3/6 bg-white  bg-opacity-0 rounded-xl shadow-2xl flex-col p-4">
+        <div className="mt-2 md:mt-10  w-5/6 md:w-4/6 lg:w-3/6 xl:w-3/6 bg-white  bg-opacity-10 rounded-xl shadow-3xl flex-col p-4">
           <SwapCard_Header />
           <SwapCard_Content />
         </div>

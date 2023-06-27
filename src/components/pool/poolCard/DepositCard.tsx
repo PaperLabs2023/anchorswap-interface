@@ -8,7 +8,7 @@ export default function DepositCard() {
     <div>
       {/* 写一个swap卡片样式,上下左右都居中 */}
       <div className="flex justify-center items-center">
-        <div className="   bg-white  bg-opacity-30 rounded-xl shadow-xl flex-col p-4">
+        <div className="   bg-white  bg-opacity-10 rounded-xl shadow-xl flex-col p-4">
           <DepositCard_Header />
           <DepositCard_Content />
         </div>

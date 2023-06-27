@@ -408,7 +408,7 @@ export default function WithdrawCard_Content() {
         </div>
       </div>
       {/* inputcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative">
+      <div className=" bg-indigo-950  bg-opacity-90 rounded-xl p-4 relative">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
@@ -416,14 +416,14 @@ export default function WithdrawCard_Content() {
                 type="number"
                 step="0.0000001"
                 placeholder={receive0Amount}
-                className="bg-transparent border-none text-3xl outline-none w-full animate-pulse"
+                className="bg-transparent border-none text-3xl outline-none w-full animate-pulse text-gray-100"
                 ref={inputAmountRef}
                 disabled={true}
               />
             </div>
             {/* coinlist */}
             <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+              className="flex bg-white bg-opacity-0 rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-20"
               // onClick={openModal_input}
             >
               <div className="w-[24px] h-[24px]">
@@ -487,21 +487,21 @@ export default function WithdrawCard_Content() {
         </div>
       </div> */}
       {/* outcoin */}
-      <div className=" bg-white  bg-opacity-50 rounded-xl p-4 relative mt-2">
+      <div className=" bg-indigo-950  bg-opacity-90 rounded-xl p-4 relative mt-2">
         <div className="flex-col">
           <div className="flex justify-between">
             <div className="text-2xl w-[calc(100%-130px)]">
               <input
                 type="text"
                 placeholder={String(receive1Amount)}
-                className="bg-transparent border-none text-3xl outline-none animate-pulse w-full"
+                className="bg-transparent border-none text-3xl outline-none animate-pulse w-full text-gray-100"
                 ref={outAmountRef}
                 disabled={true}
               />
             </div>
             {/* coinlist */}
             <div
-              className="flex bg-white rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-0"
+              className="flex bg-white bg-opacity-0 rounded-full shadow-lg items-center px-3 hover:cursor-pointer hover:bg-opacity-20"
               // onClick={openModal_out}
             >
               {/* <div className="w-[24px] h-[24px]">
@@ -556,7 +556,7 @@ export default function WithdrawCard_Content() {
       <div className="mt-3">{`Lp Balance: ${
         lpTokenAmount ? Number(lpTokenAmount).toFixed(6) : "0.0"
       } `}</div>
-      <div className="flex bg-white  bg-opacity-50 rounded-xl px-4 py-2 relative mt-1 text-sm items-center">
+      <div className="flex bg-indigo-950  bg-opacity-90 rounded-xl px-2 py-2 relative mt-1 text-sm items-center">
         <input
           type="range"
           min={0}
@@ -579,8 +579,8 @@ export default function WithdrawCard_Content() {
       <div
         className={`flex justify-center items-center text-center font-semibold w-full mt-5 h-12 ${
           Number(removeLpTokenAmount) > 0.000000000001
-            ? "bg-[#FEF08A]  hover:cursor-pointer"
-            : "bg-white text-gray-500 hover:cursor-default"
+            ? "bg-indigo-600  hover:cursor-pointer"
+            : "bg-indigo-300 text-gray-500 hover:cursor-default"
         } py-2 rounded-xl ripple-btn`}
         onClick={swapClick}
       >
