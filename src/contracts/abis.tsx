@@ -235,13 +235,7 @@ export const tPaper_abi = [
 
 export const amm_abi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_wethAddr",
-        type: "address",
-      },
-    ],
+    inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -347,11 +341,6 @@ export const amm_abi = [
         name: "_amount0",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "_amount1",
-        type: "uint256",
-      },
     ],
     name: "addLiquidityWithStablePairByUser",
     outputs: [
@@ -396,6 +385,137 @@ export const amm_abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+    ],
+    name: "calOutAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "dx",
+        type: "uint256",
+      },
+    ],
+    name: "calOutput",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+    ],
+    name: "calSqrt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+    ],
+    name: "calSwapWithStableCoinAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "reserveIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "",
         type: "address",
@@ -421,6 +541,30 @@ export const amm_abi = [
     inputs: [
       {
         internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "findStableLpToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_lpAddr",
         type: "address",
       },
@@ -431,6 +575,25 @@ export const amm_abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_lpAddr",
+        type: "address",
+      },
+    ],
+    name: "getLpSwapStatic",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -501,16 +664,40 @@ export const amm_abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenB",
+        type: "address",
+      },
+    ],
+    name: "getStableLptoken",
+    outputs: [
+      {
+        internalType: "address",
         name: "",
         type: "address",
       },
     ],
-    name: "isStablePair",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_lpAddr",
+        type: "address",
+      },
+    ],
+    name: "lpInfo",
     outputs: [
       {
-        internalType: "bool",
+        internalType: "address[2]",
         name: "",
-        type: "bool",
+        type: "address[2]",
       },
     ],
     stateMutability: "view",
@@ -614,6 +801,24 @@ export const amm_abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_lpAddr",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "_static",
+        type: "bool",
+      },
+    ],
+    name: "setLpSwapStatic",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_amountOut",
         type: "uint256",
@@ -648,6 +853,19 @@ export const amm_abi = [
       },
     ],
     stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_wethAddr",
+        type: "address",
+      },
+    ],
+    name: "setWeth",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -796,6 +1014,19 @@ export const amm_abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     stateMutability: "payable",
     type: "receive",
   },
@@ -812,6 +1043,25 @@ export const router_abi = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "y",
+        type: "uint256",
+      },
+    ],
+    name: "_sqrt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "z",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
   },
   {
     inputs: [
@@ -869,6 +1119,98 @@ export const router_abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+    ],
+    name: "calOutAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "dx",
+        type: "uint256",
+      },
+    ],
+    name: "calOutput",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "A",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "D",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "X",
+        type: "uint256",
+      },
+    ],
+    name: "calSqrt",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -986,6 +1328,19 @@ export const router_abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_amm",
+        type: "address",
+      },
+    ],
+    name: "resetAmm",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
