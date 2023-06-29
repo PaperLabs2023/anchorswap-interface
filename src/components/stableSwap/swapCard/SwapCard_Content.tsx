@@ -590,8 +590,8 @@ export default function SwapCard_Content() {
               Number(inputTokenBalance.formatted) >=
                 Number(inputAmountRef.current.value)
               ? "bg-indigo-600 hover:cursor-pointer"
-              : "bg-indigo-300 text-gray-500 hover:cursor-default"
-            : "bg-indigo-300 text-gray-500 hover:cursor-default"
+              : "bg-indigo-400 text-gray-500 hover:cursor-default"
+            : "bg-indigo-400 text-gray-500 hover:cursor-default"
         } py-2 rounded-xl ripple-btn`}
         onClick={swapClick}
       >

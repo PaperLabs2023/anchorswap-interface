@@ -1,5 +1,5 @@
 import { Web3Button } from "@web3modal/react";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import AppHeader from "./components/AppHeader";
@@ -11,6 +11,11 @@ import Network from "./components/Network";
 export function App() {
   const { isConnected } = useAccount();
   const navigate = useNavigate();
+  const { chain } = useNetwork();
+  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+    useSwitchNetwork({
+      chainId: 280,
+    });
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -18,6 +23,13 @@ export function App() {
       navigate("/stableswap");
     }
   }, []);
+
+  useEffect(() => {
+    if (chain?.id !== 280 && switchNetwork) {
+      switchNetwork();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [switchNetwork]);
 
   return (
     <>
