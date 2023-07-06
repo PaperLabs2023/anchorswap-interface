@@ -97,7 +97,7 @@ export default function SwapCard_Content() {
     contracts: [
       {
         ...routerContract,
-        functionName: "cacalTokenOutAmount",
+        functionName: "cacalTokenOutAmountWithStableCoin",
         args: [
           currentInputTokenContract,
           currentOutTokenContract,
@@ -120,9 +120,12 @@ export default function SwapCard_Content() {
       address && inputAmountRef && Number(inputAmountRef.current?.value) != 0,
     onSuccess(data: any) {
       console.log(data);
-      const receiveAmount = Number(ethers.utils.formatUnits(data[0], "ether"))
+      const receiveAmount = Number(
+        ethers.utils.formatUnits(data[0][2], "ether")
+      )
         .toFixed(6)
         .replace(/\.?0+$/, "");
+
       // const tokenPirce = String(
       //   Number(
       //     ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
@@ -243,6 +246,12 @@ export default function SwapCard_Content() {
   // 阻止默认事件
   const handleWheel = (event: React.WheelEvent<HTMLInputElement>) => {
     event.preventDefault();
+  };
+
+  const handleSwapCoinSelected = () => {
+    const v = selectedCoin_input;
+    setSelectedCoin_input(selectedCoin_out);
+    setSelectedCoin_out(v);
   };
 
   const swapClick = () => {
@@ -374,7 +383,7 @@ export default function SwapCard_Content() {
             </div>
             <div className="flex-none md:hidden ">
               <a
-                href={`https://blockscout.scroll.io/tx/${hash}`}
+                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
                 target="_blank"
               >
                 <button className="btn btn-sm">See</button>
@@ -382,7 +391,10 @@ export default function SwapCard_Content() {
             </div>
           </div>
           <div className="flex-none max-md:hidden">
-            <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
+            <a
+              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
+              target="_blank"
+            >
               <button className="btn btn-sm">See</button>
             </a>
           </div>
@@ -428,15 +440,15 @@ export default function SwapCard_Content() {
             </div>
           </div>
           {/* Balance */}
-          <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
+          <div className="flex justify-end mt-3 text-gray-600 text-sm">
+            {/* <div>
               {"$" +
                 inputValue.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                   useGrouping: true,
                 })}
-            </div>
+            </div> */}
             <div className="">{`Balance: ${
               inputTokenBalance
                 ? Number(inputTokenBalance?.formatted).toFixed(6)
@@ -482,7 +494,10 @@ export default function SwapCard_Content() {
       </div>
       {/* icon */}
       <div className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-indigo-950 bg-opacity-90 flex justify-center items-center rounded-full">
-        <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
+        <div
+          className="p-0 bg-gray-500 bg-opacity-0 rounded-full hover:cursor-pointer"
+          onClick={handleSwapCoinSelected}
+        >
           <svg
             className="swap_icon"
             viewBox="0 0 1024 1024"
@@ -539,15 +554,15 @@ export default function SwapCard_Content() {
             </div>
           </div>
           {/* Balance */}
-          <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
+          <div className="flex justify-end mt-3 text-gray-600 text-sm">
+            {/* <div>
               {"$" +
                 inputValue.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                   useGrouping: true,
                 })}
-            </div>
+            </div> */}
             <div className="">{`Balance: ${
               outTokenBalance
                 ? Number(outTokenBalance?.formatted).toFixed(6)
@@ -557,7 +572,7 @@ export default function SwapCard_Content() {
         </div>
       </div>
       {/* 汇率 */}
-      <div className="flex bg-indigo-950 bg-opacity-90 rounded-xl px-4 py-2 relative mt-5 text-sm items-center text-gray-100">
+      <div className="flex  bg-indigo-950 bg-opacity-90 rounded-xl px-4 py-2 relative mt-5 text-sm items-center text-gray-100">
         {/* inputcoin_icon */}
         <div className="w-[17px] h-[17px]">
           <img

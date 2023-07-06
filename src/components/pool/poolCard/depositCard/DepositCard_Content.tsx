@@ -125,7 +125,7 @@ export default function DepositCard_Content() {
       },
       {
         ...ammContract,
-        functionName: "getLptoken",
+        functionName: "getStableLptoken",
         args: [currentInputTokenContract, currentOutTokenContract],
       },
     ],
@@ -157,7 +157,7 @@ export default function DepositCard_Content() {
     contracts: [
       {
         ...routerContract,
-        functionName: "cacalLpTokenAddAmount",
+        functionName: "calAddStableLiquidityAmount",
         args: [
           currentInputTokenContract,
           currentOutTokenContract,
@@ -269,7 +269,7 @@ export default function DepositCard_Content() {
       currentInputTokenContract,
       currentOutTokenContract,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-      ethers.utils.parseEther(outAmountRef.current?.value || "0"),
+      // ethers.utils.parseEther(outAmountRef.current?.value || "0"),
       // 1000,
     ],
     mode: "recklesslyUnprepared",
@@ -456,7 +456,7 @@ export default function DepositCard_Content() {
             </div>
             <div className="flex-none md:hidden ">
               <a
-                href={`https://blockscout.scroll.io/tx/${hash}`}
+                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
                 target="_blank"
               >
                 <button className="btn btn-sm">See</button>
@@ -464,7 +464,10 @@ export default function DepositCard_Content() {
             </div>
           </div>
           <div className="flex-none max-md:hidden">
-            <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
+            <a
+              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
+              target="_blank"
+            >
               <button className="btn btn-sm">See</button>
             </a>
           </div>

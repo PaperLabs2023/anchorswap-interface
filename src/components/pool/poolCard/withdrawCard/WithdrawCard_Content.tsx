@@ -120,14 +120,14 @@ export default function WithdrawCard_Content() {
   const getLpInfo = useContractReads({
     contracts: [
       {
-        ...ammContract,
-        functionName: "lptokenTotalSupply",
+        ...routerContract,
+        functionName: "stableLptokenTotalSupplyForUser",
         args: [currentInputTokenContract, currentOutTokenContract, address],
       },
 
       {
         ...routerContract,
-        functionName: "getRemoveLiquidityAmount",
+        functionName: "getRemoveLiquidityAmountStableLp",
         args: [
           currentInputTokenContract,
           currentOutTokenContract,
@@ -142,6 +142,7 @@ export default function WithdrawCard_Content() {
     watch: true,
     enabled: true,
     onSuccess(data: any) {
+      console.log(data);
       let remove_lp_amount = 0;
       const lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
       const token0_amount = Number(
@@ -224,7 +225,7 @@ export default function WithdrawCard_Content() {
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
     address: amm_address,
     abi: amm_abi,
-    functionName: "removeLiquidity",
+    functionName: "removeLiquidityWithStableCoin",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
@@ -393,7 +394,7 @@ export default function WithdrawCard_Content() {
             </div>
             <div className="flex-none md:hidden ">
               <a
-                href={`https://blockscout.scroll.io/tx/${hash}`}
+                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
                 target="_blank"
               >
                 <button className="btn btn-sm">See</button>
@@ -401,7 +402,10 @@ export default function WithdrawCard_Content() {
             </div>
           </div>
           <div className="flex-none max-md:hidden">
-            <a href={`https://blockscout.scroll.io/tx/${hash}`} target="_blank">
+            <a
+              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
+              target="_blank"
+            >
               <button className="btn btn-sm">See</button>
             </a>
           </div>

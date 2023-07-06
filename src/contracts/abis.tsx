@@ -478,45 +478,6 @@ export const amm_abi = [
     inputs: [
       {
         internalType: "address",
-        name: "_tokenIn",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_tokenOut",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amountIn",
-        type: "uint256",
-      },
-    ],
-    name: "calSwapWithStableCoinAmount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "reserveIn",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "reserveOut",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amountOut",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "",
         type: "address",
       },
@@ -685,6 +646,19 @@ export const amm_abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getUserFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -735,20 +709,25 @@ export const amm_abi = [
         type: "address",
       },
       {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-    ],
-    name: "lptokenTotalSupply",
-    outputs: [
-      {
         internalType: "uint256",
-        name: "",
+        name: "_shares",
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "removeLiquidity",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -769,7 +748,7 @@ export const amm_abi = [
         type: "uint256",
       },
     ],
-    name: "removeLiquidity",
+    name: "removeLiquidityWithStableCoin",
     outputs: [
       {
         internalType: "uint256",
@@ -1124,6 +1103,103 @@ export const router_abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_tokenIn",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_tokenOut",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountIn",
+        type: "uint256",
+      },
+    ],
+    name: "cacalTokenOutAmountWithStableCoin",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "reserveIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount0",
+        type: "uint256",
+      },
+    ],
+    name: "calAddLiquidityAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount0",
+        type: "uint256",
+      },
+    ],
+    name: "calAddStableLiquidityAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "A",
         type: "uint256",
@@ -1251,6 +1327,40 @@ export const router_abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_shares",
+        type: "uint256",
+      },
+    ],
+    name: "getRemoveLiquidityAmountStableLp",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_tokenA",
         type: "address",
       },
@@ -1334,6 +1444,59 @@ export const router_abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+    ],
+    name: "lptokenTotalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "lptokenTotalSupplyForUser",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_amm",
         type: "address",
       },
@@ -1341,6 +1504,59 @@ export const router_abi = [
     name: "resetAmm",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+    ],
+    name: "stableLptokenTotalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_token0",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token1",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "stableLptokenTotalSupplyForUser",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];
