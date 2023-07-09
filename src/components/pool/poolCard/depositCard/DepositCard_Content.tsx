@@ -569,7 +569,18 @@ export default function DepositCard_Content() {
         </div>
       </div>
       {/* icon */}
-      <div className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-indigo-950  bg-opacity-90 flex justify-center items-center rounded-full">
+      <div
+        className="inset-x-0 mx-auto top-1/2 -mt-0 w-8 h-8 bg-indigo-950  bg-opacity-90 flex justify-center items-center rounded-full hover:cursor-pointer"
+        onClick={() => {
+          if (selectedCoin_input == "USDC") {
+            setSelectedCoin_input("USDT");
+            setSelectedCoin_out("USDC");
+          } else {
+            setSelectedCoin_input("USDC");
+            setSelectedCoin_out("USDT");
+          }
+        }}
+      >
         <div className="p-0 bg-gray-500 bg-opacity-0 rounded-full">
           <svg
             className="swap_icon"

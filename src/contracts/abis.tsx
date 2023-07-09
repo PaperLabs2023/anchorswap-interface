@@ -1135,6 +1135,11 @@ export const router_abi = [
         name: "amountOut",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "priceImpact",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",

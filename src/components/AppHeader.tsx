@@ -166,7 +166,7 @@ export default function AppHeader() {
                   </div>
                 </div>
                 {/* Farm */}
-                <div className="relative">
+                {/* <div className="relative">
                   <div>
                     <a
                       href="farm"
@@ -179,9 +179,9 @@ export default function AppHeader() {
                       </div>
                     </a>
                   </div>
-                </div>
+                </div> */}
                 {/* DAO */}
-                <div className="relative">
+                {/* <div className="relative">
                   <div>
                     <a
                       href="dao"
@@ -194,9 +194,9 @@ export default function AppHeader() {
                       </div>
                     </a>
                   </div>
-                </div>
+                </div> */}
                 {/* Launchpad */}
-                <div className="relative">
+                {/* <div className="relative">
                   <div>
                     <a
                       href="launchpad"
@@ -209,7 +209,7 @@ export default function AppHeader() {
                       </div>
                     </a>
                   </div>
-                </div>
+                </div> */}
                 {/* More */}
                 <div className="relative">
                   <div>
