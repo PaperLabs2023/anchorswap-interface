@@ -1,7 +1,8 @@
 // @xiaochen
 import { Web3Button } from "@web3modal/react";
 import React from "react";
-import logo from "../assets/images/paper.png";
+import logo from "../assets/images/anch-1.png";
+import logo_mini from "../assets/images/anch-2.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Faucet from "./Faucet";
@@ -52,13 +53,13 @@ export default function AppHeader() {
                       className="text-current no-underline cursor-default"
                     >
                       <div className="cursor-pointer">
-                        <img src={logo} className="h-[32px] w-[32px] z-1" />
+                        <img src={logo} className="h-[40px] w-[120px] z-1" />
                       </div>
                     </a>
                   </div>
                 </div>
               </div>
-              <div className=" items-center space-x-4  mb-[2px] hidden md:flex">
+              <div className=" items-center space-x-4 font-bold  mb-[0px] hidden md:flex">
                 {/* Swap */}
                 {/* <div className="relative">
                   <div onClick={handleSwapClick}>
@@ -149,7 +150,7 @@ export default function AppHeader() {
                 <div className="relative">
                   <div onClick={handleStableSwapClick}>
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium opacity-90">
+                      <p className="m-0 font-inter leading-6 text-base  opacity-90">
                         StableSwap
                       </p>
                     </div>
@@ -159,7 +160,7 @@ export default function AppHeader() {
                 <div className="relative">
                   <div onClick={handlePoolClick}>
                     <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
+                      <p className="m-0 font-inter leading-6 text-base   opacity-90">
                         Pool
                       </p>
                     </div>
@@ -223,7 +224,7 @@ export default function AppHeader() {
                           tabIndex={0}
                           className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
                         >
-                          <div className="m-0 font-inter leading-6 text-base font-medium  opacity-90">
+                          <div className="m-0 font-inter leading-6 text-base   opacity-90">
                             More
                           </div>
                           <div className="mt-1">
@@ -255,14 +256,14 @@ export default function AppHeader() {
                               <div className="flex">
                                 <div className="flex items-center">
                                   <img
-                                    src={logo}
-                                    className="h-[24px] w-[24px] z-1"
+                                    src={logo_mini}
+                                    className="h-[32px] w-[32px] z-1"
                                   />
                                 </div>
                                 <div className="flex flex-col ml-3">
                                   <p>Bridge</p>
                                   <p className=" text-xs">
-                                    Bridge token for zkSync Era Testnet Network
+                                    Bridge token for zkSyncEra Testnet
                                   </p>
                                 </div>
                               </div>
@@ -276,8 +277,8 @@ export default function AppHeader() {
                               <div className="flex">
                                 <div className="flex items-center">
                                   <img
-                                    src={logo}
-                                    className="h-[24px] w-[24px] z-1"
+                                    src={logo_mini}
+                                    className="h-[32px] w-[32px] z-1"
                                   />
                                 </div>
                                 <div className="flex flex-col ml-3">
