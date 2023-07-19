@@ -271,7 +271,7 @@ export default function AppHeader() {
                           </li>
                           <li>
                             <a
-                              href="https://paperswap.gitbook.io/paperswap/"
+                              href="https://paperlabs.gitbook.io/anchorswap/"
                               target="_blank"
                             >
                               <div className="flex">
