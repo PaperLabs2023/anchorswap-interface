@@ -28,8 +28,8 @@ export default function WithdrawCard_Content() {
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
-  const [selectedCoin_input, setSelectedCoin_input] = useState("tPaper");
-  const [selectedCoin_out, setSelectedCoin_out] = useState("oPaper");
+  const [selectedCoin_input, setSelectedCoin_input] = useState("USDC");
+  const [selectedCoin_out, setSelectedCoin_out] = useState("USDT");
   const inputAmountRef = useRef<HTMLInputElement>(null);
   const outAmountRef = useRef<HTMLInputElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);

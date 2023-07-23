@@ -28,8 +28,8 @@ export default function DepositCard_Content() {
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
-  const [selectedCoin_input, setSelectedCoin_input] = useState("tPaper");
-  const [selectedCoin_out, setSelectedCoin_out] = useState("oPaper");
+  const [selectedCoin_input, setSelectedCoin_input] = useState("USDC");
+  const [selectedCoin_out, setSelectedCoin_out] = useState("USDT");
   const inputAmountRef = useRef<HTMLInputElement>(null);
   const outAmountRef = useRef<HTMLInputElement>(null);
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
@@ -517,14 +517,7 @@ export default function DepositCard_Content() {
           </div>
           {/* Balance */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
-              {"$" +
-                inputValue.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  useGrouping: true,
-                })}
-            </div>
+            <div>{""}</div>
             <div className="">{`Balance: ${
               inputTokenBalance
                 ? Number(inputTokenBalance?.formatted).toFixed(6)
@@ -643,14 +636,7 @@ export default function DepositCard_Content() {
           </div>
           {/* Balance */}
           <div className="flex justify-between mt-3 text-gray-600 text-sm">
-            <div>
-              {"$" +
-                inputValue.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  useGrouping: true,
-                })}
-            </div>
+            <div>{""}</div>
             <div className="">{`Balance: ${
               outTokenBalance
                 ? Number(outTokenBalance?.formatted).toFixed(6)
@@ -745,7 +731,7 @@ export default function DepositCard_Content() {
       </div>
       {/* 代币列表modal */}
       <TokenListModal
-        isOpen={isOpen}
+        isOpen={false}
         closeModal={closeModal}
         selectedTokenlist={selectedTokenlist}
         selectedCoin_input={selectedCoin_input}

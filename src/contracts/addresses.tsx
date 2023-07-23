@@ -1,7 +1,7 @@
 export const tPaper_address: `0x${string}` =
-  "0xe301B18936400bDbFd564cff1DdCC304c7AF3CB4";
+  "0x3610e55c06b27672c0ae216bacbe9d2cdd12f43a";
 export const oPaper_address: `0x${string}` =
-  "0x3610e55c06b27672c0ae216BacBe9d2cDd12f43a";
+  "0xe301B18936400bDbFd564cff1DdCC304c7AF3CB4";
 export const amm_address: `0x${string}` =
   "0x6E61177f3F6Ab705bE43411d42C56dcAa8350cEb";
 export const router_address: `0x${string}` =

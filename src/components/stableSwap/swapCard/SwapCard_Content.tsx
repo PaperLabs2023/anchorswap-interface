@@ -661,7 +661,7 @@ export default function SwapCard_Content() {
       </div>
       {/* 代币列表modal */}
       <TokenListModal
-        isOpen={isOpen}
+        isOpen={false}
         closeModal={closeModal}
         selectedTokenlist={selectedTokenlist}
         selectedCoin_input={selectedCoin_input}
