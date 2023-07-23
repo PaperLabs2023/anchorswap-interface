@@ -1828,3 +1828,13 @@ export const pools_abi = [
     type: "function",
   },
 ];
+
+export const faucet_abi = [
+  {
+    inputs: [],
+    name: "claim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];

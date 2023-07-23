@@ -8,8 +8,12 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { tPaper_address, oPaper_address } from "../contracts/addresses";
-import { tPaper_abi } from "../contracts/abis";
+import {
+  tPaper_address,
+  oPaper_address,
+  tFaucet_address,
+} from "../contracts/addresses";
+import { tPaper_abi, faucet_abi } from "../contracts/abis";
 import { ethers } from "ethers";
 
 export default function Faucet() {
@@ -133,9 +137,9 @@ export default function Faucet() {
 
   // Faucet config
   const { config: faucetAConfig } = usePrepareContractWrite({
-    address: tPaper_address,
-    abi: tPaper_abi,
-    functionName: "faucet",
+    address: tFaucet_address,
+    abi: faucet_abi,
+    functionName: "claim",
     args: [],
     // account: address,
   });
