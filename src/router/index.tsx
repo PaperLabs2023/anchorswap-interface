@@ -8,6 +8,7 @@ import Farm from "../pages/Farm";
 import Dao from "../pages/Dao";
 import Launchpad from "../pages/Launchpad";
 import PoolDetails from "../pages/PoolDetails";
+import Mint from "../pages/Mint";
 
 export function BaseRoutes() {
   return (
@@ -21,6 +22,7 @@ export function BaseRoutes() {
           <Route path="/farm" element={<Farm />} />
           <Route path="/dao" element={<Dao />} />
           <Route path="/launchpad" element={<Launchpad />} />
+          <Route path="/mint" element={<Mint />} />
           {/* <Route path="/whitepaper" element={<WhitePaper />} /> */}
         </Route>
       </Routes>
