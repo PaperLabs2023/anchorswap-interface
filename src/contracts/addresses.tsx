@@ -15,3 +15,6 @@ export const tUsdc_address: `0x${string}` =
   "0x3610e55c06b27672c0ae216BacBe9d2cDd12f43a";
 export const tFaucet_address: `0x${string}` =
   "0xdA58a6ee96a585C3E003c88394F80D759E313de3";
+
+export const nft_address: `0x${string}` =
+  "0x6C8B4b5E0A663ec8348576ee47Fe472cbecFAc29";
