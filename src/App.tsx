@@ -34,7 +34,7 @@ export function App() {
   return (
     <>
       <div className="h-screen">
-        <div className="fixed top-0 left-0 w-full h-full z-0 bg-gradient-to-r from-indigo-950 to-indigo-950 overflow-y-auto overflow-x-hidden">
+        <div className="fixed left-0 top-0 z-0 h-full w-full overflow-y-auto overflow-x-hidden bg-gradient-to-r from-indigo-950 to-indigo-950">
           <AppHeader />
           <Network />
           <Outlet />
