@@ -380,9 +380,9 @@ export default function WithdrawCard_Content() {
               viewBox="0 0 24 24"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
@@ -447,7 +447,7 @@ export default function WithdrawCard_Content() {
                 >
                   <path
                     fill="#5155a6"
-                    fill-rule="nonzero"
+                    fillRule="nonzero"
                     d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
                   ></path>
                 </svg>
@@ -531,7 +531,7 @@ export default function WithdrawCard_Content() {
                 >
                   <path
                     fill="#5155a6"
-                    fill-rule="nonzero"
+                    fillRule="nonzero"
                     d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
                   ></path>
                 </svg>
@@ -601,7 +601,7 @@ export default function WithdrawCard_Content() {
               cy="12"
               r="10"
               stroke="currentColor"
-              stroke-width="4"
+              strokeWidth="4"
             ></circle>
             <path
               className="opacity-75"
