@@ -44,15 +44,15 @@ export default function Mint() {
   });
 
   return (
-    <div className=" md:pt-12 pt-24 h-full w-full">
+    <div className=" h-full w-full pt-24 md:pt-12">
       <div className="h-full">
         {/* 写一个swap卡片样式,上下左右都居中 */}
-        <div className="flex justify-center items-center">
-          <div className="mt-2 md:mt-10  w-5/6 md:w-3/6 bg-white  bg-opacity-0 rounded-xl shadow-3xl flex-col p-8 flex justify-center items-center">
+        <div className="flex items-center justify-center">
+          <div className="shadow-3xl mt-2  flex w-5/6 flex-col  items-center justify-center rounded-xl bg-white bg-opacity-0 p-8 md:mt-10 md:w-3/6">
             <img
               src={nft}
               alt=""
-              className="w-[180px] h-[318px] md:w-[300px] md:h-[530px] rounded-xl  nft-image floating"
+              className="nft-image floating h-[318px] w-[180px] rounded-xl  md:h-[530px] md:w-[300px]"
             />
             <div
               className="btn btn-wide mt-6"

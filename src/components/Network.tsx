@@ -24,7 +24,7 @@ export default function Network() {
 
   return (
     <div>
-      <div className=" fixed  hidden md:flex justify-between w-full bg-none bottom-0 z-10  pb-3  md:border-t-0  pt-5 pr-4">
+      <div className=" fixed  bottom-0 z-10 hidden w-full justify-between bg-none pb-3  pr-4  pt-5  md:flex md:border-t-0">
         <div></div>
         <div className={"flex items-center "}>
           <div></div>
@@ -36,16 +36,16 @@ export default function Network() {
             <span className={isShow ? " opacity-0" : "fade-in "}>
               <p className="text-sm">{data || ""}</p>
             </span>
-            <div className="ml-2 polling-dot network-health"></div>
+            <div className="polling-dot network-health ml-2"></div>
           </a>
         </div>
       </div>
-      <div className=" fixed  flex md:hidden justify-between w-full bg-none bottom-0 z-10 border-t-1 h-14">
-        <div className="hover:bg-yellow-200 h-full text-center w-full rounded-lg py-4 dropdown dropdown-top">
+      <div className=" border-t-1  fixed bottom-0 z-10 flex h-14 w-full justify-between bg-none md:hidden">
+        <div className="dropdown dropdown-top h-full w-full rounded-lg py-4 text-center hover:bg-yellow-200">
           <div tabIndex={0}>Swap</div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36 mb-1"
+            className="dropdown-content menu rounded-box mb-1 w-36 bg-base-100 p-2 shadow"
           >
             <li>
               <div onClick={handleSwapClick}>Swap </div>
@@ -56,22 +56,22 @@ export default function Network() {
           </ul>
         </div>
         <div
-          className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg py-4"
+          className=" h-full w-full rounded-lg py-4 text-center hover:bg-yellow-200"
           onClick={handlePoolClick}
         >
           Pool
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  py-4 ">
+        <div className=" h-full w-full rounded-lg py-4 text-center  hover:bg-yellow-200 ">
           Farm
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-full rounded-lg  py-4 ">
+        <div className=" h-full w-full rounded-lg py-4 text-center  hover:bg-yellow-200 ">
           Dao
         </div>
-        <div className=" hover:bg-yellow-200 h-full text-center w-1/2 rounded-lg  py-4 dropdown dropdown-top dropdown-end">
+        <div className=" dropdown dropdown-end dropdown-top h-full w-1/2  rounded-lg py-4 text-center hover:bg-yellow-200">
           <div tabIndex={0}>···</div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-36 mb-1"
+            className="dropdown-content menu rounded-box mb-1 w-36 bg-base-100 p-2 shadow"
           >
             <li>
               <div onClick={handleSwapClick}>LaunchPad </div>
@@ -83,7 +83,7 @@ export default function Network() {
               <div onClick={handleSwapClick}>Docs </div>
             </li>
             <hr />
-            <div className="flex justify-center mt-4 mb-2 items-center">
+            <div className="mb-2 mt-4 flex items-center justify-center">
               <div className="h-6 w-6 hover:cursor-pointer" aria-hidden="true">
                 <a href="https://twitter.com/PaperLabs2023">
                   <svg
@@ -103,7 +103,7 @@ export default function Network() {
                 </a>
               </div>
               <div
-                className="h-6 w-6 ml-4 hover:cursor-pointer"
+                className="ml-4 h-6 w-6 hover:cursor-pointer"
                 aria-hidden="true"
               >
                 <a href="https://discord.gg/BFqKPfSQu7">

@@ -32,34 +32,34 @@ export default function AppHeader() {
   };
 
   return (
-    <header className="box-border fixed flex flex-col top-0 left-0 w-full h-[80px] z-30 border-b-0">
-      <div className="flex fade-in bg-indigo-900 backdrop-blur-md items-center">
+    <header className="fixed left-0 top-0 z-30 box-border flex h-[80px] w-full flex-col border-b-0">
+      <div className="fade-in flex items-center bg-indigo-900 backdrop-blur-md">
         <div className="mx-auto py-[2px] ">
-          <p className="m-0 font-inter font-normal leading-5 text-xs text-gray-100">
+          <p className="font-inter m-0 text-xs font-normal leading-5 text-gray-100">
             We live in zkSync Era Testnet Network.
           </p>
         </div>
       </div>
 
       <div className="relative text-gray-300">
-        <div className="box-border px-3 py-2 pl- absolute w-full backdrop-blur-md ">
-          <div className="row2 flex flex-row h-min-[40px] justify-between items-center flex-wrap gap-y-10 max-w-full">
+        <div className="pl- absolute box-border w-full px-3 py-2 backdrop-blur-md ">
+          <div className="row2 h-min-[40px] flex max-w-full flex-row flex-wrap items-center justify-between gap-y-10">
             <div className="flex flex-row items-center gap-6">
               <div className="mb-[2px]">
                 <div className=" relative">
                   <div>
                     <a
                       href="#"
-                      className="text-current no-underline cursor-default"
+                      className="cursor-default text-current no-underline"
                     >
                       <div className="cursor-pointer">
-                        <img src={logo} className="h-[40px] w-[120px] z-1" />
+                        <img src={logo} className="z-1 h-[40px] w-[120px]" />
                       </div>
                     </a>
                   </div>
                 </div>
               </div>
-              <div className=" items-center space-x-4 font-bold  mb-[0px] hidden md:flex">
+              <div className=" mb-[0px] hidden items-center  space-x-4 font-bold md:flex">
                 {/* Swap */}
                 {/* <div className="relative">
                   <div onClick={handleSwapClick}>
@@ -149,8 +149,8 @@ export default function AppHeader() {
                 {/* StableSwap */}
                 <div className="relative">
                   <div onClick={handleStableSwapClick}>
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base  opacity-90">
+                    <div className="flex cursor-pointer items-center gap-1 py-2 md:gap-4">
+                      <p className="font-inter m-0 text-base leading-6  opacity-90">
                         StableSwap
                       </p>
                     </div>
@@ -159,8 +159,8 @@ export default function AppHeader() {
                 {/* Pool */}
                 <div className="relative">
                   <div onClick={handlePoolClick}>
-                    <div className="flex items-center gap-1 md:gap-4 py-2 cursor-pointer">
-                      <p className="m-0 font-inter leading-6 text-base   opacity-90">
+                    <div className="flex cursor-pointer items-center gap-1 py-2 md:gap-4">
+                      <p className="font-inter m-0 text-base leading-6   opacity-90">
                         Pool
                       </p>
                     </div>
@@ -214,7 +214,7 @@ export default function AppHeader() {
                 {/* More */}
                 <div className="relative">
                   <div>
-                    <div className="no-underline text-current cursor-default">
+                    <div className="cursor-default text-current no-underline">
                       <div
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -222,9 +222,9 @@ export default function AppHeader() {
                       >
                         <div
                           tabIndex={0}
-                          className="flex items-center gap-1 md:gap-1 py-2 cursor-pointer flex-row"
+                          className="flex cursor-pointer flex-row items-center gap-1 py-2 md:gap-1"
                         >
-                          <div className="m-0 font-inter leading-6 text-base   opacity-90">
+                          <div className="font-inter m-0 text-base leading-6   opacity-90">
                             More
                           </div>
                           <div className="mt-1">
@@ -249,7 +249,7 @@ export default function AppHeader() {
                         </div>
                         <ul
                           tabIndex={0}
-                          className="menu dropdown-content p-2 shadow bg-indigo-600 rounded-box w-80 mt-0"
+                          className="dropdown-content menu rounded-box mt-0 w-80 bg-indigo-600 p-2 shadow"
                         >
                           <li>
                             <a>
@@ -257,10 +257,10 @@ export default function AppHeader() {
                                 <div className="flex items-center">
                                   <img
                                     src={logo_mini}
-                                    className="h-[32px] w-[32px] z-1"
+                                    className="z-1 h-[32px] w-[32px]"
                                   />
                                 </div>
-                                <div className="flex flex-col ml-3">
+                                <div className="ml-3 flex flex-col">
                                   <p>Bridge</p>
                                   <p className=" text-xs">
                                     Bridge token for zkSyncEra Testnet
@@ -278,10 +278,10 @@ export default function AppHeader() {
                                 <div className="flex items-center">
                                   <img
                                     src={logo_mini}
-                                    className="h-[32px] w-[32px] z-1"
+                                    className="z-1 h-[32px] w-[32px]"
                                   />
                                 </div>
-                                <div className="flex flex-col ml-3">
+                                <div className="ml-3 flex flex-col">
                                   <p>Docs</p>
                                   <p className=" text-xs">
                                     Read the documentation to learn
@@ -368,7 +368,7 @@ export default function AppHeader() {
                 </div> */}
               </div>
             </div>
-            <div className="  items-center gap-3 flex">
+            <div className="  flex items-center gap-3">
               <div className="hidden md:flex">
                 <Faucet />
               </div>

@@ -3,7 +3,7 @@ import SwapCard from "../components/stableSwap/SwapCard";
 
 export default function StableSwap() {
   return (
-    <div className=" pt-24 h-full w-full">
+    <div className=" h-full w-full pt-24">
       <SwapCard />
     </div>
   );

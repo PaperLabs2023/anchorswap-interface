@@ -144,9 +144,9 @@ const PoolLists = () => {
   });
 
   return (
-    <div id="Switch-body" className="h-full justify-center items-center flex">
+    <div id="Switch-body" className="flex h-full items-center justify-center">
       <div className="flex flex-col">
-        <div className=" text-3xl px-4 text-gray-100">All Pools</div>
+        <div className=" px-4 text-3xl text-gray-100">All Pools</div>
         <PoolList_Header />
         {poolsList.length > 0 &&
           poolsList.map((data, index) => (

@@ -3,7 +3,7 @@ import React from "react";
 export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
-      <div className="p-1 hover:cursor-pointer rounded-xl">
+      <div className="rounded-xl p-1 hover:cursor-pointer">
         {/* <svg
           className="candleline_icon"
           viewBox="0 0 1026 1024"
@@ -25,9 +25,9 @@ export default function SwapCard_Header() {
       </div>
       <div>
         {/* 下拉设置滑点卡片 */}
-        <div className="dropdown dropdown-bottom dropdown-end">
+        <div className="dropdown dropdown-end dropdown-bottom">
           <div
-            className="p-1 rotate-on-hover hover:cursor-pointer rounded-xl "
+            className="rotate-on-hover rounded-xl p-1 hover:cursor-pointer "
             tabIndex={0}
           >
             <svg
@@ -53,24 +53,24 @@ export default function SwapCard_Header() {
 
           <div
             tabIndex={0}
-            className="dropdown-content card card-compact w-64 p-2 shadow bg-indigo-600 text-primary-content"
+            className="card-compact card dropdown-content w-64 bg-indigo-600 p-2 text-primary-content shadow"
           >
             <div className="card-body">
               <h3 className="card-title">Transaction Settings</h3>
               <div>
                 <label>Slippage tolerance</label>
-                <div className="flex gap-2 mt-2">
-                  <div className="flex p-2 border-gray-300 border w-2/3  rounded-3xl">
+                <div className="mt-2 flex gap-2">
+                  <div className="flex w-2/3 rounded-3xl border border-gray-300  p-2">
                     <input
                       type="text"
                       name="searchText"
                       id="searchText"
-                      className="px-1 w-full outline-none  bg-indigo-600"
+                      className="w-full bg-indigo-600 px-1  outline-none"
                       placeholder="0.20"
                     />
                     <p>%</p>
                   </div>
-                  <div className="flex p-2 border-gray-300 border w-1/3 rounded-3xl items-center justify-center hover:cursor-pointer">
+                  <div className="flex w-1/3 items-center justify-center rounded-3xl border border-gray-300 p-2 hover:cursor-pointer">
                     Auto
                   </div>
                 </div>
