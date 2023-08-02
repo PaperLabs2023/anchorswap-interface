@@ -16,8 +16,8 @@ import {
   tUsdc_address,
   amm_address,
   router_address,
-} from "../../../contracts/addresses";
-import { amm_abi, tPaper_abi, router_abi } from "../../../contracts/abis";
+} from "@/contracts/addresses";
+import { amm_abi, tPaper_abi, router_abi } from "@/contracts/abis";
 import { ethers } from "ethers";
 
 export default function SwapCard_Content() {

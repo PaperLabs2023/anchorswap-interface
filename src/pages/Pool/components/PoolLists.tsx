@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import PoolList from "./PoolList";
-import ethicon from "../../assets/images/pools/eth.png";
-import usdcicon from "../../assets/images/pools/usdc.png";
-import scrollIcon from "../../assets/images/anch-2.png";
+import usdcicon from "@/assets/images/pools/usdc.png";
+import scrollIcon from "@/assets/images/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
-import { amm_address, pools_address } from "../../contracts/addresses";
-import { amm_abi, pools_abi } from "../../contracts/abis";
+import { amm_address, pools_address } from "@/contracts/addresses";
+import { amm_abi, pools_abi } from "@/contracts/abis";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
 import { scrollTestnet } from "wagmi/chains";
 import { ethers } from "ethers";

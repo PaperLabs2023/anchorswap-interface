@@ -1,4 +1,4 @@
-import PoolLists from "@/components/pool/PoolLists";
+import PoolLists from "./components/PoolLists";
 
 export default function Swap() {
   return (
