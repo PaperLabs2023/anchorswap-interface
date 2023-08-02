@@ -15,17 +15,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiConfig config={config}>
       <BaseRoutes />
-      <Web3Modal
-        projectId={walletConnectProjectId}
-        ethereumClient={ethereumClient}
-        themeVariables={{
-          "--w3m-font-family": "Roboto, sans-serif",
-          "--w3m-accent-color": "#312E81",
-          "--w3m-accent-fill-color": "#6B7280",
-          "--w3m-background-color": "#312E81",
-          "--w3m-logo-image-url": logo,
-        }}
-      />
     </WagmiConfig>
+
+    <Web3Modal
+      projectId={walletConnectProjectId}
+      ethereumClient={ethereumClient}
+      themeVariables={{
+        "--w3m-font-family": "Roboto, sans-serif",
+        "--w3m-accent-color": "#312E81",
+        "--w3m-accent-fill-color": "#6B7280",
+        "--w3m-background-color": "#312E81",
+        "--w3m-logo-image-url": logo,
+      }}
+    />
   </React.StrictMode>
 );
