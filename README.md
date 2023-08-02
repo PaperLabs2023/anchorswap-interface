@@ -14,3 +14,5 @@ To learn more about [Vite](https://vitejs.dev/) or [wagmi](https://wagmi.sh), ch
 - [wagmi Examples](https://wagmi.sh/examples/connect-wallet) – a suite of simple examples using wagmi.
 - [Web3Modal Documentation](https://web3modal.com) – learn more about Web3Modal (configuration, theming, advanced usage, etc).
 - [Vite Documentation](https://vitejs.dev/) – learn about Vite features and API.
+
+.
