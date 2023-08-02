@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
@@ -53,7 +51,7 @@ export default function SwapCard_Header() {
 
           <div
             tabIndex={0}
-            className="card-compact card dropdown-content w-64 bg-indigo-600 p-2 text-primary-content shadow"
+            className="card dropdown-content card-compact w-64 bg-indigo-600 p-2 text-primary-content shadow"
           >
             <div className="card-body">
               <h3 className="card-title">Transaction Settings</h3>

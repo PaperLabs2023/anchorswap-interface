@@ -1,4 +1,3 @@
-import React from "react";
 import SwapCard from "../components/swap/SwapCard";
 
 export default function Swap() {

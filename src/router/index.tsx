@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { App } from "../App";
 import Swap from "../pages/Swap";
@@ -23,7 +23,6 @@ export function BaseRoutes() {
           <Route path="/dao" element={<Dao />} />
           <Route path="/launchpad" element={<Launchpad />} />
           <Route path="/mint" element={<Mint />} />
-          {/* <Route path="/whitepaper" element={<WhitePaper />} /> */}
         </Route>
       </Routes>
     </Router>

@@ -1,4 +1,3 @@
-import React from "react";
 import WithdrawCard_Header from "./withdrawCard/WithdrawCard_Header";
 import WithdrawCard_Content from "./withdrawCard/WithdrawCard_Content";
 

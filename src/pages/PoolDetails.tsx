@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DepositCard from "../components/pool/poolCard/DepositCard";
 import WithdrawCard from "../components/pool/poolCard/WithdrawCard";
 import { useNavigate } from "react-router-dom";

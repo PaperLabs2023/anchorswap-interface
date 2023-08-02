@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SwapCard_Header() {
   return (
     <div className="flex justify-between">
@@ -25,7 +23,7 @@ export default function SwapCard_Header() {
       </div>
       <div>
         {/* 下拉设置滑点卡片 */}
-        <div className="dropdown dropdown-end dropdown-bottom">
+        <div className="dropdown-end dropdown-bottom dropdown">
           <div
             className="rotate-on-hover rounded-xl p-1 hover:cursor-pointer "
             tabIndex={0}

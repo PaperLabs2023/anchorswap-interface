@@ -1,4 +1,3 @@
-import React from "react";
 import "./DepositCard.css";
 import DepositCard_Header from "./depositCard/DepositCard_Header";
 import DepositCard_Content from "./depositCard/DepositCard_Content";

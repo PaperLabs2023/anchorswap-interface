@@ -1,6 +1,5 @@
 // @xiaochen
 import { Web3Button } from "@web3modal/react";
-import React from "react";
 import logo from "../assets/images/anch-1.png";
 import logo_mini from "../assets/images/anch-2.png";
 import { useState } from "react";
@@ -249,7 +248,7 @@ export default function AppHeader() {
                         </div>
                         <ul
                           tabIndex={0}
-                          className="dropdown-content menu rounded-box mt-0 w-80 bg-indigo-600 p-2 shadow"
+                          className="menu dropdown-content rounded-box mt-0 w-80 bg-indigo-600 p-2 shadow"
                         >
                           <li>
                             <a>

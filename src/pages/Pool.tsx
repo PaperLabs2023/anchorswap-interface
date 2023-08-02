@@ -1,4 +1,3 @@
-import React from "react";
 import PoolLists from "../components/pool/PoolLists";
 
 export default function Swap() {

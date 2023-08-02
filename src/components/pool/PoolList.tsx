@@ -1,4 +1,3 @@
-import React from "react";
 import ethicon from "../../assets/images/pools/eth.png";
 import scrollIcon from "../../assets/images/scroll.png";
 import { useNavigate } from "react-router-dom";

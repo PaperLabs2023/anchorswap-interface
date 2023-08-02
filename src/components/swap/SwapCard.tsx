@@ -1,4 +1,3 @@
-import React from "react";
 import "./SwapCard.css";
 import SwapCard_Header from "./swapCard/SwapCard_Header";
 import SwapCard_Content from "./swapCard/SwapCard_Content";
