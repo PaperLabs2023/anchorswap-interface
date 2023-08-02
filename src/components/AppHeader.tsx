@@ -20,7 +20,7 @@ export default function AppHeader() {
     navigate("/swap");
   };
   const handleStableSwapClick = () => {
-    navigate("/stableswap");
+    navigate("/");
   };
   const handlePoolClick = () => {
     navigate("/pool");

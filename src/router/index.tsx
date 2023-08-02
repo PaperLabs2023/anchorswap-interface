@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import { App } from "../App";
 import Swap from "../pages/Swap";
@@ -10,21 +10,45 @@ import Launchpad from "../pages/Launchpad";
 import PoolDetails from "../pages/PoolDetails";
 import Mint from "../pages/Mint";
 
-export function BaseRoutes() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="/swap" element={<Swap />} />
-          <Route path="/stableswap" element={<StableSwap />} />
-          <Route path="/pool" element={<Pool />} />
-          <Route path="/pool/:poolId" element={<PoolDetails />} />
-          <Route path="/farm" element={<Farm />} />
-          <Route path="/dao" element={<Dao />} />
-          <Route path="/launchpad" element={<Launchpad />} />
-          <Route path="/mint" element={<Mint />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <StableSwap />,
+      },
+      {
+        path: "/swap",
+        element: <Swap />,
+      },
+      {
+        path: "/pool",
+        element: <Pool />,
+      },
+      {
+        path: "/pool/:poolId",
+        element: <PoolDetails />,
+      },
+      {
+        path: "/farm",
+        element: <Farm />,
+      },
+      {
+        path: "/dao",
+        element: <Dao />,
+      },
+      {
+        path: "/launchpad",
+        element: <Launchpad />,
+      },
+      {
+        path: "/mint",
+        element: <Mint />,
+      },
+    ],
+  },
+]);
+
+export default router;

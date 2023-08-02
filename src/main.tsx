@@ -1,11 +1,13 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
+
 import { EthereumClient } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
 import { WagmiConfig } from "wagmi";
-
-import { BaseRoutes } from "./router/index";
 import { chains, config, walletConnectProjectId } from "./wagmi";
+
 import "./assets/index.css";
 import logo from "./assets/images/paper.png";
 
@@ -14,7 +16,7 @@ const ethereumClient = new EthereumClient(config, chains);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiConfig config={config}>
-      <BaseRoutes />
+      <RouterProvider router={router} />
     </WagmiConfig>
 
     <Web3Modal

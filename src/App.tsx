@@ -1,5 +1,5 @@
 import { useNetwork, useSwitchNetwork } from "wagmi";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import AppHeader from "./components/AppHeader";
 
@@ -7,18 +7,10 @@ import { useEffect } from "react";
 import Network from "./components/Network";
 
 export function App() {
-  const navigate = useNavigate();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork({
     chainId: 280,
   });
-
-  useEffect(() => {
-    if (location.pathname === "/") {
-      console.log(location.pathname);
-      navigate("/stableswap");
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (chain?.id !== 280 && switchNetwork) {
