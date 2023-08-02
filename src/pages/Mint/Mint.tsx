@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import nft from "../assets/images/nft/1.png";
-import "../components/nft/nft.css";
+import nft from "@/assets/images/nft/1.png";
+import "@/components/nft/nft.css";
 import {
   useAccount,
   useBalance,
@@ -10,8 +10,8 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { nft_address } from "../contracts/addresses";
-import { nft_abi } from "../contracts/abis";
+import { nft_address } from "@/contracts/addresses";
+import { nft_abi } from "@/contracts/abis";
 import { ethers } from "ethers";
 
 export default function Mint() {

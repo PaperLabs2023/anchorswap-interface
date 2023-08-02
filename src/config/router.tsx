@@ -1,14 +1,15 @@
+import { App } from "@/App";
+import {
+  Dao,
+  Farm,
+  Launchpad,
+  Mint,
+  Pool,
+  PoolDetails,
+  StableSwap,
+  Swap,
+} from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
-
-import { App } from "../App";
-import Swap from "../pages/Swap";
-import StableSwap from "../pages/StableSwap";
-import Pool from "../pages/Pool";
-import Farm from "../pages/Farm";
-import Dao from "../pages/Dao";
-import Launchpad from "../pages/Launchpad";
-import PoolDetails from "../pages/PoolDetails";
-import Mint from "../pages/Mint";
 
 const router = createBrowserRouter([
   {

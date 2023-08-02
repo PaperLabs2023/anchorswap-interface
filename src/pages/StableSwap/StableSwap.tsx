@@ -1,4 +1,4 @@
-import SwapCard from "../components/stableSwap/SwapCard";
+import SwapCard from "@/components/stableSwap/SwapCard";
 
 export default function StableSwap() {
   return (
