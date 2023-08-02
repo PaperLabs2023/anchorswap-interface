@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import TokenListModal from "../TokenlistModal";
 import {
   useAccount,
   useBalance,
-  useContractRead,
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
@@ -24,7 +23,6 @@ import { ethers } from "ethers";
 export default function DepositCard_Content() {
   const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>("0x");
-  const [inputValue, setInputValue] = useState(1781.84);
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
@@ -33,8 +31,6 @@ export default function DepositCard_Content() {
   const inputAmountRef = useRef<HTMLInputElement>(null);
   const outAmountRef = useRef<HTMLInputElement>(null);
   const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
-  const [inputTokenPriceForOutToken, setInputTokenPriceForOutToken] =
-    useState("0.0");
 
   const [currentInputTokenContract, setCurrentInputTokenContract] =
     useState<`0x${string}`>("0x");
@@ -53,7 +49,7 @@ export default function DepositCard_Content() {
 
   const [findLpExist, setFindLpExist] = useState(false);
 
-  const confirmation = useWaitForTransaction({
+  useWaitForTransaction({
     hash: hash,
     onSuccess(data: any) {
       setIsLoading_Btn(false);
@@ -98,20 +94,8 @@ export default function DepositCard_Content() {
     watch: true,
   });
 
-  //   // 获取已授权的tPaper数量
-  //   const getTokenApproved = useContractRead({
-  //     address: tPaper_address,
-  //     abi: tPaper_abi,
-  //     functionName: "allowance",
-  //     args: [address, amm_address],
-  //     watch: true,
-  //     onSuccess(data: any) {
-  //       const amount = ethers.utils.formatUnits(data, "ether");
-  //       console.log(amount);
-  //     },
-  //   });
   // 获取路由信息，包括可接受的代币和代币价格，包括获取代币的授权额度
-  const getRouterInfo = useContractReads({
+  useContractReads({
     contracts: [
       {
         ...currentInputTokenContractConfig,
@@ -153,7 +137,7 @@ export default function DepositCard_Content() {
   });
 
   // 如果存在流动性则计算outTokenAmount
-  const getAontherAmoutForLp = useContractReads({
+  useContractReads({
     contracts: [
       {
         ...routerContract,
@@ -175,32 +159,11 @@ export default function DepositCard_Content() {
         .replace(/\.?0+$/, "");
       console.log(`aontherAmountForLp${aontherAmountForLp}`);
       setReceiveTokenAmount(aontherAmountForLp);
-      if (outAmountRef.current) outAmountRef.current.value = aontherAmountForLp;
+      if (outAmountRef.current) {
+        outAmountRef.current.value = aontherAmountForLp;
+      }
     },
   });
-
-  //   // 获取可收到的tPaper数量
-  //   const getReceiveTokenAmount = useContractRead({
-  //     address: router_address,
-  //     abi: router_abi,
-  //     functionName: "cacalTokenOutAmount",
-  //     args: [
-  //       tPaper_address,
-  //       oPaper_address,
-  //       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //     ],
-  //     watch: true,
-  //     enabled: Number(inputAmountRef.current?.value) != 0,
-  //     onSuccess(data: any) {
-  //       const amount = String(
-  //         Number(ethers.utils.formatUnits(data, "ether")).toFixed(6)
-  //       );
-  //       console.log(amount);
-  //       if (Number(amount) != 0) {
-  //         setReceiveTokenAmount(amount);
-  //       }
-  //     },
-  //   });
 
   // approve inputtoken config
   const { config: approveInputTokenConfig } = usePrepareContractWrite({
@@ -238,26 +201,6 @@ export default function DepositCard_Content() {
     },
   });
 
-  // // swap config
-  // const { config: poolSwapConfig } = usePrepareContractWrite({
-  //   address: amm_address,
-  //   abi: amm_abi,
-  //   functionName: "addLiquidity",
-  //   args: [
-  //     currentInputTokenContract,
-  //     currentOutTokenContract,
-  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //     ethers.utils.parseEther(outAmountRef.current?.value || "0"),
-  //   ],
-  // });
-  // // swap action
-  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-  //   ...poolSwapConfig,
-  //   onError(error: any) {
-  //     console.log("Error", error);
-  //   },
-  // });
-
   // 强制调用swap action
   // // swap action
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
@@ -272,8 +215,7 @@ export default function DepositCard_Content() {
       // ethers.utils.parseEther(outAmountRef.current?.value || "0"),
       // 1000,
     ],
-    mode: "recklesslyUnprepared",
-    onError(error: any) {
+    onError(error) {
       console.log("Error", error);
     },
   });
@@ -295,17 +237,6 @@ export default function DepositCard_Content() {
   function closeModal() {
     setIsOpen(false);
   }
-  const inputTokenPercentSelect = (value: any) => {
-    if (inputAmountRef.current && inputTokenBalance) {
-      inputAmountRef.current.value = String(
-        (Number(inputTokenBalance?.formatted) * value) / 100
-      );
-    }
-  };
-
-  const changeSelectedTokenlist = (tokenListType: number) => {
-    setSelectedTokenlist(tokenListType);
-  };
 
   // 阻止默认事件
   const handleWheel = (event: React.WheelEvent<HTMLInputElement>) => {
@@ -381,7 +312,7 @@ export default function DepositCard_Content() {
       setCurrentInputTokenContract("0x");
     }
     // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
-    if (inputAmountRef.current)
+    if (inputAmountRef.current) {
       inputAmountRef.current.addEventListener(
         "wheel",
         handleWheel as unknown as EventListener,
@@ -389,7 +320,8 @@ export default function DepositCard_Content() {
           passive: false,
         }
       );
-    if (outAmountRef.current)
+    }
+    if (outAmountRef.current) {
       outAmountRef.current.addEventListener(
         "wheel",
         handleWheel as unknown as EventListener,
@@ -397,6 +329,7 @@ export default function DepositCard_Content() {
           passive: false,
         }
       );
+    }
   }, [selectedCoin_input]);
   useEffect(() => {
     if (selectedCoin_out == "tPaper") {

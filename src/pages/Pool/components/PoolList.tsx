@@ -1,18 +1,15 @@
-import ethicon from "../../assets/images/pools/eth.png";
-import scrollIcon from "../../assets/images/scroll.png";
 import { useNavigate } from "react-router-dom";
 
 const PoolList = (props: any) => {
   const navigate = useNavigate();
-  const handleClick = (lpTokenAddress: string, status: string) => {
-    // navigate("/pool/" + lpTokenAddress, { state: { status: status } });
+  const handleClick = () => {
     navigate("/pool/" + props.id);
   };
   return (
     <div
       className="m-2 flex h-auto w-auto items-center justify-center rounded-lg bg-indigo-900 text-gray-100"
       onClick={() => {
-        handleClick(props.lpToken, props.status);
+        handleClick();
       }}
     >
       <button className="grid w-full grid-cols-4 gap-6">

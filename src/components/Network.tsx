@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Network() {
   const navigate = useNavigate();
-  const { data, isError, isLoading, isSuccess } = useBlockNumber({
+  const { data, isSuccess } = useBlockNumber({
     watch: true,
   });
   const [isShow, setIsShow] = React.useState(false);
@@ -34,7 +34,7 @@ export default function Network() {
             className={`flex items-center ${isSuccess ? "" : "opacity-0"} `}
           >
             <span className={isShow ? " opacity-0" : "fade-in "}>
-              <p className="text-sm">{data || ""}</p>
+              <p className="text-sm">{data?.toString() || ""}</p>
             </span>
             <div className="polling-dot network-health ml-2"></div>
           </a>

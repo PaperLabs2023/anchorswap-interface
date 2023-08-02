@@ -1,8 +1,7 @@
 //@xiaochen
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   useAccount,
-  useContractRead,
   useContractReads,
   usePrepareContractWrite,
   useContractWrite,
@@ -40,34 +39,14 @@ export default function Faucet() {
         });
     }
   };
-  const faucetClick_B = () => {
-    if (isFaucted_B) {
-      alert("You have already got tokenB");
-    } else {
-      setIsLoading_B(true);
-      faucetBConfigWrite?.()
-        .then((res) => {
-          console.log(res);
-          setHash(res.hash);
-        })
-        .catch((err) => {
-          setIsLoading_B(false);
-        });
-    }
-  };
 
   // confirmation
-  const confirmation = useWaitForTransaction({
+  useWaitForTransaction({
     hash: hash,
     enabled: hash !== "0x",
     onSuccess() {
       setIsLoading_A(false);
       setIsLoading_B(false);
-      // message.success({
-      //   content: "success",
-      //   duration: 1,
-      //   className: "mt-3",
-      // });
     },
   });
 
@@ -81,7 +60,7 @@ export default function Faucet() {
     abi: tPaper_abi,
   };
   // 获取两种测试币的状态
-  const getRouterInfo = useContractReads({
+  useContractReads({
     contracts: [
       {
         ...faucetTokenA_Config,
@@ -123,19 +102,6 @@ export default function Faucet() {
     },
   });
 
-  // get tokenD balance
-  // const getTokeDBalance = useContractRead({
-  //   address: Mumbai_tokenA_address,
-  //   abi: Mumbai_faucet_abi,
-  //   functionName: "balanceOf",
-  //   args: [address],
-  //   watch: true,
-  //   onSuccess(data) {
-  //     const amount = ethers.utils.formatUnits(data, "ether");
-  //     setTokenABalance(amount);
-  //   },
-  // });
-
   // Faucet config
   const { config: faucetAConfig } = usePrepareContractWrite({
     address: tFaucet_address,
@@ -145,16 +111,13 @@ export default function Faucet() {
     // account: address,
   });
   // Faucet
-  const {
-    data: faucetConfigData,
-    isSuccess,
-    writeAsync: faucetAConfigWrite,
-  } = useContractWrite({
-    ...faucetAConfig,
-    onError(error) {
-      console.log("Error", error);
-    },
-  });
+  const { data: faucetConfigData, writeAsync: faucetAConfigWrite } =
+    useContractWrite({
+      ...faucetAConfig,
+      onError(error) {
+        console.log("Error", error);
+      },
+    });
 
   // Faucet config
   const { config: faucetBConfig } = usePrepareContractWrite({
@@ -165,7 +128,7 @@ export default function Faucet() {
     // account: address,
   });
   // Faucet
-  const { writeAsync: faucetBConfigWrite } = useContractWrite({
+  useContractWrite({
     ...faucetBConfig,
     onError(error) {
       console.log("Error", error);
@@ -175,21 +138,13 @@ export default function Faucet() {
   return (
     <div className="fade-in">
       <button
-        className={`btn btn-ghost btn-outline btn-sm text-gray-300 ${
+        className={`btn btn-outline btn-ghost btn-sm text-gray-300 ${
           address ? "" : "hidden"
         } ${isLoading_A ? " loading" : ""} `}
         onClick={faucetClick_A}
       >
         {"Faucet"}
       </button>
-      {/* <button
-        className={`btn btn-outline ml-2 btn-ghost btn-sm fade-in ${
-          address ? "" : "hidden"
-        } ${isLoading_B ? " loading" : ""} `}
-        onClick={faucetClick_B}
-      >
-        {"Faucet" + " : " + tokenB_balance + " " + "$B"}
-      </button> */}
     </div>
   );
 }

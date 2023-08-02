@@ -1,13 +1,8 @@
 import { useState } from "react";
 
 export default function TokenListModal(props: any) {
-  const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [isSearchHovered, setIsSearchHovered] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
 
   function closeModal() {
     props.closeModal();
@@ -27,7 +22,7 @@ export default function TokenListModal(props: any) {
 
   const changeSelectedCoin_input = (coinname: string) => {
     if (coinname == props.selectedCoin_out) {
-      let t = props.selectedCoin_input;
+      const t = props.selectedCoin_input;
       console.log(t);
       props.setSelectedCoin_input(props.selectedCoin_out);
       props.setSelectedCoin_out(t);
@@ -40,7 +35,7 @@ export default function TokenListModal(props: any) {
 
   const changeSelectedCoin_out = (coinname: string) => {
     if (coinname == props.selectedCoin_input) {
-      let t = props.selectedCoin_out;
+      const t = props.selectedCoin_out;
       props.setSelectedCoin_out(props.selectedCoin_input);
       props.setSelectedCoin_input(t);
     } else {

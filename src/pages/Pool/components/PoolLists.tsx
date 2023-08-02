@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PoolList from "./PoolList";
 import usdcicon from "@/assets/images/pools/usdc.png";
 import scrollIcon from "@/assets/images/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
-import { amm_address, pools_address } from "@/contracts/addresses";
-import { amm_abi, pools_abi } from "@/contracts/abis";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
-import { scrollTestnet } from "wagmi/chains";
+import { pools_address } from "@/contracts/addresses";
+import { pools_abi } from "@/contracts/abis";
+import { useContractReads } from "wagmi";
 import { ethers } from "ethers";
 
 const PoolLists = () => {
-  const { address } = useAccount();
-  const [lpTokenAddressList, setLpTokenAddressList] = useState([]);
   const [poolsList, setPoolsList] = useState([
     {
       id: 1,
@@ -37,56 +34,7 @@ const PoolLists = () => {
     abi: pools_abi,
   } as const;
 
-  const mockData = [
-    // {
-    //   id: 1,
-    //   tokenAIcon: ethicon,
-    //   tokenBIcon: ethicon,
-    //   statusIcon: scrollIcon,
-    //   tokenAName: "tPaper",
-    //   tokenBName: "oPaper",
-    //   status: "Classic",
-    //   liquidity: "100,000",
-    //   apr: "22.9%",
-    //   lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
-    // },
-    {
-      id: 2,
-      tokenAIcon: usdcicon,
-      tokenBIcon: usdcicon,
-      statusIcon: scrollIcon,
-      tokenAName: "USDC",
-      tokenBName: "USDT",
-      status: "Stable",
-      liquidity: "100,000",
-      apr: "22.9%",
-      lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
-    },
-  ];
-
-  //   // 获取路由信息，包括可接受的代币和代币价格，包括获取代币的授权额度
-  //   const getRouterInfo = useContractReads({
-  //     contracts: [
-  //       {
-  //         ...ammContract,
-  //         functionName: "lpTokenAddressList",
-  //         args: [0],
-  //       },
-  //     ],
-  //     watch: true,
-  //     enabled: address && address?.length > 0,
-  //     onSuccess(data: any) {
-  //       console.log(data);
-  //     },
-  //   });
-
-  const poolListLength = 1;
-  // const contracts = Array.from({ length: poolListLength }, (_, index) => ({
-  //   ...ammContract,
-  //   functionName: "lpTokenAddressList",
-  //   args: [index],
-  // }));
-  const getRouterInfo = useContractReads({
+  useContractReads({
     contracts: [
       {
         ...poolsContract,

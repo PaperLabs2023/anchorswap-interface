@@ -1,23 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import nft from "@/assets/images/nft/1.png";
 import "@/components/nft/nft.css";
 import {
   useAccount,
-  useBalance,
-  useContractRead,
-  useContractReads,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 import { nft_address } from "@/contracts/addresses";
 import { nft_abi } from "@/contracts/abis";
-import { ethers } from "ethers";
 
 export default function Mint() {
   const { address } = useAccount();
   const [hash, setHash] = useState<`0x${string}`>();
-  const confirmation = useWaitForTransaction({
+  useWaitForTransaction({
     hash: hash,
     onSuccess(data: any) {
       console.log(0);
@@ -31,9 +27,7 @@ export default function Mint() {
     abi: nft_abi,
     functionName: "safeMint",
     args: [],
-    overrides: {
-      from: address,
-    },
+    account: address,
   });
   // approve token action
   const { writeAsync: mint } = useContractWrite({

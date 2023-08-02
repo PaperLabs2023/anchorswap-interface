@@ -3,7 +3,6 @@ import TokenListModal from "./TokenlistModal";
 import {
   useAccount,
   useBalance,
-  useContractRead,
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
@@ -43,7 +42,7 @@ export default function SwapCard_Content() {
   const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
     useState(0.0);
 
-  const confirmation = useWaitForTransaction({
+  useWaitForTransaction({
     hash: hash,
     onSuccess(data: any) {
       setIsLoading_Btn(false);
@@ -78,20 +77,8 @@ export default function SwapCard_Content() {
     watch: true,
   });
 
-  //   // 获取已授权的tPaper数量
-  //   const getTokenApproved = useContractRead({
-  //     address: tPaper_address,
-  //     abi: tPaper_abi,
-  //     functionName: "allowance",
-  //     args: [address, amm_address],
-  //     watch: true,
-  //     onSuccess(data: any) {
-  //       const amount = ethers.utils.formatUnits(data, "ether");
-  //       console.log(amount);
-  //     },
-  //   });
   // 获取路由信息，包括可接受的代币和代币价格，包括获取代币的授权额度
-  const getRouterInfo = useContractReads({
+  useContractReads({
     contracts: [
       {
         ...routerContract,
@@ -136,29 +123,6 @@ export default function SwapCard_Content() {
     },
   });
 
-  //   // 获取可收到的tPaper数量
-  //   const getReceiveTokenAmount = useContractRead({
-  //     address: router_address,
-  //     abi: router_abi,
-  //     functionName: "cacalTokenOutAmount",
-  //     args: [
-  //       tPaper_address,
-  //       oPaper_address,
-  //       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //     ],
-  //     watch: true,
-  //     enabled: Number(inputAmountRef.current?.value) != 0,
-  //     onSuccess(data: any) {
-  //       const amount = String(
-  //         Number(ethers.utils.formatUnits(data, "ether")).toFixed(6)
-  //       );
-  //       console.log(amount);
-  //       if (Number(amount) != 0) {
-  //         setReceiveTokenAmount(amount);
-  //       }
-  //     },
-  //   });
-
   // approve token config
   const { config: approveInputTokenConfig } = usePrepareContractWrite({
     address: currentInputTokenContract,
@@ -176,24 +140,6 @@ export default function SwapCard_Content() {
       console.log("Error", error);
     },
   });
-  // // swap config
-  // const { config: poolSwapConfig } = usePrepareContractWrite({
-  //   address: amm_address,
-  //   abi: amm_abi,
-  //   functionName: "swap",
-  //   args: [
-  //     currentInputTokenContract,
-  //     currentOutTokenContract,
-  //     ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-  //   ],
-  // });
-  // // swap action
-  // const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-  //   ...poolSwapConfig,
-  //   onError(error: any) {
-  //     console.log("Error", error);
-  //   },
-  // });
 
   // 强制调用swap action
   // // swap action
@@ -232,10 +178,6 @@ export default function SwapCard_Content() {
         (Number(inputTokenBalance?.formatted) * value) / 100
       );
     }
-  };
-
-  const changeSelectedTokenlist = (tokenListType: number) => {
-    setSelectedTokenlist(tokenListType);
   };
 
   // 阻止默认事件
@@ -302,7 +244,7 @@ export default function SwapCard_Content() {
       setReceiveTokenAmount("0.0");
     }
     // 将 passive 选项设置为 false，以将事件监听器更改为主动事件监听器，保证阻止input框滚动默认事件
-    if (inputAmountRef.current)
+    if (inputAmountRef.current) {
       inputAmountRef.current.addEventListener(
         "wheel",
         handleWheel as unknown as EventListener,
@@ -310,6 +252,7 @@ export default function SwapCard_Content() {
           passive: false,
         }
       );
+    }
   }, [selectedCoin_input]);
   useEffect(() => {
     if (selectedCoin_out == "tPaper") {

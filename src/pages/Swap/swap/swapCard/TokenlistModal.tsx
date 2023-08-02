@@ -5,10 +5,6 @@ export default function TokenListModal(props: any) {
   const [searchText, setSearchText] = useState("");
   const [isSearchHovered, setIsSearchHovered] = useState(false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
   function closeModal() {
     props.closeModal();
   }
@@ -27,7 +23,7 @@ export default function TokenListModal(props: any) {
 
   const changeSelectedCoin_input = (coinname: string) => {
     if (coinname == props.selectedCoin_out) {
-      let t = props.selectedCoin_input;
+      const t = props.selectedCoin_input;
       console.log(t);
       props.setSelectedCoin_input(props.selectedCoin_out);
       props.setSelectedCoin_out(t);
@@ -40,7 +36,7 @@ export default function TokenListModal(props: any) {
 
   const changeSelectedCoin_out = (coinname: string) => {
     if (coinname == props.selectedCoin_input) {
-      let t = props.selectedCoin_out;
+      const t = props.selectedCoin_out;
       props.setSelectedCoin_out(props.selectedCoin_input);
       props.setSelectedCoin_input(t);
     } else {
@@ -51,14 +47,6 @@ export default function TokenListModal(props: any) {
 
   return (
     <>
-      {/* 按钮 */}
-      {/* <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={openModal}
-      >
-        打开代币列表
-      </button> */}
-
       {/* modal */}
       {props.isOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
