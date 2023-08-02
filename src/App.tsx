@@ -4,7 +4,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 import AppHeader from "./components/AppHeader";
 
-import "./App.css";
 import { useEffect } from "react";
 import Network from "./components/Network";
 

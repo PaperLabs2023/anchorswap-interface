@@ -6,7 +6,7 @@ import { WagmiConfig } from "wagmi";
 
 import { BaseRoutes } from "./router/index";
 import { chains, config, walletConnectProjectId } from "./wagmi";
-import "./main.css";
+import "./assets/index.css";
 import logo from "./assets/images/paper.png";
 
 const ethereumClient = new EthereumClient(config, chains);
