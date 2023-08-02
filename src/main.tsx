@@ -9,7 +9,7 @@ import { WagmiConfig } from "wagmi";
 import { chains, config, walletConnectProjectId } from "./config/wagmiClient";
 
 import "./assets/index.css";
-import logo from "./assets/images/paper.png";
+import logo from "./assets/imgs/paper.png";
 
 const ethereumClient = new EthereumClient(config, chains);
 

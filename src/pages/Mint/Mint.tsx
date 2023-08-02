@@ -1,5 +1,5 @@
 import { useState } from "react";
-import nft from "@/assets/images/nft/1.png";
+import nft from "@/assets/imgs/nft/1.png";
 import "@/components/nft/nft.css";
 import {
   useAccount,
@@ -15,7 +15,7 @@ export default function Mint() {
   const [hash, setHash] = useState<`0x${string}`>();
   useWaitForTransaction({
     hash: hash,
-    onSuccess(data: any) {
+    onSuccess() {
       console.log(0);
       setTimeout(() => {
         console.log(1);

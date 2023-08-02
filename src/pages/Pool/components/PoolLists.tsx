@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PoolList from "./PoolList";
-import usdcicon from "@/assets/images/pools/usdc.png";
-import scrollIcon from "@/assets/images/anch-2.png";
+import usdcicon from "@/assets/imgs/pools/usdc.png";
+import scrollIcon from "@/assets/imgs/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
 import { pools_address } from "@/contracts/addresses";
 import { pools_abi } from "@/contracts/abis";
