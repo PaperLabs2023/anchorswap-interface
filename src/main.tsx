@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import router from "./router";
+import router from "./config/router";
 
 import { EthereumClient } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import { WagmiConfig } from "wagmi";
-import { chains, config, walletConnectProjectId } from "./wagmi";
+import { chains, config, walletConnectProjectId } from "./config/wagmiClient";
 
 import "./assets/index.css";
 import logo from "./assets/images/paper.png";
