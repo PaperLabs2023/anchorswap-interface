@@ -243,6 +243,14 @@ export default function SwapCard_Content() {
     }
   };
 
+  const inputTokenPercentSelect = (value: any) => {
+    if (inputAmountRef.current && inputTokenBalance) {
+      inputAmountRef.current.value = String(
+        (Number(inputTokenBalance?.formatted) * value) / 100
+      );
+    }
+  };
+
   useEffect(() => {
     if (Number(inputAmountRef.current?.value) == 0) {
       setReceiveTokenAmount("0.0");
