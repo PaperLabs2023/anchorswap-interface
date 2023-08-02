@@ -59,7 +59,8 @@ export default function Faucet() {
   // confirmation
   const confirmation = useWaitForTransaction({
     hash: hash,
-    onSuccess(data) {
+    enabled: hash !== "0x",
+    onSuccess() {
       setIsLoading_A(false);
       setIsLoading_B(false);
       // message.success({
@@ -109,13 +110,13 @@ export default function Faucet() {
       setIsFaucted_A(data[0]);
       setIsFaucted_B(data[1]);
       setTokenABalance(
-        Number(ethers.utils.formatUnits(data[2], "ether"))
+        Number(ethers.utils.formatUnits(data[2].result, "ether"))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       );
 
       setTokenBBalance(
-        Number(ethers.utils.formatUnits(data[3], "ether"))
+        Number(ethers.utils.formatUnits(data[3].result, "ether"))
           .toFixed(6)
           .replace(/\.?0+$/, "")
       );
@@ -174,7 +175,7 @@ export default function Faucet() {
   return (
     <div className="fade-in">
       <button
-        className={`btn btn-outline btn-ghost btn-sm text-gray-300 ${
+        className={`btn btn-ghost btn-outline btn-sm text-gray-300 ${
           address ? "" : "hidden"
         } ${isLoading_A ? " loading" : ""} `}
         onClick={faucetClick_A}
