@@ -1,6 +1,6 @@
 import { useState } from "react";
 import nft from "@/assets/imgs/nft/1.png";
-import "@/components/nft/nft.css";
+import "./mint.css";
 import {
   useAccount,
   useContractWrite,
