@@ -1,0 +1,13 @@
+<svg
+  width="12"
+  height="12"
+  viewBox="0 0 8 8"
+  xmlns="http://www.w3.org/2000/svg"
+  className="rotate-0"
+>
+  <path
+    fill="#5155a6"
+    fillRule="nonzero"
+    d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
+  ></path>
+</svg>

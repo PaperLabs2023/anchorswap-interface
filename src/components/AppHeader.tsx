@@ -5,6 +5,8 @@ import logo_mini from "../assets/imgs/anch-2.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Faucet from "./Faucet";
+import iconArrowDown from "@/assets/svgs/arrow-down.svg";
+import classNames from "classnames";
 
 export default function AppHeader() {
   const [isPoolHovered, setIsPoolHovered] = useState(false);
@@ -81,7 +83,7 @@ export default function AppHeader() {
                       <div
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        className="dropdown dropdown-hover"
+                        className="dropdown-hover dropdown"
                       >
                         <div
                           tabIndex={0}
@@ -91,23 +93,12 @@ export default function AppHeader() {
                             More
                           </div>
                           <div className="mt-1">
-                            <svg
-                              viewBox="0 0 1024 1024"
-                              version="1.1"
-                              xmlns="http://www.w3.org/2000/svg"
-                              p-id="7121"
-                              width="8"
-                              height="8"
-                              className={
-                                isPoolHovered ? "rotate-180" : "rotate-0"
-                              }
-                            >
-                              <path
-                                d="M52.335 261.072c-31.269 30.397-31.269 79.722 0 110.194l403.212 391.718c31.325 30.382 82.114 30.382 113.377 0l403.197-391.718c31.325-30.466 31.325-79.793 0-110.194-31.28-30.449-82.058-30.449-113.39 0l-346.497 336.64-346.457-336.64c-31.325-30.448-82.105-30.448-113.446 0l0 0z"
-                                fill="#e6e6e6"
-                                p-id="7122"
-                              ></path>
-                            </svg>
+                            <img
+                              src={iconArrowDown}
+                              className={classNames("transition duration-200", {
+                                "rotate-180": isPoolHovered,
+                              })}
+                            />
                           </div>
                         </div>
                         <ul

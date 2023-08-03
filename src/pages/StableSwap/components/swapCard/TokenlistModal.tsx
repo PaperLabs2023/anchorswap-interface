@@ -1,4 +1,6 @@
 import { useState } from "react";
+import iconClose from "@/assets/svgs/close.svg";
+import iconSearch from "@/assets/svgs/search.svg";
 
 export default function TokenListModal(props: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,20 +69,7 @@ export default function TokenListModal(props: any) {
                   className="ripple-btn hover:cursor-pointer"
                   onClick={closeModal}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#6f7183"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
+                  <img src={iconClose} />
                 </div>
               </div>
 
@@ -93,16 +82,7 @@ export default function TokenListModal(props: any) {
                   onClick={handleMouseEnter}
                   onBlur={handleMouseLeave}
                 >
-                  <svg
-                    className="h-6 w-6 text-slate-100"
-                    focusable="false"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    data-testid="SearchOutlinedIcon"
-                    fill="currentColor"
-                  >
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                  </svg>
+                  <img src={iconSearch} />
                   <input
                     type="text"
                     name="searchText"

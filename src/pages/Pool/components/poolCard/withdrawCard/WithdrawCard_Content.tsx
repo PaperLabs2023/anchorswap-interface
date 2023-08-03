@@ -18,6 +18,8 @@ import {
 } from "@/contracts/addresses";
 import { amm_abi, router_abi } from "@/contracts/abis";
 import { ethers } from "ethers";
+import iconCircleCheck from "@/assets/svgs/circle-check.svg";
+import iconAnch from "@/assets/svgs/logo/anch.svg";
 
 export default function WithdrawCard_Content() {
   const { poolId } = useParams();
@@ -262,19 +264,7 @@ export default function WithdrawCard_Content() {
         <div className=" alert alert-success  w-full shadow-lg  max-md:p-2">
           <div>
             {/* 加载指示器 */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 flex-shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+            <img src={iconCircleCheck} />
             <div>
               <h3 className="font-bold">New Transaction!</h3>
               <div className=" text-xs max-md:hidden">
@@ -353,21 +343,6 @@ export default function WithdrawCard_Content() {
                 />
               </div>
               <div className="ml-2">{selectedCoin_out}</div>
-              {/* <div className="ml-2">
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 8 8"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="rotate-0"
-                >
-                  <path
-                    fill="#5155a6"
-                    fillRule="nonzero"
-                    d="M4.036 6.571.5 3.036l.786-.786L4.037 5l2.748-2.75.786.786z"
-                  ></path>
-                </svg>
-              </div> */}
             </div>
           </div>
           {/* Balance */}
@@ -420,28 +395,7 @@ export default function WithdrawCard_Content() {
         } ripple-btn rounded-xl py-2`}
         onClick={swapClick}
       >
-        {isLoading_Btn && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="mr-3 h-5 w-5 animate-spin text-gray-700"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            ></path>
-          </svg>
-        )}
+        {isLoading_Btn && <img src={iconAnch} />}
         {Number(removeLpTokenAmount) > 0.000000000001
           ? "Remove Liquidity"
           : "Insufficient Liquidity"}
