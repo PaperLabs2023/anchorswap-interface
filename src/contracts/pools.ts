@@ -1,3 +1,5 @@
+import { ContractInfo } from "./index.d";
+
 const contract: ContractInfo = {
   name: "pools",
   address: "0x951d50411Ed2BbDF10da32328A0B61b28Faf56D1",

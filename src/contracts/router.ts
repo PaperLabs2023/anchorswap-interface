@@ -1,3 +1,5 @@
+import { ContractInfo } from "./index.d";
+
 const contract: ContractInfo = {
   name: "router",
   address: "0x03DD02873Fee1071eC1F9EA0985fA17F2b36B777",

@@ -1,3 +1,5 @@
+import { ContractInfo } from "./index.d";
+
 const contract: ContractInfo = {
   name: "tFaucet",
   address: "0xdA58a6ee96a585C3E003c88394F80D759E313de3",

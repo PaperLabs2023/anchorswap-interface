@@ -1,3 +1,5 @@
+import { ContractInfo } from "./index.d";
+
 const contract: ContractInfo = {
   name: "oPaper",
   address: "0xe301B18936400bDbFd564cff1DdCC304c7AF3CB4",

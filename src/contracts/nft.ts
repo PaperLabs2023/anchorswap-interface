@@ -1,4 +1,6 @@
-const contract: ContractInfo = {
+import { ContractInfo } from './index.d';
+
+const contract: ContractInfo= {
   name: "nft",
   address: "0x6C8B4b5E0A663ec8348576ee47Fe472cbecFAc29",
   chainName: "zkSync Era Testnet",
