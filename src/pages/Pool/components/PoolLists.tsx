@@ -5,7 +5,7 @@ import scrollIcon from "@/assets/imgs/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
 import { useContractReads } from "wagmi";
 import { ethers } from "ethers";
-import pools from "@/contracts/pools";
+import { pools } from "@/contracts";
 
 const PoolLists = () => {
   const [poolsList, setPoolsList] = useState([

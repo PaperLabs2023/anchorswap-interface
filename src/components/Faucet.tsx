@@ -9,9 +9,7 @@ import {
 } from "wagmi";
 
 import { ethers } from "ethers";
-import tPaper from "@/contracts/tPaper";
-import tFaucet from "@/contracts/tFaucet";
-import oPaper from "@/contracts/oPaper";
+import { tPaper, tFaucet, oPaper } from "@/contracts";
 
 export default function Faucet() {
   const { address } = useAccount();

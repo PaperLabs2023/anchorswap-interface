@@ -7,7 +7,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import contractNFT from "@/contracts/nft";
+import { nft as contractNFT } from "@/contracts";
 
 export default function Mint() {
   const { address } = useAccount();

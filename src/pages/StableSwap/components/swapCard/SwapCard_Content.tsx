@@ -14,12 +14,7 @@ import iconArrowDownSharp from "@/assets/svgs/arrow-down-sharp.svg";
 import iconArrowDownLongBar from "@/assets/svgs/arrow-down-long-bar.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import USDIcon from "@/components/icons/USDCIcon";
-import tPaper from "@/contracts/tPaper";
-import oPaper from "@/contracts/oPaper";
-import router from "@/contracts/router";
-import tUsdt from "@/contracts/tUsdt";
-import tUsdc from "@/contracts/tUsdc";
-import amm from "@/contracts/amm";
+import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 
 export default function SwapCard_Content() {
   const [hash, setHash] = useState<`0x${string}`>();

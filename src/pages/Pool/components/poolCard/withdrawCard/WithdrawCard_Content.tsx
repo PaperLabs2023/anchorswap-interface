@@ -12,12 +12,7 @@ import { ethers } from "ethers";
 import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
-import tPaper from "@/contracts/tPaper";
-import oPaper from "@/contracts/oPaper";
-import amm from "@/contracts/amm";
-import router from "@/contracts/router";
-import tUsdt from "@/contracts/tUsdt";
-import tUsdc from "@/contracts/tUsdc";
+import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 
 export default function WithdrawCard_Content() {
   const { poolId } = useParams();
