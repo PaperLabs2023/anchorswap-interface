@@ -7,8 +7,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { nft_address } from "@/contracts/addresses";
-import { nft_abi } from "@/contracts/abis";
+import contractNFT from "@/contracts/nft";
 
 export default function Mint() {
   const { address } = useAccount();
@@ -23,10 +22,9 @@ export default function Mint() {
     },
   });
   const { config: mintConfig } = usePrepareContractWrite({
-    address: nft_address,
-    abi: nft_abi,
+    address: contractNFT.address,
+    abi: contractNFT.abi,
     functionName: "safeMint",
-    args: [],
     account: address,
   });
   // approve token action

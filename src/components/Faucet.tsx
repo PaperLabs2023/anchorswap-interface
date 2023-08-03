@@ -7,13 +7,11 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import {
-  tPaper_address,
-  oPaper_address,
-  tFaucet_address,
-} from "../contracts/addresses";
-import { tPaper_abi, faucet_abi } from "../contracts/abis";
+
 import { ethers } from "ethers";
+import tPaper from "@/contracts/tPaper";
+import tFaucet from "@/contracts/tFaucet";
+import oPaper from "@/contracts/oPaper";
 
 export default function Faucet() {
   const { address } = useAccount();
@@ -51,13 +49,13 @@ export default function Faucet() {
   });
 
   const faucetTokenA_Config = {
-    address: tPaper_address,
-    abi: tPaper_abi,
+    address: tPaper.address,
+    abi: tPaper.abi,
   };
 
   const faucetTokenB_Config = {
-    address: oPaper_address,
-    abi: tPaper_abi,
+    address: oPaper.address,
+    abi: tPaper.abi,
   };
   // 获取两种测试币的状态
   useContractReads({
@@ -104,11 +102,9 @@ export default function Faucet() {
 
   // Faucet config
   const { config: faucetAConfig } = usePrepareContractWrite({
-    address: tFaucet_address,
-    abi: faucet_abi,
+    address: tFaucet.address,
+    abi: tFaucet.abi,
     functionName: "claim",
-    args: [],
-    // account: address,
   });
   // Faucet
   const { data: faucetConfigData, writeAsync: faucetAConfigWrite } =
@@ -121,8 +117,8 @@ export default function Faucet() {
 
   // Faucet config
   const { config: faucetBConfig } = usePrepareContractWrite({
-    address: oPaper_address,
-    abi: tPaper_abi,
+    address: oPaper.address,
+    abi: tPaper.abi,
     functionName: "faucet",
     args: [],
     // account: address,

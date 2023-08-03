@@ -8,21 +8,18 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import {
-  tPaper_address,
-  oPaper_address,
-  tUsdt_address,
-  tUsdc_address,
-  amm_address,
-  router_address,
-} from "@/contracts/addresses";
-import { amm_abi, tPaper_abi, router_abi } from "@/contracts/abis";
 import { ethers } from "ethers";
 import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconArrowDownSharp from "@/assets/svgs/arrow-down-sharp.svg";
 import iconArrowDownLongBar from "@/assets/svgs/arrow-down-long-bar.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import USDIcon from "@/components/icons/USDCIcon";
+import tPaper from "@/contracts/tPaper";
+import oPaper from "@/contracts/oPaper";
+import router from "@/contracts/router";
+import tUsdt from "@/contracts/tUsdt";
+import tUsdc from "@/contracts/tUsdc";
+import amm from "@/contracts/amm";
 
 export default function SwapCard_Content() {
   const [hash, setHash] = useState<`0x${string}`>();
@@ -58,13 +55,13 @@ export default function SwapCard_Content() {
   });
 
   const routerContract = {
-    address: router_address,
-    abi: router_abi,
+    address: router.address,
+    abi: router.abi,
   } as const;
 
   const currentInputTokenContractConfig = {
     address: currentInputTokenContract,
-    abi: tPaper_abi,
+    abi: tPaper.abi,
   } as const;
 
   //获取inputToken余额
@@ -81,18 +78,6 @@ export default function SwapCard_Content() {
     watch: true,
   });
 
-  //   // 获取已授权的tPaper数量
-  //   const getTokenApproved = useContractRead({
-  //     address: tPaper_address,
-  //     abi: tPaper_abi,
-  //     functionName: "allowance",
-  //     args: [address, amm_address],
-  //     watch: true,
-  //     onSuccess(data: any) {
-  //       const amount = ethers.utils.formatUnits(data, "ether");
-  //       console.log(amount);
-  //     },
-  //   });
   // 获取路由信息，包括可接受的代币和代币价格，包括获取代币的授权额度
   useContractReads({
     contracts: [
@@ -108,7 +93,7 @@ export default function SwapCard_Content() {
       {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
-        args: [address, amm_address],
+        args: [address, amm.address],
       },
       {
         ...routerContract,
@@ -160,10 +145,10 @@ export default function SwapCard_Content() {
   // approve token config
   const { config: approveInputTokenConfig } = usePrepareContractWrite({
     address: currentInputTokenContract,
-    abi: tPaper_abi,
+    abi: tPaper.abi,
     functionName: "approve",
     args: [
-      amm_address,
+      amm.address,
       ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
     ],
   });
@@ -178,8 +163,8 @@ export default function SwapCard_Content() {
   // 强制调用swap action
   // // swap action
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-    address: amm_address,
-    abi: amm_abi,
+    address: amm.address,
+    abi: amm.abi,
     functionName: "swapWithStableCoin",
     args: [
       currentInputTokenContract,
@@ -264,18 +249,18 @@ export default function SwapCard_Content() {
 
   useEffect(() => {
     if (selectedCoin_input == "tPaper") {
-      setCurrentInputTokenContract(tPaper_address);
+      setCurrentInputTokenContract(tPaper.address);
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "oPaper") {
-      setCurrentInputTokenContract(oPaper_address);
+      setCurrentInputTokenContract(oPaper.address);
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_input == "USDC") {
-      setCurrentInputTokenContract(tUsdc_address);
+      setCurrentInputTokenContract(tUsdc.address);
     }
     if (selectedCoin_input == "USDT") {
-      setCurrentInputTokenContract(tUsdt_address);
+      setCurrentInputTokenContract(tUsdt.address);
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
@@ -298,18 +283,18 @@ export default function SwapCard_Content() {
   }, [selectedCoin_input]);
   useEffect(() => {
     if (selectedCoin_out == "tPaper") {
-      setCurrentOutTokenContract(tPaper_address);
+      setCurrentOutTokenContract(tPaper.address);
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "oPaper") {
-      setCurrentOutTokenContract(oPaper_address);
+      setCurrentOutTokenContract(oPaper.address);
       setReceiveTokenAmount("0.0");
     }
     if (selectedCoin_out == "USDC") {
-      setCurrentOutTokenContract(tUsdc_address);
+      setCurrentOutTokenContract(tUsdc.address);
     }
     if (selectedCoin_out == "USDT") {
-      setCurrentOutTokenContract(tUsdt_address);
+      setCurrentOutTokenContract(tUsdt.address);
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");

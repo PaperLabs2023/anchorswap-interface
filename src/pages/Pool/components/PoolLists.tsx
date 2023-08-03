@@ -3,10 +3,9 @@ import PoolList from "./PoolList";
 import usdcicon from "@/assets/imgs/pools/usdc.png";
 import scrollIcon from "@/assets/imgs/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
-import { pools_address } from "@/contracts/addresses";
-import { pools_abi } from "@/contracts/abis";
 import { useContractReads } from "wagmi";
 import { ethers } from "ethers";
+import pools from "@/contracts/pools";
 
 const PoolLists = () => {
   const [poolsList, setPoolsList] = useState([
@@ -23,15 +22,10 @@ const PoolLists = () => {
       lpToken: "0x86f46c826c60a6489016d4a68ec66f5ff42e8f09",
     },
   ]);
-  // console.log("poolsList", poolsList);
-  //   // 从合约lpTokenAddressList中获取所有的lpTokenAddress
-  // const ammContract = {
-  //   address: amm_address,
-  //   abi: amm_abi,
-  // } as const;
+
   const poolsContract = {
-    address: pools_address,
-    abi: pools_abi,
+    address: pools.address,
+    abi: pools.abi,
   } as const;
 
   useContractReads({

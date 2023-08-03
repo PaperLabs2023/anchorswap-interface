@@ -8,19 +8,16 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import {
-  tPaper_address,
-  oPaper_address,
-  tUsdc_address,
-  tUsdt_address,
-  amm_address,
-  router_address,
-} from "@/contracts/addresses";
-import { amm_abi, router_abi } from "@/contracts/abis";
 import { ethers } from "ethers";
 import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
+import tPaper from "@/contracts/tPaper";
+import oPaper from "@/contracts/oPaper";
+import amm from "@/contracts/amm";
+import router from "@/contracts/router";
+import tUsdt from "@/contracts/tUsdt";
+import tUsdc from "@/contracts/tUsdc";
 
 export default function WithdrawCard_Content() {
   const { poolId } = useParams();
@@ -62,8 +59,8 @@ export default function WithdrawCard_Content() {
   });
 
   const routerContract = {
-    address: router_address,
-    abi: router_abi,
+    address: router.address,
+    abi: router.abi,
   } as const;
 
   //获取inputToken余额
@@ -138,8 +135,8 @@ export default function WithdrawCard_Content() {
   // 强制调用swap action
   // swap action
   const { data: swapData, writeAsync: swapWrite } = useContractWrite({
-    address: amm_address,
-    abi: amm_abi,
+    address: amm.address,
+    abi: amm.abi,
     functionName: "removeLiquidityWithStableCoin",
     args: [
       currentInputTokenContract,
@@ -194,16 +191,16 @@ export default function WithdrawCard_Content() {
 
   useEffect(() => {
     if (selectedCoin_input == "tPaper") {
-      setCurrentInputTokenContract(tPaper_address);
+      setCurrentInputTokenContract(tPaper.address);
     }
     if (selectedCoin_input == "oPaper") {
-      setCurrentInputTokenContract(oPaper_address);
+      setCurrentInputTokenContract(oPaper.address);
     }
     if (selectedCoin_input == "USDC") {
-      setCurrentInputTokenContract(tUsdc_address);
+      setCurrentInputTokenContract(tUsdc.address);
     }
     if (selectedCoin_input == "USDT") {
-      setCurrentInputTokenContract(tUsdt_address);
+      setCurrentInputTokenContract(tUsdt.address);
     }
     if (selectedCoin_input == "WETH") {
       setCurrentInputTokenContract("0x");
@@ -230,16 +227,16 @@ export default function WithdrawCard_Content() {
   }, [selectedCoin_input]);
   useEffect(() => {
     if (selectedCoin_out == "tPaper") {
-      setCurrentOutTokenContract(tPaper_address);
+      setCurrentOutTokenContract(tPaper.address);
     }
     if (selectedCoin_out == "oPaper") {
-      setCurrentOutTokenContract(oPaper_address);
+      setCurrentOutTokenContract(oPaper.address);
     }
     if (selectedCoin_out == "USDC") {
-      setCurrentOutTokenContract(tUsdc_address);
+      setCurrentOutTokenContract(tUsdc.address);
     }
     if (selectedCoin_out == "USDT") {
-      setCurrentOutTokenContract(tUsdt_address);
+      setCurrentOutTokenContract(tUsdt.address);
     }
     if (selectedCoin_out == "WETH") {
       setCurrentOutTokenContract("0x");
