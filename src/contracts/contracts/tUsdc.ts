@@ -1,8 +1,8 @@
-import { ContractInfo } from "./index.d";
+import { ContractInfo } from "..";
 
 const contract: ContractInfo = {
-  name: "oPaper",
-  address: "0xe301B18936400bDbFd564cff1DdCC304c7AF3CB4",
+  name: "tUsdc",
+  address: "0x3610e55c06b27672c0ae216BacBe9d2cDd12f43a",
   chainName: "zkSync Era Testnet",
   chainId: 280,
   explorer: "https://goerli.explorer.zksync.io/address",

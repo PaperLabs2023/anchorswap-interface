@@ -1,4 +1,4 @@
-import { ContractInfo } from ".";
+import { ContractInfo } from "..";
 
 const contract: ContractInfo = {
   name: "nft",

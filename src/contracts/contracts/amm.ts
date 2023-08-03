@@ -1,4 +1,4 @@
-import { ContractInfo } from "./index.d";
+import { ContractInfo } from "..";
 
 const contract: ContractInfo = {
   name: "amm",
