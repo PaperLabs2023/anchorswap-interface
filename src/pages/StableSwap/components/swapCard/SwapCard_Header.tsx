@@ -16,7 +16,7 @@ export default function SwapCard_Header() {
 
           <div
             tabIndex={0}
-            className="card dropdown-content card-compact w-64 bg-indigo-600 p-2 text-primary-content shadow"
+            className="card-compact card dropdown-content w-64 bg-indigo-600 p-2 text-primary-content shadow"
           >
             <div className="card-body">
               <h3 className="card-title">Transaction Settings</h3>

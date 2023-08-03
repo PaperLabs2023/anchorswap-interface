@@ -1,4 +1,3 @@
-// @xiaochen
 import { Web3Button } from "@web3modal/react";
 import logo from "../assets/imgs/anch-1.png";
 import logo_mini from "../assets/imgs/anch-2.png";
@@ -83,7 +82,7 @@ export default function AppHeader() {
                       <div
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        className="dropdown-hover dropdown"
+                        className="dropdown dropdown-hover"
                       >
                         <div
                           tabIndex={0}

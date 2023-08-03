@@ -1,4 +1,3 @@
-//@xiaochen
 import React, { useEffect } from "react";
 import { useBlockNumber } from "wagmi";
 import { useNavigate } from "react-router-dom";
@@ -69,7 +68,7 @@ export default function Network() {
         <div className=" h-full w-full rounded-lg py-4 text-center  hover:bg-yellow-200 ">
           Dao
         </div>
-        <div className=" dropdown-top dropdown dropdown-end h-full w-1/2  rounded-lg py-4 text-center hover:bg-yellow-200">
+        <div className=" dropdown dropdown-end dropdown-top h-full w-1/2  rounded-lg py-4 text-center hover:bg-yellow-200">
           <div tabIndex={0}>···</div>
           <ul
             tabIndex={0}
