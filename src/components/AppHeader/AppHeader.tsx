@@ -1,9 +1,9 @@
 import { Web3Button } from "@web3modal/react";
-import logo from "../assets/imgs/anch-1.png";
-import logo_mini from "../assets/imgs/anch-2.png";
+import logo from "@/assets/imgs/anch-1.png";
+import logo_mini from "@/assets/imgs/anch-2.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Faucet from "./Faucet";
+import Faucet from "./components/Faucet";
 import iconArrowDown from "@/assets/svgs/arrow-down.svg";
 import classNames from "classnames";
 
