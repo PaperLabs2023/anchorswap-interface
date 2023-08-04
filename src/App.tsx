@@ -1,22 +1,19 @@
-import { useNetwork, useSwitchNetwork } from "wagmi";
+import { useSwitchNetwork } from "wagmi";
 import { Outlet } from "react-router-dom";
-
 import AppHeader from "./layout/AppHeader/AppHeader";
-
 import { useEffect } from "react";
 import NavBar from "./layout/NavBar";
+import { zkSyncTestnet } from "wagmi/chains";
 
 const App = () => {
-  const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork({
-    chainId: 280,
+    chainId: zkSyncTestnet.id,
   });
 
   useEffect(() => {
-    if (chain?.id !== 280 && switchNetwork) {
+    if (switchNetwork) {
       switchNetwork();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [switchNetwork]);
 
   return (
