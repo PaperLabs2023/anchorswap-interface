@@ -1,4 +1,4 @@
-import { App } from "@/App";
+import App from "@/App";
 import { Mint, Pool, PoolDetails, StableSwap } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
