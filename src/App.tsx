@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import AppHeader from "./components/AppHeader/AppHeader";
 
 import { useEffect } from "react";
-import Network from "./components/Network";
+import NavBar from "./layout/NavBar";
 
 export function App() {
   const { chain } = useNetwork();
@@ -24,7 +24,7 @@ export function App() {
       <div className="h-screen">
         <div className="fixed left-0 top-0 z-0 h-full w-full overflow-y-auto overflow-x-hidden bg-gradient-to-r from-indigo-950 to-indigo-950">
           <AppHeader />
-          <Network />
+          <NavBar />
           <Outlet />
         </div>
       </div>
