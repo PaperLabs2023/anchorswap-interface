@@ -60,20 +60,30 @@ const SwapContent = () => {
     abi: tPaper.abi,
   } as const;
 
-  //获取inputToken余额
+  // inputToken balance
   useBalance({
     address: address,
-    token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_input == "ETH"
+        ? undefined
+        : currentInputTokenContract !== "0x"
+        ? currentInputTokenContract
+        : undefined, // undefined是查询ETH余额
     watch: true,
     onSuccess(data) {
       setInputTokenBalance(data.value);
     },
   });
 
-  //获取outToken余额
+  //outToken balance
   useBalance({
     address: address,
-    token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_out == "ETH"
+        ? undefined
+        : currentOutTokenContract !== "0x"
+        ? currentOutTokenContract
+        : undefined, // undefined是查询ETH余额
     watch: true,
     onSuccess(data) {
       setOutTokenBalance(data.value);
