@@ -9,12 +9,12 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import { ethers } from "ethers";
-import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconArrowDownSharp from "@/assets/svgs/arrow-down-sharp.svg";
 import iconArrowDownLongBar from "@/assets/svgs/arrow-down-long-bar.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import USDIcon from "@/components/icons/USDCIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
+import { formatEther, parseEther } from "viem";
 
 const SwapContent = () => {
   const [hash, setHash] = useState<`0x${string}`>();
@@ -31,21 +31,22 @@ const SwapContent = () => {
     useState<`0x${string}`>("0x");
   const [currentOutTokenContract, setCurrentOutTokenContract] =
     useState<`0x${string}`>("0x");
-
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false);
   const [isLoading_Btn, setIsLoading_Btn] = useState(false);
-
   const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
     useState(0.0);
+  const [inputTokenBalance, setInputTokenBalance] = useState<
+    bigint | undefined
+  >(undefined);
+  const [outTokenBalance, setOutTokenBalance] = useState<bigint | undefined>(
+    0n
+  );
 
   useWaitForTransaction({
     hash: hash,
     onSuccess() {
       setIsLoading_Btn(false);
-      setIsOpen_Alert(true);
-      setTimeout(() => {
-        setIsOpen_Alert(false);
-      }, 5000);
+
+      // need pop up modal to show transaction success
     },
   });
 
@@ -60,17 +61,23 @@ const SwapContent = () => {
   } as const;
 
   //获取inputToken余额
-  const { data: inputTokenBalance } = useBalance({
+  useBalance({
     address: address,
     token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
     watch: true,
+    onSuccess(data) {
+      setInputTokenBalance(data.value);
+    },
   });
 
   //获取outToken余额
-  const { data: outTokenBalance } = useBalance({
+  useBalance({
     address: address,
     token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
     watch: true,
+    onSuccess(data) {
+      setOutTokenBalance(data.value);
+    },
   });
 
   // 获取路由信息，包括可接受的代币和代币价格，包括获取代币的授权额度
@@ -82,13 +89,15 @@ const SwapContent = () => {
         args: [
           currentInputTokenContract,
           currentOutTokenContract,
-          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+          inputAmountRef.current?.value
+            ? parseEther(inputAmountRef.current.value)
+            : 0n,
         ],
       },
       {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
-        args: [address, amm.address],
+        args: [address ? address : "0x0", amm.address],
       },
       {
         ...routerContract,
@@ -96,43 +105,45 @@ const SwapContent = () => {
         args: [
           currentInputTokenContract,
           currentOutTokenContract,
-          ethers.utils.parseEther("1"),
+          parseEther("1"),
         ],
       },
     ],
     watch: true,
     enabled:
       address && inputAmountRef && Number(inputAmountRef.current?.value) != 0,
-    onSuccess(data: any) {
+    onSuccess(data) {
       console.log(data);
-      const receiveAmount = Number(
-        ethers.utils.formatUnits(data[0][2], "ether")
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      const priceImpact = (
-        Number(ethers.utils.formatUnits(data[0][3], "ether")) * 100
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      console.log("priceImpact:" + priceImpact);
-      const rateAmount = Number(ethers.utils.formatUnits(data[2][2], "ether"))
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      console.log("rateAmount:" + rateAmount);
-      // const tokenPirce = String(
-      //   Number(
-      //     ethers.utils.formatUnits(data[1]["one_tokenA_price"], "ether")
-      //   ).toFixed(6)
-      // );
-      const allowance = Number(ethers.utils.formatUnits(data[1], "ether"));
-      // console.log(tokenPirce);
-      if (Number(receiveAmount) != 0) {
+      if (data[0].result?.[2] !== undefined) {
+        const receiveAmount = Number(formatEther(data[0].result?.[2]))
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
         setReceiveTokenAmount(receiveAmount);
-        // setInputTokenPriceForOutToken(tokenPirce);
-        setCurrentInputTokenAllowance(allowance);
+      }
+
+      if (data[0].result?.[3] !== undefined) {
+        const priceImpact = (
+          Number(ethers.utils.formatUnits(data[0].result?.[3], "ether")) * 100
+        )
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
         setPriceImpact(priceImpact);
+      }
+
+      if (data[2].result?.[2] !== undefined) {
+        const rateAmount = Number(
+          ethers.utils.formatUnits(data[2].result?.[2], "ether")
+        )
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
         setRateAmount(rateAmount);
+      }
+
+      if (data[1].result !== undefined) {
+        const allowance = Number(
+          ethers.utils.formatUnits(data[1].result, "ether")
+        );
+        setCurrentInputTokenAllowance(allowance);
       }
     },
   });
@@ -142,10 +153,7 @@ const SwapContent = () => {
     address: currentInputTokenContract,
     abi: tPaper.abi,
     functionName: "approve",
-    args: [
-      amm.address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-    ],
+    args: [amm.address, parseEther(inputAmountRef.current?.value || "0")],
   });
   // approve token action
   const { writeAsync: approveInputTokenWrite } = useContractWrite({
@@ -157,14 +165,14 @@ const SwapContent = () => {
 
   // 强制调用swap action
   // // swap action
-  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+  const { writeAsync: swapWrite } = useContractWrite({
     address: amm.address,
     abi: amm.abi,
     functionName: "swapWithStableCoin",
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
+      parseEther(inputAmountRef.current?.value || "0"),
       // slippage,
     ],
     onError(error) {
@@ -200,7 +208,7 @@ const SwapContent = () => {
   const swapClick = () => {
     if (Number(receiveTokenAmount) > 0) {
       if (inputTokenBalance && inputAmountRef.current) {
-        if (inputTokenBalance?.formatted >= inputAmountRef.current?.value) {
+        if (inputTokenBalance.toString() >= inputAmountRef.current?.value) {
           setIsLoading_Btn(true);
           if (
             currentInputTokenAllowance >= Number(inputAmountRef.current?.value)
@@ -211,6 +219,7 @@ const SwapContent = () => {
                 setHash(res.hash);
               })
               .catch((err) => {
+                console.error(err);
                 setIsLoading_Btn(false);
               });
           } else {
@@ -220,6 +229,7 @@ const SwapContent = () => {
                 setHash(res.hash);
               })
               .catch((err) => {
+                console.error(err);
                 setIsLoading_Btn(false);
               });
           }
@@ -228,10 +238,10 @@ const SwapContent = () => {
     }
   };
 
-  const inputTokenPercentSelect = (value: any) => {
+  const inputTokenPercentSelect = (value: number) => {
     if (inputAmountRef.current && inputTokenBalance) {
       inputAmountRef.current.value = String(
-        (Number(inputTokenBalance?.formatted) * value) / 100
+        (Number(inputTokenBalance) * value) / 100
       );
     }
   };
@@ -302,44 +312,6 @@ const SwapContent = () => {
   }, [selectedCoin_out]);
   return (
     <div className="mt-4 flex-col">
-      {/* 提示框 */}
-
-      <div
-        className={`absolute top-20 transform transition duration-500 ease-in-out max-md:right-2 md:top-24 md:w-[450px] md:pr-8 ${
-          isOpen_Alert
-            ? "-translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
-      >
-        <div className=" alert alert-success  w-full shadow-lg  max-md:p-2">
-          <div>
-            {/* 加载指示器 */}
-            <img src={iconCircleCheck} />
-            <div>
-              <h3 className="font-bold">New Transaction!</h3>
-              <div className=" text-xs max-md:hidden">
-                You have 1 confirmed transaction
-              </div>
-            </div>
-            <div className="flex-none md:hidden ">
-              <a
-                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-                target="_blank"
-              >
-                <button className="btn btn-sm">See</button>
-              </a>
-            </div>
-          </div>
-          <div className="flex-none max-md:hidden">
-            <a
-              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-              target="_blank"
-            >
-              <button className="btn btn-sm">See</button>
-            </a>
-          </div>
-        </div>
-      </div>
       {/* inputcoin */}
       <div className=" relative  rounded-xl bg-indigo-950 bg-opacity-90 p-4">
         <div className="flex-col">
@@ -367,22 +339,14 @@ const SwapContent = () => {
               </div>
             </div>
           </div>
+
           {/* Balance */}
           <div className="mt-3 flex justify-end text-sm text-gray-600">
-            {/* <div>
-              {"$" +
-                inputValue.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  useGrouping: true,
-                })}
-            </div> */}
             <div className="">{`Balance: ${
-              inputTokenBalance
-                ? Number(inputTokenBalance?.formatted).toFixed(6)
-                : "0.0"
+              inputTokenBalance ? Number(inputTokenBalance).toFixed(6) : "0.0"
             } `}</div>
           </div>
+
           {/* 百分比选择 */}
           <div className="mt-2 flex justify-start gap-7 text-sm text-gray-100">
             <div
@@ -420,7 +384,8 @@ const SwapContent = () => {
           </div>
         </div>
       </div>
-      {/* icon */}
+
+      {/* Swap Coin Positions Button */}
       <div className="inset-x-0 top-1/2 mx-auto -mt-0 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-950 bg-opacity-90">
         <div
           className="rounded-full bg-gray-500 bg-opacity-0 p-0 hover:cursor-pointer"
@@ -429,6 +394,7 @@ const SwapContent = () => {
           <img src={iconArrowDownLongBar} />
         </div>
       </div>
+
       {/* outcoin */}
       <div className=" relative  mt-0 rounded-xl bg-indigo-950 bg-opacity-90 p-4">
         <div className="flex-col">
@@ -457,22 +423,13 @@ const SwapContent = () => {
           </div>
           {/* Balance */}
           <div className="mt-3 flex justify-end text-sm text-gray-600">
-            {/* <div>
-              {"$" +
-                inputValue.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  useGrouping: true,
-                })}
-            </div> */}
             <div className="">{`Balance: ${
-              outTokenBalance
-                ? Number(outTokenBalance?.formatted).toFixed(6)
-                : "0.0"
+              outTokenBalance ? Number(outTokenBalance).toFixed(6) : "0.0"
             } (${priceImpact}%)`}</div>
           </div>
         </div>
       </div>
+
       {/* 汇率 */}
       <div className="relative  mt-5 flex items-center rounded-xl bg-indigo-950 bg-opacity-90 px-4 py-2 text-sm text-gray-100">
         {/* inputcoin_icon */}
@@ -486,14 +443,14 @@ const SwapContent = () => {
         </div>
         <div className="ml-1">{rateAmount + " " + selectedCoin_out} </div>
       </div>
+
       {/* button */}
       <div
         className={`mt-5 flex h-12 w-full items-center justify-center text-center font-semibold text-gray-100 ${
           Number(receiveTokenAmount) > 0
             ? inputTokenBalance &&
               inputAmountRef.current &&
-              Number(inputTokenBalance.formatted) >=
-                Number(inputAmountRef.current.value)
+              Number(inputTokenBalance) >= Number(inputAmountRef.current.value)
               ? "bg-indigo-600 hover:cursor-pointer"
               : "bg-indigo-400 text-gray-500 hover:cursor-default"
             : "bg-indigo-400 text-gray-500 hover:cursor-default"
@@ -502,10 +459,9 @@ const SwapContent = () => {
       >
         {isLoading_Btn && <img src={iconAnch} />}
         {Number(receiveTokenAmount) !== 0
-          ? inputTokenBalance?.formatted &&
+          ? inputTokenBalance &&
             inputAmountRef.current?.value &&
-            Number(inputTokenBalance.formatted) >=
-              Number(inputAmountRef.current.value)
+            Number(inputTokenBalance) >= Number(inputAmountRef.current.value)
             ? currentInputTokenAllowance >= Number(inputAmountRef.current.value)
               ? "Swap"
               : "Approve"
