@@ -2,7 +2,7 @@ import { ContractInfo } from "..";
 
 const contract: ContractInfo = {
   name: "tUsdt",
-  address: "0x6E61177f3F6Ab705bE43411d42C56dcAa8350cEb",
+  address: "0xe301B18936400bDbFd564cff1DdCC304c7AF3CB4",
   chainName: "zkSync Era Testnet",
   chainId: 280,
   explorer: "https://goerli.explorer.zksync.io/address",
