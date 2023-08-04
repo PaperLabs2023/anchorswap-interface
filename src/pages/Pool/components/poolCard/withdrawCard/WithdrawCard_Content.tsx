@@ -8,24 +8,21 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { ethers } from "ethers";
-import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
+import { formatEther, parseEther } from "viem";
 
 const WithdrawCard_Content = () => {
   const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>();
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
-  const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
   const [selectedCoin_input, setSelectedCoin_input] = useState("USDC");
   const [selectedCoin_out, setSelectedCoin_out] = useState("USDT");
   const inputAmountRef = useRef<HTMLInputElement>(null);
   const outAmountRef = useRef<HTMLInputElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);
-  const [receiveTokenAmount, setReceiveTokenAmount] = useState("0.0");
   const [receive0Amount, setReceive0Amount] = useState("0.0");
   const [receive1Amount, setReceive1Amount] = useState("0.0");
 
@@ -34,7 +31,6 @@ const WithdrawCard_Content = () => {
   const [currentOutTokenContract, setCurrentOutTokenContract] =
     useState<`0x${string}`>("0x");
 
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false);
   const [isLoading_Btn, setIsLoading_Btn] = useState(false);
 
   const [lpTokenAmount, setLpTokenAmount] = useState("0.0");
@@ -44,12 +40,10 @@ const WithdrawCard_Content = () => {
 
   useWaitForTransaction({
     hash: hash,
-    onSuccess(data: any) {
+    onSuccess() {
       setIsLoading_Btn(false);
-      setIsOpen_Alert(true);
-      setTimeout(() => {
-        setIsOpen_Alert(false);
-      }, 5000);
+
+      // need pop up modal to show success
     },
   });
 
@@ -61,13 +55,23 @@ const WithdrawCard_Content = () => {
   //获取inputToken余额
   useBalance({
     address: address,
-    token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_input == "ETH"
+        ? undefined
+        : currentInputTokenContract !== "0x"
+        ? currentInputTokenContract
+        : undefined, // undefined是查询ETH余额
   });
 
   //获取outToken余额
   useBalance({
     address: address,
-    token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_out == "ETH"
+        ? undefined
+        : currentOutTokenContract !== "0x"
+        ? currentOutTokenContract
+        : undefined, // undefined是查询ETH余额
   });
 
   // 获取Lp数量
@@ -76,7 +80,11 @@ const WithdrawCard_Content = () => {
       {
         ...routerContract,
         functionName: "stableLptokenTotalSupplyForUser",
-        args: [currentInputTokenContract, currentOutTokenContract, address],
+        args: [
+          currentInputTokenContract,
+          currentOutTokenContract,
+          address ? address : "0x",
+        ],
       },
 
       {
@@ -86,50 +94,56 @@ const WithdrawCard_Content = () => {
           currentInputTokenContract,
           currentOutTokenContract,
           Number(removeLpTokenAmount) > 0.000000000001
-            ? ethers.utils.parseEther(
+            ? parseEther(
                 String((Number(removeLpTokenAmount) / 100) * rangeValue) || "0"
               )
-            : ethers.utils.parseEther("0"),
+            : parseEther("0"),
         ],
       },
     ],
     watch: true,
     enabled: true,
-    onSuccess(data: any) {
-      console.log(data);
+    onSuccess(data) {
       let remove_lp_amount = 0;
-      const lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
-      const token0_amount = Number(
-        ethers.utils.formatUnits(data[1][0], "ether")
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      const token1_amount = Number(
-        ethers.utils.formatUnits(data[1][1], "ether")
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      console.log(`token0_amount${token0_amount}`);
-      console.log(`token1_amount${token1_amount}`);
-      if (Number(ethers.utils.formatUnits(data[0], "ether")) > 0.000000000001) {
-        remove_lp_amount =
-          Number(ethers.utils.formatUnits(data[0], "ether")) - 0.0000000001;
-      } else {
-        remove_lp_amount = Number(ethers.utils.formatUnits(data[0], "ether"));
+      if (data[0].result) {
+        const lp_amount = Number(formatEther(data[0].result as bigint));
+        setLpTokenAmount(String(lp_amount));
+
+        if (Number(formatEther(data[0].result as bigint)) > 0.000000000001) {
+          remove_lp_amount =
+            Number(formatEther(data[0].result as bigint)) - 0.0000000001;
+        } else {
+          remove_lp_amount = Number(formatEther(data[0].result as bigint));
+        }
+
+        setRemoveLpTokenAmount(String(remove_lp_amount));
       }
 
-      console.log(`lp_amount${lp_amount}`);
-      console.log(`remove_lp_amount${remove_lp_amount}`);
-      setLpTokenAmount(String(lp_amount));
-      setRemoveLpTokenAmount(String(remove_lp_amount));
-      setReceive0Amount(token0_amount);
-      setReceive1Amount(token1_amount);
+      if (data[1].result) {
+        const token0_amount = Number(
+          formatEther((data[1].result as [bigint, bigint])[0])
+        )
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
+
+        setReceive0Amount(token0_amount);
+      }
+
+      if (data[1].result) {
+        const token1_amount = Number(
+          formatEther((data[1].result as [bigint, bigint])[1])
+        )
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
+
+        setReceive1Amount(token1_amount);
+      }
     },
   });
 
   // 强制调用swap action
   // swap action
-  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+  const { writeAsync: swapWrite } = useContractWrite({
     address: amm.address,
     abi: amm.abi,
     functionName: "removeLiquidityWithStableCoin",
@@ -137,10 +151,10 @@ const WithdrawCard_Content = () => {
       currentInputTokenContract,
       currentOutTokenContract,
       Number(removeLpTokenAmount) > 0.000000000001
-        ? ethers.utils.parseEther(
+        ? parseEther(
             String((Number(removeLpTokenAmount) / 100) * rangeValue) || "0"
           )
-        : ethers.utils.parseEther("0"),
+        : parseEther("0"),
     ],
     onError(error) {
       console.log("Error", error);
@@ -156,13 +170,11 @@ const WithdrawCard_Content = () => {
     event.preventDefault();
   };
 
-  function handleRangeChange(event: any) {
-    setRangeValue(event.target.value);
+  function handleRangeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setRangeValue(Number(event.target.value));
   }
 
   const swapClick = () => {
-    // if (Number(receiveTokenAmount) >= 0) {
-
     if (Number(removeLpTokenAmount) > 0.000000000001) {
       setIsLoading_Btn(true);
       swapWrite?.()
@@ -170,19 +182,11 @@ const WithdrawCard_Content = () => {
           setHash(res.hash);
         })
         .catch((err) => {
+          console.error(err);
           setIsLoading_Btn(false);
         });
-    } else {
     }
-
-    // }
   };
-
-  useEffect(() => {
-    if (Number(inputAmountRef.current?.value) == 0) {
-      setReceiveTokenAmount("0.0");
-    }
-  }, [inputAmountRef.current?.value]);
 
   useEffect(() => {
     if (selectedCoin_input == "tPaper") {
@@ -245,44 +249,6 @@ const WithdrawCard_Content = () => {
   }, [poolId]);
   return (
     <div className="mt-1  flex-col md:mt-8">
-      {/* 提示框 */}
-
-      <div
-        className={`absolute top-20 transform transition duration-500 ease-in-out max-md:right-2 md:top-24 md:w-[450px] md:pr-8 ${
-          isOpen_Alert
-            ? "-translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
-      >
-        <div className=" alert alert-success  w-full shadow-lg  max-md:p-2">
-          <div>
-            {/* 加载指示器 */}
-            <img src={iconCircleCheck} />
-            <div>
-              <h3 className="font-bold">New Transaction!</h3>
-              <div className=" text-xs max-md:hidden">
-                You have 1 confirmed transaction
-              </div>
-            </div>
-            <div className="flex-none md:hidden ">
-              <a
-                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-                target="_blank"
-              >
-                <button className="btn btn-sm">See</button>
-              </a>
-            </div>
-          </div>
-          <div className="flex-none max-md:hidden">
-            <a
-              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-              target="_blank"
-            >
-              <button className="btn btn-sm">See</button>
-            </a>
-          </div>
-        </div>
-      </div>
       {/* inputcoin */}
       <div className=" relative  rounded-xl bg-indigo-950 bg-opacity-90 p-4">
         <div className="flex-col">
@@ -375,7 +341,7 @@ const WithdrawCard_Content = () => {
       <TokenListModal
         isOpen={isOpen}
         closeModal={closeModal}
-        selectedTokenlist={selectedTokenlist}
+        selectedTokenlist={0}
         selectedCoin_input={selectedCoin_input}
         setSelectedCoin_input={setSelectedCoin_input}
         selectedCoin_out={selectedCoin_out}

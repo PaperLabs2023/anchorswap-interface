@@ -3,9 +3,9 @@ import PoolList from "./PoolList";
 import usdcicon from "@/assets/imgs/pools/usdc.png";
 import scrollIcon from "@/assets/imgs/anch-2.png";
 import PoolList_Header from "./PoolList_Header";
-import { useContractReads } from "wagmi";
-import { ethers } from "ethers";
+import { useContractRead } from "wagmi";
 import { pools } from "@/contracts";
+import { formatEther } from "viem";
 
 const PoolLists = () => {
   const [poolsList, setPoolsList] = useState([
@@ -23,30 +23,19 @@ const PoolLists = () => {
     },
   ]);
 
-  const poolsContract = {
+  useContractRead({
     address: pools.address,
     abi: pools.abi,
-  } as const;
-
-  useContractReads({
-    contracts: [
-      {
-        ...poolsContract,
-        functionName: "getAllStableLpTokenInfo",
-        args: [],
-      },
-    ],
+    functionName: "getAllStableLpTokenInfo",
     watch: true,
-    // enabled: false,
-    onSuccess(data: any) {
-      console.log(data[0]);
-      const poolData = data[0];
-      const len = poolData.length;
+    onSuccess(data) {
+      if (!data) {
+        return;
+      }
+      const poolData = data;
       const poolLen = poolData[0].length;
 
       const poolsList = [];
-      // console.log(len, "len");
-      // console.log(poolLen, "poolLen");
       if (poolLen > 0) {
         for (let i = 0; i < poolLen; i++) {
           const pool = {
@@ -66,9 +55,9 @@ const PoolLists = () => {
             profit: "",
           };
           pool["lpTokenAddress"] = poolData[0][i];
-          pool["reserveA"] = ethers.utils.formatUnits(poolData[1][i], "ether");
-          pool["reserveB"] = ethers.utils.formatUnits(poolData[2][i], "ether");
-          pool["profit"] = ethers.utils.formatUnits(poolData[3][i], "ether");
+          pool["reserveA"] = formatEther(poolData[1][i]);
+          pool["reserveB"] = formatEther(poolData[2][i]);
+          pool["profit"] = formatEther(poolData[3][i]);
           pool["liquidity"] = String(
             Math.floor(Number(pool["reserveA"])) +
               Math.floor(Number(pool["reserveB"]))
@@ -77,8 +66,7 @@ const PoolLists = () => {
           pool["lpToken"] = pool["lpTokenAddress"];
           poolsList.push(pool);
         }
-        console.log(poolsList, "poolsList");
-        // console.log(poolsList.length, "poolsList.length");
+
         setPoolsList(poolsList as never[]);
       }
     },

@@ -4,23 +4,22 @@ import TokenListModal from "../TokenlistModal";
 import {
   useAccount,
   useBalance,
+  useContractRead,
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { ethers } from "ethers";
-import iconCircleCheck from "@/assets/svgs/circle-check.svg";
 import iconArrowDownSharp from "@/assets/svgs/arrow-down-sharp.svg";
 import iconArrowDownLongBar from "@/assets/svgs/arrow-down-long-bar.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
 import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
+import { formatEther, parseEther } from "viem";
 
 const DepositCard_Content = () => {
   const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>("0x");
-  const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
   const [selectedTokenlist, setSelectedTokenlist] = useState(0); // 0 input of tokenlist,1 out of tokenlist
   const [selectedCoin_input, setSelectedCoin_input] = useState("USDC");
@@ -34,33 +33,24 @@ const DepositCard_Content = () => {
   const [currentOutTokenContract, setCurrentOutTokenContract] =
     useState<`0x${string}`>("0x");
 
-  const [isOpen_Alert, setIsOpen_Alert] = useState(false);
   const [isLoading_Btn, setIsLoading_Btn] = useState(false);
 
   const [currentInputTokenAllowance, setCurrentInputTokenAllowance] =
     useState(0.0);
   const [currentOutTokenAllowance, setCurrentOutTokenAllowance] = useState(0.0);
 
-  const [findLpTokenAddress, setFindLpTokenAddress] =
-    useState<`0x${string}`>("0x"); // 0x0000000000000000000000000000000000000000为空
-
   const [findLpExist, setFindLpExist] = useState(false);
 
   useWaitForTransaction({
     hash: hash,
-    onSuccess(data: any) {
+    enabled: hash !== "0x",
+
+    onSuccess() {
       setIsLoading_Btn(false);
-      setIsOpen_Alert(true);
-      setTimeout(() => {
-        setIsOpen_Alert(false);
-      }, 5000);
+
+      // need pop up modal to show transaction success
     },
   });
-
-  const routerContract = {
-    address: router.address,
-    abi: router.abi,
-  } as const;
 
   const ammContract = {
     address: amm.address,
@@ -80,14 +70,24 @@ const DepositCard_Content = () => {
   //获取inputToken余额
   const { data: inputTokenBalance } = useBalance({
     address: address,
-    token: selectedCoin_input == "ETH" ? undefined : currentInputTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_input == "ETH"
+        ? undefined
+        : currentInputTokenContract !== "0x"
+        ? currentInputTokenContract
+        : undefined, // undefined是查询ETH余额
     watch: true,
   });
 
   //获取outToken余额
   const { data: outTokenBalance } = useBalance({
     address: address,
-    token: selectedCoin_out == "ETH" ? undefined : currentOutTokenContract, // undefined是查询ETH余额
+    token:
+      selectedCoin_out == "ETH"
+        ? undefined
+        : currentOutTokenContract !== "0x"
+        ? currentOutTokenContract
+        : undefined, // undefined是查询ETH余额
     watch: true,
   });
 
@@ -97,12 +97,12 @@ const DepositCard_Content = () => {
       {
         ...currentInputTokenContractConfig,
         functionName: "allowance",
-        args: [address, amm.address],
+        args: [address ? address : "0x", amm.address],
       },
       {
         ...currentOutTokenContractConfig,
         functionName: "allowance",
-        args: [address, amm.address],
+        args: [address ? address : "0x", amm.address],
       },
       {
         ...ammContract,
@@ -112,52 +112,52 @@ const DepositCard_Content = () => {
     ],
     watch: true,
     enabled: Number(inputAmountRef.current?.value) != 0,
-    onSuccess(data: any) {
-      const allowance_input = Number(
-        ethers.utils.formatUnits(data[0], "ether")
-      );
-      const allowance_out = Number(ethers.utils.formatUnits(data[1], "ether"));
+    onSuccess(data) {
+      if (data[0].result) {
+        const allowance_input = Number(formatEther(data[0].result as bigint));
 
-      const lpTokenAddress = data[2];
+        setCurrentInputTokenAllowance(allowance_input);
+      }
+
+      if (data[1].result) {
+        const allowance_out = Number(formatEther(data[1].result as bigint));
+
+        setCurrentOutTokenAllowance(allowance_out);
+      }
+
+      const lpTokenAddress = data[2].result;
       if (lpTokenAddress != "0x0000000000000000000000000000000000000000") {
         setFindLpExist(true);
       } else {
         setFindLpExist(false);
       }
-      console.log(`lpToken${lpTokenAddress}`);
-
-      setFindLpTokenAddress(lpTokenAddress);
-
-      setCurrentInputTokenAllowance(allowance_input);
-      setCurrentOutTokenAllowance(allowance_out);
     },
   });
 
   // 如果存在流动性则计算outTokenAmount
-  useContractReads({
-    contracts: [
-      {
-        ...routerContract,
-        functionName: "calAddStableLiquidityAmount",
-        args: [
-          currentInputTokenContract,
-          currentOutTokenContract,
-          ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-        ],
-      },
+  useContractRead({
+    address: router.address,
+    abi: router.abi,
+    functionName: "calAddStableLiquidityAmount",
+    args: [
+      currentInputTokenContract,
+      currentOutTokenContract,
+      parseEther(inputAmountRef.current?.value || "0"),
     ],
     watch: true,
     enabled: findLpExist,
-    onSuccess(data: any) {
-      const aontherAmountForLp = (
-        Number(ethers.utils.formatUnits(data[0], "ether")) + 0.000001
-      )
-        .toFixed(6)
-        .replace(/\.?0+$/, "");
-      console.log(`aontherAmountForLp${aontherAmountForLp}`);
-      setReceiveTokenAmount(aontherAmountForLp);
-      if (outAmountRef.current) {
-        outAmountRef.current.value = aontherAmountForLp;
+    onSuccess(data) {
+      if (data) {
+        const aontherAmountForLp = (
+          Number(formatEther(data as bigint)) + 0.000001
+        )
+          .toFixed(6)
+          .replace(/\.?0+$/, "");
+        setReceiveTokenAmount(aontherAmountForLp);
+
+        if (outAmountRef.current) {
+          outAmountRef.current.value = aontherAmountForLp;
+        }
       }
     },
   });
@@ -167,10 +167,8 @@ const DepositCard_Content = () => {
     address: currentInputTokenContract,
     abi: tPaper.abi,
     functionName: "approve",
-    args: [
-      amm.address,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-    ],
+    args: [amm.address, parseEther(inputAmountRef.current?.value || "0")],
+    enabled: currentInputTokenContract !== "0x",
   });
   // approve inputtoken action
   const { writeAsync: approveInputTokenWrite } = useContractWrite({
@@ -185,10 +183,8 @@ const DepositCard_Content = () => {
     address: currentOutTokenContract,
     abi: tPaper.abi,
     functionName: "approve",
-    args: [
-      amm.address,
-      ethers.utils.parseEther(outAmountRef.current?.value || "0"),
-    ],
+    args: [amm.address, parseEther(outAmountRef.current?.value || "0")],
+    enabled: currentOutTokenContract !== "0x",
   });
   // approve outtoken action
   const { writeAsync: approveOutTokenWrite } = useContractWrite({
@@ -200,7 +196,7 @@ const DepositCard_Content = () => {
 
   // 强制调用swap action
   // // swap action
-  const { data: swapData, writeAsync: swapWrite } = useContractWrite({
+  const { writeAsync: swapWrite } = useContractWrite({
     address: amm.address,
     abi: amm.abi,
     functionName:
@@ -208,9 +204,7 @@ const DepositCard_Content = () => {
     args: [
       currentInputTokenContract,
       currentOutTokenContract,
-      ethers.utils.parseEther(inputAmountRef.current?.value || "0"),
-      // ethers.utils.parseEther(outAmountRef.current?.value || "0"),
-      // 1000,
+      parseEther(inputAmountRef.current?.value || "0"),
     ],
     onError(error) {
       console.log("Error", error);
@@ -220,19 +214,17 @@ const DepositCard_Content = () => {
   function openModal_input() {
     if (poolId == "1") {
       setSelectedTokenlist(0);
-      setIsOpen(true);
     }
   }
 
   function openModal_out() {
     if (poolId == "1") {
       setSelectedTokenlist(1);
-      setIsOpen(true);
     }
   }
 
   function closeModal() {
-    setIsOpen(false);
+    // close modal
   }
 
   // 阻止默认事件
@@ -260,6 +252,7 @@ const DepositCard_Content = () => {
                   setHash(res.hash);
                 })
                 .catch((err) => {
+                  console.error(err);
                   setIsLoading_Btn(false);
                 });
             } else {
@@ -268,6 +261,7 @@ const DepositCard_Content = () => {
                   setHash(res.hash);
                 })
                 .catch((err) => {
+                  console.error(err);
                   setIsLoading_Btn(false);
                 });
             }
@@ -278,6 +272,7 @@ const DepositCard_Content = () => {
                 setHash(res.hash);
               })
               .catch((err) => {
+                console.error(err);
                 setIsLoading_Btn(false);
               });
           }
@@ -286,7 +281,7 @@ const DepositCard_Content = () => {
     }
   };
 
-  const inputTokenPercentSelect = (value: any) => {
+  const inputTokenPercentSelect = (value: number) => {
     if (inputAmountRef.current && inputTokenBalance) {
       inputAmountRef.current.value = String(
         (Number(inputTokenBalance?.formatted) * value) / 100
@@ -361,44 +356,6 @@ const DepositCard_Content = () => {
   }, [poolId]);
   return (
     <div className="mt-1 flex-col md:mt-8">
-      {/* 提示框 */}
-
-      <div
-        className={`absolute top-20 transform transition duration-500 ease-in-out max-md:right-2 md:top-24 md:w-[450px] md:pr-8 ${
-          isOpen_Alert
-            ? "-translate-y-0 opacity-100"
-            : "-translate-y-full opacity-0"
-        }`}
-      >
-        <div className=" alert alert-success  w-full shadow-lg  max-md:p-2">
-          <div>
-            {/* 加载指示器 */}
-            <img src={iconCircleCheck} />
-            <div>
-              <h3 className="font-bold">New Transaction!</h3>
-              <div className=" text-xs max-md:hidden">
-                You have 1 confirmed transaction
-              </div>
-            </div>
-            <div className="flex-none md:hidden ">
-              <a
-                href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-                target="_blank"
-              >
-                <button className="btn btn-sm">See</button>
-              </a>
-            </div>
-          </div>
-          <div className="flex-none max-md:hidden">
-            <a
-              href={`https://goerli.explorer.zksync.io/tx/${hash}`}
-              target="_blank"
-            >
-              <button className="btn btn-sm">See</button>
-            </a>
-          </div>
-        </div>
-      </div>
       {/* inputcoin */}
       <div className=" relative  rounded-xl bg-indigo-950 bg-opacity-90 p-4">
         <div className="flex-col">

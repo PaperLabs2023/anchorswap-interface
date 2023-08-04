@@ -8,7 +8,6 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { ethers } from "ethers";
 import iconArrowDownSharp from "@/assets/svgs/arrow-down-sharp.svg";
 import iconArrowDownLongBar from "@/assets/svgs/arrow-down-long-bar.svg";
 import iconAnch from "@/assets/svgs/logo/anch.svg";
@@ -124,35 +123,37 @@ const SwapContent = () => {
       address && inputAmountRef && Number(inputAmountRef.current?.value) != 0,
     onSuccess(data) {
       console.log(data);
-      if (data[0].result?.[2] !== undefined) {
-        const receiveAmount = Number(formatEther(data[0].result?.[2]))
+      if (data[0].result) {
+        const receiveAmount = Number(
+          formatEther((data[0].result as [bigint, bigint, bigint, bigint])[2])
+        )
           .toFixed(6)
           .replace(/\.?0+$/, "");
         setReceiveTokenAmount(receiveAmount);
       }
 
-      if (data[0].result?.[3] !== undefined) {
+      if (data[0].result) {
         const priceImpact = (
-          Number(ethers.utils.formatUnits(data[0].result?.[3], "ether")) * 100
+          Number(
+            formatEther((data[0].result as [bigint, bigint, bigint, bigint])[3])
+          ) * 100
         )
           .toFixed(6)
           .replace(/\.?0+$/, "");
         setPriceImpact(priceImpact);
       }
 
-      if (data[2].result?.[2] !== undefined) {
+      if (data[2].result) {
         const rateAmount = Number(
-          ethers.utils.formatUnits(data[2].result?.[2], "ether")
+          formatEther((data[2].result as [bigint, bigint, bigint, bigint])[2])
         )
           .toFixed(6)
           .replace(/\.?0+$/, "");
         setRateAmount(rateAmount);
       }
 
-      if (data[1].result !== undefined) {
-        const allowance = Number(
-          ethers.utils.formatUnits(data[1].result, "ether")
-        );
+      if (data[1].result) {
+        const allowance = Number(formatEther(data[1].result as bigint));
         setCurrentInputTokenAllowance(allowance);
       }
     },
@@ -164,6 +165,7 @@ const SwapContent = () => {
     abi: tPaper.abi,
     functionName: "approve",
     args: [amm.address, parseEther(inputAmountRef.current?.value || "0")],
+    enabled: currentInputTokenContract !== "0x",
   });
   // approve token action
   const { writeAsync: approveInputTokenWrite } = useContractWrite({
