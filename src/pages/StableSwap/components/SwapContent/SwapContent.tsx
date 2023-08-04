@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import TokenListModal from "./TokenlistModal";
+import TokenListModal from "../TokenlistModal/TokenlistModal";
 import {
   useAccount,
   useBalance,
@@ -16,7 +16,7 @@ import iconAnch from "@/assets/svgs/logo/anch.svg";
 import USDIcon from "@/components/icons/USDCIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 
-const SwapCard_Content = () => {
+const SwapContent = () => {
   const [hash, setHash] = useState<`0x${string}`>();
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
@@ -40,7 +40,7 @@ const SwapCard_Content = () => {
 
   useWaitForTransaction({
     hash: hash,
-    onSuccess(data: any) {
+    onSuccess() {
       setIsLoading_Btn(false);
       setIsOpen_Alert(true);
       setTimeout(() => {
@@ -514,7 +514,7 @@ const SwapCard_Content = () => {
       </div>
       {/* 代币列表modal */}
       <TokenListModal
-        isOpen={false}
+        isOpen={isOpen}
         closeModal={closeModal}
         selectedTokenlist={selectedTokenlist}
         selectedCoin_input={selectedCoin_input}
@@ -525,4 +525,4 @@ const SwapCard_Content = () => {
     </div>
   );
 };
-export default SwapCard_Content;
+export default SwapContent;

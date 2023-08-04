@@ -1,12 +1,12 @@
 import iconGearBlue from "@/assets/svgs/gear-blue.svg";
 
-const SwapCard_Header = () => {
+const SwapHeader = () => {
   return (
     <div className="flex justify-between">
       <div className="rounded-xl p-1 hover:cursor-pointer"></div>
       <div>
         {/* 下拉设置滑点卡片 */}
-        <div className="dropdown dropdown-end dropdown-bottom">
+        <div className="dropdown-end dropdown-bottom dropdown">
           <div
             className="rotate-on-hover rounded-xl p-1 hover:cursor-pointer "
             tabIndex={0}
@@ -45,4 +45,4 @@ const SwapCard_Header = () => {
     </div>
   );
 };
-export default SwapCard_Header;
+export default SwapHeader;
