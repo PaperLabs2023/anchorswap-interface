@@ -16,7 +16,7 @@ import iconAnch from "@/assets/svgs/logo/anch.svg";
 import USDIcon from "@/components/icons/USDCIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 
-export default function SwapCard_Content() {
+const SwapCard_Content = () => {
   const [hash, setHash] = useState<`0x${string}`>();
   const [isOpen, setIsOpen] = useState(false);
   const { address } = useAccount();
@@ -524,4 +524,5 @@ export default function SwapCard_Content() {
       />
     </div>
   );
-}
+};
+export default SwapCard_Content;

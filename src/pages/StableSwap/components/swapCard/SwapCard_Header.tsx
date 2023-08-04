@@ -1,6 +1,6 @@
 import iconGearBlue from "@/assets/svgs/gear-blue.svg";
 
-export default function SwapCard_Header() {
+const SwapCard_Header = () => {
   return (
     <div className="flex justify-between">
       <div className="rounded-xl p-1 hover:cursor-pointer"></div>
@@ -44,4 +44,5 @@ export default function SwapCard_Header() {
       </div>
     </div>
   );
-}
+};
+export default SwapCard_Header;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import nft from "@/assets/imgs/nft/1.png";
-import "./mint.css";
+import "./Mint.css";
 import {
   useAccount,
   useContractWrite,
@@ -9,9 +9,10 @@ import {
 } from "wagmi";
 import { nft as contractNFT } from "@/contracts";
 
-export default function Mint() {
+const Mint = () => {
   const { address } = useAccount();
   const [hash, setHash] = useState<`0x${string}`>();
+
   useWaitForTransaction({
     hash: hash,
     onSuccess() {
@@ -21,24 +22,25 @@ export default function Mint() {
       }, 5000);
     },
   });
+
   const { config: mintConfig } = usePrepareContractWrite({
     address: contractNFT.address,
     abi: contractNFT.abi,
     functionName: "safeMint",
     account: address,
   });
+
   // approve token action
   const { writeAsync: mint } = useContractWrite({
     ...mintConfig,
     onError(error) {
-      console.log("Error", error);
+      console.error(error);
     },
   });
 
   return (
     <div className=" h-full w-full pt-24 md:pt-12">
       <div className="h-full">
-        {/* 写一个swap卡片样式,上下左右都居中 */}
         <div className="flex items-center justify-center">
           <div className="shadow-3xl mt-2  flex w-5/6 flex-col  items-center justify-center rounded-xl bg-white bg-opacity-0 p-8 md:mt-10 md:w-3/6">
             <img
@@ -65,4 +67,5 @@ export default function Mint() {
       </div>
     </div>
   );
-}
+};
+export default Mint;

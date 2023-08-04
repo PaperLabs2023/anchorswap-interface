@@ -3,7 +3,7 @@ import DepositCard from "../Pool/components/poolCard/DepositCard";
 import WithdrawCard from "../Pool/components/poolCard/WithdrawCard";
 import { useNavigate } from "react-router-dom";
 
-export default function PoolDetails() {
+const PoolDetails = () => {
   const [selectedCard, setSelectedCard] = useState("deposit");
   const navigate = useNavigate();
   const changeSelectedCard = (card: string) => {
@@ -65,4 +65,5 @@ export default function PoolDetails() {
       </div>
     </div>
   );
-}
+};
+export default PoolDetails;

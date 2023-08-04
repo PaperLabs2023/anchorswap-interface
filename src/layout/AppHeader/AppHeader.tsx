@@ -7,7 +7,7 @@ import Faucet from "./components/Faucet";
 import iconArrowDown from "@/assets/svgs/arrow-down.svg";
 import classNames from "classnames";
 
-export default function AppHeader() {
+const AppHeader = () => {
   const [isPoolHovered, setIsPoolHovered] = useState(false);
   const navigate = useNavigate();
   const handleMouseEnter = () => {
@@ -165,4 +165,5 @@ export default function AppHeader() {
       </div>
     </header>
   );
-}
+};
+export default AppHeader;

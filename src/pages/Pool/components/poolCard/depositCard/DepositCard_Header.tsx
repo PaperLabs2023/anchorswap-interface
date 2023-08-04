@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import iconGear from "@/assets/svgs/gear.svg";
 
-export default function DepositCard_Header() {
+const DepositCard_Header = () => {
   const { poolId } = useParams();
 
   return (
@@ -49,4 +49,5 @@ export default function DepositCard_Header() {
       </div>
     </div>
   );
-}
+};
+export default DepositCard_Header;

@@ -3,7 +3,7 @@ import iconClose from "@/assets/svgs/close.svg";
 import iconSearch from "@/assets/svgs/search.svg";
 import USDIcon from "@/components/icons/USDCIcon";
 
-export default function TokenListModal(props: any) {
+const TokenListModal = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [isSearchHovered, setIsSearchHovered] = useState(false);
@@ -209,4 +209,5 @@ export default function TokenListModal(props: any) {
       )}
     </>
   );
-}
+};
+export default TokenListModal;

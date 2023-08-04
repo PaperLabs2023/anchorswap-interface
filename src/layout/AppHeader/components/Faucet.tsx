@@ -8,7 +8,7 @@ import {
 } from "wagmi";
 import { tPaper, tFaucet } from "@/contracts";
 
-export default function Faucet() {
+const Faucet = () => {
   const { address } = useAccount();
   const [isFaucted_A, setIsFaucted_A] = useState(false);
   const [isLoading_A, setIsLoading_A] = useState(false);
@@ -77,4 +77,5 @@ export default function Faucet() {
       </button>
     </div>
   );
-}
+};
+export default Faucet;

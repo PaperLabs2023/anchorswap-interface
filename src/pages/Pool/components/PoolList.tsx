@@ -49,5 +49,4 @@ const PoolList = (props: any) => {
     </div>
   );
 };
-
 export default PoolList;

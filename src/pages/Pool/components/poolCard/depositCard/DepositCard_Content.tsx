@@ -17,7 +17,7 @@ import iconAnch from "@/assets/svgs/logo/anch.svg";
 import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 
-export default function DepositCard_Content() {
+const DepositCard_Content = () => {
   const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>("0x");
   const [isOpen, setIsOpen] = useState(false);
@@ -578,4 +578,5 @@ export default function DepositCard_Content() {
       />
     </div>
   );
-}
+};
+export default DepositCard_Content;

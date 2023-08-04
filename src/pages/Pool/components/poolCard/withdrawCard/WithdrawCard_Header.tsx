@@ -48,5 +48,4 @@ const WithdrawCard_Header = () => {
     </div>
   );
 };
-
 export default WithdrawCard_Header;

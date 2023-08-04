@@ -1,4 +1,4 @@
-export default function PoolList_Header() {
+const PoolList_Header = () => {
   return (
     <div>
       <div className="mx-2 flex h-auto w-auto items-center  justify-center rounded-lg text-gray-100">
@@ -19,4 +19,5 @@ export default function PoolList_Header() {
       </div>
     </div>
   );
-}
+};
+export default PoolList_Header;
