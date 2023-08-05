@@ -42,7 +42,6 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   const changeSelectedCoin_input = (coinname: string) => {
     if (coinname == selectedCoin_out) {
       const t = selectedCoin_input;
-      console.log(t);
       setSelectedCoin_input(selectedCoin_out);
       setSelectedCoin_out(t);
     } else {

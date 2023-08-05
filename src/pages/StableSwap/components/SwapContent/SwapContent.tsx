@@ -122,7 +122,6 @@ const SwapContent = () => {
     enabled:
       address && inputAmountRef && Number(inputAmountRef.current?.value) != 0,
     onSuccess(data) {
-      console.log(data);
       if (data[0].result) {
         const receiveAmount = Number(
           formatEther((data[0].result as [bigint, bigint, bigint, bigint])[2])
