@@ -6,7 +6,7 @@ const SwapHeader = () => {
       <div className="rounded-xl p-1 hover:cursor-pointer"></div>
       <div>
         {/* 下拉设置滑点卡片 */}
-        <div className="dropdown-end dropdown-bottom dropdown">
+        <div className="dropdown dropdown-end dropdown-bottom">
           <div
             className="rotate-on-hover rounded-xl p-1 hover:cursor-pointer "
             tabIndex={0}
@@ -16,7 +16,7 @@ const SwapHeader = () => {
 
           <div
             tabIndex={0}
-            className="card-compact card dropdown-content w-64 bg-indigo-600 p-2 text-primary-content shadow"
+            className="card-compact card dropdown-content z-10 w-64 bg-indigo-600 p-2 text-primary-content shadow"
           >
             <div className="card-body">
               <h3 className="card-title">Transaction Settings</h3>
