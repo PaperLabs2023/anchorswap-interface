@@ -2,9 +2,10 @@
   "name": "next-connectkit",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
+    "dev": "vite",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -14,7 +15,6 @@
     "@web3modal/react": "2.7.1",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
-    "daisyui": "^2.51.6",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "process": "^0.11.10",
@@ -32,6 +32,7 @@
     "@typescript-eslint/parser": "^6.2.1",
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.14",
+    "daisyui": "2.51.6",
     "eslint": "^8.46.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
