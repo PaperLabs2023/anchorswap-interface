@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import TokenListModal from "../TokenlistModal";
+import TokenListModal from "../../TokenlistModal/TokenlistModal";
 import {
   useAccount,
   useBalance,
@@ -17,7 +17,7 @@ import EthereumBlueIcon from "@/components/icons/EthereumBlueIcon";
 import { tPaper, oPaper, amm, router, tUsdt, tUsdc } from "@/contracts";
 import { formatEther, parseEther } from "viem";
 
-const DepositCard_Content = () => {
+const DepositCardContent = () => {
   const { poolId } = useParams();
   const [hash, setHash] = useState<`0x${string}`>("0x");
   const { address } = useAccount();
@@ -536,4 +536,4 @@ const DepositCard_Content = () => {
     </div>
   );
 };
-export default DepositCard_Content;
+export default DepositCardContent;

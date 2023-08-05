@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import iconGear from "@/assets/svgs/gear.svg";
+import iconGear from "@/assets/svgs/gear-blue.svg";
 
-const WithdrawCard_Header = () => {
+const WithdrawCardHeader = () => {
   const { poolId } = useParams();
 
   return (
@@ -19,7 +19,7 @@ const WithdrawCard_Header = () => {
 
           <div
             tabIndex={0}
-            className="card-compact card dropdown-content w-64 bg-indigo-600 p-2 text-primary-content shadow"
+            className="card dropdown-content card-compact z-10 w-64 bg-indigo-600 p-2 text-primary-content shadow"
           >
             <div className="card-body">
               <h3 className="card-title">Transaction Settings</h3>
@@ -48,4 +48,4 @@ const WithdrawCard_Header = () => {
     </div>
   );
 };
-export default WithdrawCard_Header;
+export default WithdrawCardHeader;

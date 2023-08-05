@@ -1,6 +1,5 @@
 import SwapContent from "./components/SwapContent/SwapContent";
 import SwapHeader from "./components/SwapHeader/SwapHeader";
-import "./StableSwap.css";
 
 const StableSwap = () => {
   return (
