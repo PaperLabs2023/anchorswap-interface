@@ -29,7 +29,7 @@ const NavBar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu rounded-box mb-1 w-36  bg-base-100 p-2 shadow"
+            className="menu dropdown-content rounded-box mb-1 w-36  bg-base-100 p-2 shadow"
           >
             <li className="text-black">
               <Link to="/">Bridge</Link>

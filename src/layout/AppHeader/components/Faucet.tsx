@@ -68,7 +68,7 @@ const Faucet = () => {
   return (
     <div className="fade-in">
       <button
-        className={`btn btn-outline btn-ghost btn-sm text-gray-300 ${
+        className={`btn btn-ghost btn-outline btn-sm text-gray-300 ${
           address ? "" : "hidden"
         } ${isLoading_A ? " loading" : ""} `}
         onClick={faucetClick_A}

@@ -102,7 +102,7 @@ const AppHeader = () => {
                         </div>
                         <ul
                           tabIndex={0}
-                          className="dropdown-content menu rounded-box mt-0 w-80 bg-indigo-600 p-2 shadow"
+                          className="menu dropdown-content rounded-box mt-0 w-80 bg-indigo-600 p-2 shadow"
                         >
                           <li>
                             <a>
